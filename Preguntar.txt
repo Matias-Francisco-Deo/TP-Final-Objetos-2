@@ -1,0 +1,15 @@
+- PREGUNTAR:
+
+-combiene crear un opbjeto inmueble para abreviar el new a pesar de la repeticion de datos
+-los tipos de inmuebles puede ser que exista la posibilidad de que puedan aÃ±adirseotros tipos con datos extra?
+-como podriamos hacer filtros obligatorios
+-como podriamos hacer para que propietario rankee solamente cuando se realiza el check-out
+-el alquiler desaparece o se actualiza cuando se realiza el check out
+-comentarios anonimos?
+-seria necesarias las tarjetas de ranking o se pueden obviar?
+-en concrecion de reservas cuales son los datos correspondientes
+-en las busquedas de las reservas hay que tener en cuenta posibles busquedas de reserva que se puedan arreglar
+-se puede cancelar la reserva en todo momento
+-""""Debe ser posible enviar por email alguna de las reservas realizadas.""""???
+-quien hace el check-Out
+-debe devolver un listado de gestion con todas las tareas al mismo tiempo o de a una? preguntar en general sobre este punto
