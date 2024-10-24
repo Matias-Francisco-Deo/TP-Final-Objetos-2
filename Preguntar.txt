@@ -1,4 +1,19 @@
-- PREGUNTAR:
+-- ------------------------------
+- PRIMER TXT:
+-- ------------------------------
+
+-combiene crear un opbjeto inmueble para abreviar el new a pesar de la repeticion de datos
+-los tipos de inmuebles puede ser que exista la posibilidad de que puedan aÃ±adirseotros tipos con datos extra?
+-como se escriben los enum en UML
+-como podriamos hacer filtros obligatorios
+-como podriamos hacer para que propietario rankee solamente cuando se realiza el check-out
+-el alquiler desaparece o se actualiza cuando se realiza el check out
+-comentarios anonimos?
+-seria necesarias las tarjetas de ranking o se pueden obviar?
+
+-- ------------------------------
+- SEGUNDO TXT
+-- ------------------------------
 
 -combiene crear un opbjeto inmueble para abreviar el new a pesar de la repeticion de datos
 -los tipos de inmuebles puede ser que exista la posibilidad de que puedan aÃ±adirseotros tipos con datos extra?
