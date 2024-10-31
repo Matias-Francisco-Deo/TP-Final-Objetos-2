@@ -28,7 +28,9 @@
 -para el resto de preguntas no puede responder porque debemos pensarlo nosotros
 -------------------------------------
 
--deberíamos dejar a ranking como un objeto que recibe cada usuario a su lista de rankings, y que rankeen a través de él cuando se realiza el checkout, o deberíamos realizarlo directamente en reserva?
-(podríamos hacer una clase ranking con dos subclases RankingInquilino RankingPropietario) (con sus propio estados)
--deberíamos centralizar todo en un event manager que tenga un método de suscripción para cada cosa? la otra opción sería pasar un filtro que sepa buscar
--evento reserva de un inmueble, cuándo salta??
+-deberíamos dejar a ranking como un objeto que recibe cada usuario a su lista de rankings, y que rankeen a través de él cuando se realiza el checkout, o deberíamos realizarlo directamente en reserva? en reserva, da igual que se repita el comentario o lo que sea
+-deberíamos centralizar todo en un event manager que tenga un método de suscripción para cada cosa? la otra opción sería pasar un filtro que sepa buscar. Nada de event manager, un observer normal y que cada uno maneje el mensaje como quiera
+-evento reserva de un inmueble, cuándo salta?? Salta cuando queramos nosotros
+- el precio del alquiler es el base, a la hora de informar al observer
+-considerar un or para los filtros
+
