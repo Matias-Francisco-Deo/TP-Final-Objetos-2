@@ -14,12 +14,12 @@ class AlquilerTest {
 	}
 
 	@Test
-	void getterTest() {
+	void getterPrecioBaseTest() {
 		assertEquals(alquiler.getPrecioBase(), 200d);
 	}
 
 	@Test
-	void setterTest() {
+	void setterPrecioBaseTest() {
 		alquiler.setPrecioBase(500);
 		assertEquals(alquiler.getPrecioBase(), 500d);
 	}
