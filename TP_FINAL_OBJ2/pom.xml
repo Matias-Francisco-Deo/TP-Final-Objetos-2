@@ -3,9 +3,7 @@
   <groupId>TP_FINAL_OBJ2</groupId>
   <artifactId>TP_FINAL_OBJ2</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-
-  
-    <build>
+  <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
@@ -16,7 +14,6 @@
         </excludes>
       </resource>
     </resources>
-
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -27,13 +24,12 @@
       </plugin>
     </plugins>
   </build>
-  
   <dependencies>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.14.0</version>
-            <scope>test</scope>
-      </dependency>
-   </dependencies>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.14.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
