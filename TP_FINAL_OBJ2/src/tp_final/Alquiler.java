@@ -15,3 +15,4 @@ public class Alquiler {
 		this.precioBase = precioBase;
 	}
 }
+//prueba de pull
