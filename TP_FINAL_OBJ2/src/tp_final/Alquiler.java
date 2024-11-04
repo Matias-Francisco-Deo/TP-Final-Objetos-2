@@ -84,4 +84,7 @@ public class Alquiler {
 	        throw new IllegalArgumentException("indique temporada y precio");
 	    }
 	}
+	public void addReserva(String reserva) {//cambiar string por objeto reserva
+		this.colaDeEspera.add(reserva);
+	}
 }
