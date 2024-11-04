@@ -11,7 +11,7 @@ public class Alquiler {
 	
 	private LocalDate fechaSalida;
 	
-	private LocalTime checkIn;//por ahora los check son string, ver si despues se cambia
+	private LocalTime checkIn;
 	
 	private LocalTime checkOut;
 	
