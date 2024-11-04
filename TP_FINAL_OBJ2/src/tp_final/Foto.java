@@ -1,5 +1,5 @@
 package tp_final;
 
-public class Foto {
+public interface Foto {
 
 }

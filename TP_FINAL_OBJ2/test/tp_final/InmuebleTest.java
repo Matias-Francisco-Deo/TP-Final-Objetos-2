@@ -16,7 +16,7 @@ public class InmuebleTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		ArrayList<String> misServicios= new ArrayList<>(Arrays.asList("Agua", "Luz", "Gas"));
-		ArrayList<Foto> misFotos= new ArrayList<>(Arrays.asList(new Foto()));
+		ArrayList<Foto> misFotos= new ArrayList<>(Arrays.asList(new FotoEjemplo()));
 		
 		inmueble = new Inmueble("Casa", 20, "Argentina", "Quilmes", "mi casa", misServicios, 4, misFotos);
 	}
