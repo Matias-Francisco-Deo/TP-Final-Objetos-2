@@ -24,6 +24,13 @@ public class Inmueble {
 	
 	Inmueble(String tipo, double superficie, String pais, String ciudad, String direccion, ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos){
 		this.tipoInmueble = tipo;
+		this.superficie =superficie;
+		this.pais = pais;
+		this.ciudad = ciudad;
+		this.direccion = direccion;
+		this.servicios = servicios;
+		this.capacidad = capacidad;
+		this.fotos = fotos;
 	}
 	
 	public void setTipoInmueble(String tipoInmueble) {//cambiar string a tipoinmueble
