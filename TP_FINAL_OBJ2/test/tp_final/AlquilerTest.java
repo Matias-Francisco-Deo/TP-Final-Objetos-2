@@ -9,10 +9,12 @@ import org.junit.jupiter.api.Test;
 
 class AlquilerTest {
 	Alquiler alquiler;
+	private PoliticaDeCancelacion politica;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		alquiler = new Alquiler(LocalTime.of(10, 0), LocalTime.of(14, 30), "Tarjeta Credito",200d);
+		politica = new SinCancelacion();
+		alquiler = new Alquiler(LocalTime.of(10, 0), LocalTime.of(14, 30), "Tarjeta Credito",200d,politica);
 	}
 
 	@Test

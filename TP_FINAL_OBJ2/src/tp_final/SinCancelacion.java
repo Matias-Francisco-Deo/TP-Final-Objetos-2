@@ -3,19 +3,17 @@ package tp_final;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class SinCancelacion {
+public class SinCancelacion implements PoliticaDeCancelacion{
 	
-	public void aplicarPolitica(Reserva reserva,double precio){
-		double monto = this.calcularCosto(reserva,precio);
+	public void aplicarPolitica(LocalDate checkIn,LocalDate checkOut,double precio){
+		double monto = this.calcularCosto(checkIn,checkOut,precio);
 		String texto = this.generarMail(monto);
 		this.enviarMail(texto);
 	}
 	
-	public double calcularCosto(Reserva reserva,double precio) {
-		LocalDate fechaCheckOut = reserva.getFechaCheckOut();
-		LocalDate fechaCheckIn = reserva.getFechaCheckIn();
+	public double calcularCosto(LocalDate checkIn,LocalDate checkOut,double precio) {
 		
-		long diasDeAlquilados = ChronoUnit.DAYS.between(fechaCheckIn, fechaCheckOut);
+		long diasDeAlquilados = ChronoUnit.DAYS.between(checkIn, checkOut);
 		
 		 return precio*diasDeAlquilados;
 		

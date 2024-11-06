@@ -5,19 +5,17 @@ import java.time.temporal.ChronoUnit;
 
 public class CancelacionGratuita implements PoliticaDeCancelacion{
 	
-	public void aplicarPolitica(Reserva reserva,double precio){
-		double monto = this.calcularCosto(reserva,precio);
+	public void aplicarPolitica(LocalDate checkIn,LocalDate checkOut,double precio){
+		double monto = this.calcularCosto(checkIn,checkOut,precio);
 		String texto = this.generarMail(monto);
 		this.enviarMail(texto);
 	}
 	
-	public double calcularCosto(Reserva reserva,double precio) {
+	public double calcularCosto(LocalDate checkIn,LocalDate checkOut,double precio) {
 		
 		LocalDate fechaActual = LocalDate.now();
 		
-		LocalDate fechaCheckIn = reserva.getFechaCheckIn();
-		
-		long diasFaltantes = ChronoUnit.DAYS.between(fechaActual, fechaCheckIn);
+		long diasFaltantes = ChronoUnit.DAYS.between(fechaActual, checkIn);
 		
 		 if (diasFaltantes >= 10) {
 	            return 0; //

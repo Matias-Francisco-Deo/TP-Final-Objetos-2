@@ -93,7 +93,7 @@ public class Alquiler {
 	
 	public void addReserva(String reserva) {//cambiar string por objeto reserva
 		this.colaDeEspera.add(reserva);
-	}
+	} 
 	
 	public void setPoliticaDeCancelacion(PoliticaDeCancelacion politica) {
 		this.politicaDeCancelacion = politica;

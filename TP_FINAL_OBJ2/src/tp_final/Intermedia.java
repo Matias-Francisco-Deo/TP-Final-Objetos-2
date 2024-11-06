@@ -3,25 +3,21 @@ package tp_final;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class Intermedia {
+public class Intermedia implements PoliticaDeCancelacion{
 	
-	public void aplicarPolitica(Reserva reserva,double precio){
-		double monto = this.calcularCosto(reserva,precio);
+	public void aplicarPolitica(LocalDate checkIn,LocalDate checkOut,double precio){
+		double monto = this.calcularCosto(checkIn,checkOut,precio);
 		String texto = this.generarMail(monto);
 		this.enviarMail(texto);
 	}
 	
-	public double calcularCosto(Reserva reserva,double precio) {
+	public double calcularCosto(LocalDate checkIn,LocalDate checkOut,double precio) {
 		
 		LocalDate fechaActual = LocalDate.now();
 		
-		LocalDate fechaCheckIn = reserva.getFechaCheckIn();
+		long diasAlquilados = ChronoUnit.DAYS.between(checkIn, checkOut);
 		
-		LocalDate fechaCheckOut = reserva.getFechaCheckOut();
-		
-		long diasAlquilados = ChronoUnit.DAYS.between(fechaCheckIn, fechaCheckOut);
-		
-		long diasFaltantes = ChronoUnit.DAYS.between(fechaActual, fechaCheckIn);
+		long diasFaltantes = ChronoUnit.DAYS.between(fechaActual, checkIn);
 		
 		if (diasFaltantes >= 20) {
             return 0;
