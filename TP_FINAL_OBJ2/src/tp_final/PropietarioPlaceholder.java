@@ -1,9 +1,6 @@
-package tp_final.SitioWeb;
+package tp_final;
 
 import java.util.List;
-
-import tp_final.AlquilerPlaceholder;
-import tp_final.InmueblePlaceholder;
 
 public interface PropietarioPlaceholder {
 

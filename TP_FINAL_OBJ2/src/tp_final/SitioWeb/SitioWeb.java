@@ -6,6 +6,7 @@ import java.util.List;
 import tp_final.AlquilerPlaceholder;
 import tp_final.InmueblePlaceholder;
 import tp_final.InquilinoPlaceholder;
+import tp_final.PropietarioPlaceholder;
 
 public class SitioWeb {
 
