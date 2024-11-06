@@ -80,4 +80,11 @@ public class InmuebleTest {
 		misFotos.add(new FotoEjemplo());
 		assertEquals(inmueble.getFotos(),misFotos);
 	}
+	
+	@Test
+	void sumaYGetterDeCantAlquiladoTest() {
+		assertEquals(inmueble.getCantVecesEnAlquiler(),0);
+		inmueble.sumarCantAlquilado();
+		assertEquals(inmueble.getCantVecesEnAlquiler(),1);
+	}
 }

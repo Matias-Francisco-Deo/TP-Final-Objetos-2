@@ -25,7 +25,9 @@ public class Alquiler {
 	
 	private EstadoDeAlquiler estado;
 	
-	private List<String> colaDeEspera;//cambiar String de la lista por objeto reserva
+//	private Reserva reservaActual;
+	
+	private List<Reserva> colaDeEspera;//cambiar String de la lista por objeto reserva
 
 	Alquiler(LocalTime checkIn, LocalTime checkOut, String medioDePago, double precioBase,PoliticaDeCancelacion politica) {//agregar atributos necesarios
 		this.precioTemporadas = new HashMap<>();
@@ -33,6 +35,7 @@ public class Alquiler {
 		this.setPrecioBase(precioBase);
 		this.setPoliticaDeCancelacion(politica);
 		this.estado = new Libre();
+		this.colaDeEspera = new ArrayList<>();
 	}
 	
 	public LocalDate getFechaDeEntrada() {
@@ -91,11 +94,33 @@ public class Alquiler {
 	    }
 	}
 	
-	public void addReserva(String reserva) {//cambiar string por objeto reserva
+	public void addReserva(Reserva reserva) {//cambiar string por objeto reserva
 		this.colaDeEspera.add(reserva);
 	} 
 	
+	public List<Reserva> getcolaDeEspera() {
+		return this.colaDeEspera;
+	}
+	
 	public void setPoliticaDeCancelacion(PoliticaDeCancelacion politica) {
 		this.politicaDeCancelacion = politica;
+	}
+	
+	public EstadoDeAlquiler getEstadoDeAlquiler() {
+		return estado;
+	}
+
+	public void setEstadoDeAlquiler(EstadoDeAlquiler estado) {
+		this.estado = estado;
+	}
+	
+	public void reservar(Reserva reserva) {
+		estado.alquilar(reserva,this);
+	}
+	
+	public void cancelarReserva(Reserva reserva) {
+		//reserva.cancelar()?
+		this.estado.cancelar(reserva,this);
+		this.politicaDeCancelacion.aplicarPolitica(reserva,this.getFechaDeEntrada(),this.getFechaDeSalida(),this.getPrecioBase());
 	}
 }

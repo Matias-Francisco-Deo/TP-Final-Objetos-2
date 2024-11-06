@@ -31,6 +31,7 @@ public class Inmueble {
 		this.servicios = servicios;
 		this.capacidad = capacidad;
 		this.fotos = fotos;
+		this.cantVecesEnAlquiler = 0;
 	}
 	
 	public void setTipoInmueble(String tipoInmueble) {//cambiar string a tipoinmueble
@@ -99,5 +100,9 @@ public class Inmueble {
 	
 	public int getCantVecesEnAlquiler(){
 		return cantVecesEnAlquiler;
+	}
+	
+	public void sumarCantAlquilado() {
+		this.cantVecesEnAlquiler+=1;
 	}
 }

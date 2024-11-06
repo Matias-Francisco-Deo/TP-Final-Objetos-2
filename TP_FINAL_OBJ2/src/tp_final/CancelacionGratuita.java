@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 
 public class CancelacionGratuita implements PoliticaDeCancelacion{
 	
-	public void aplicarPolitica(LocalDate checkIn,LocalDate checkOut,double precio){
+	public void aplicarPolitica(Reserva reserva,LocalDate checkIn,LocalDate checkOut,double precio){
 		double monto = this.calcularCosto(checkIn,checkOut,precio);
 		String texto = this.generarMail(monto);
 		this.enviarMail(texto);
