@@ -123,4 +123,9 @@ public class Alquiler {
 		this.estado.cancelar(reserva,this);
 		this.politicaDeCancelacion.aplicarPolitica(reserva,this.getFechaDeEntrada(),this.getFechaDeSalida(),this.getPrecioBase());
 	}
+	
+	public void confirmarReserva() {//agregar reserva como parametro?
+		this.setEstadoDeAlquiler(new Alquilado());
+		//reserva.confirmar?
+	}
 }
