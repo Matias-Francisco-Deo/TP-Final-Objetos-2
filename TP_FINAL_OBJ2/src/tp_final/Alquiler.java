@@ -21,12 +21,18 @@ public class Alquiler {
 	
 	private double precioBase;
 	
+	private PoliticaDeCancelacion politicaDeCancelacion;
+	
+	private EstadoDeAlquiler estado;
+	
 	private List<String> colaDeEspera;//cambiar String de la lista por objeto reserva
 
-	Alquiler(LocalTime checkIn, LocalTime checkOut, String medioDePago, double precioBase) {//agregar atributos necesarios
+	Alquiler(LocalTime checkIn, LocalTime checkOut, String medioDePago, double precioBase,PoliticaDeCancelacion politica) {//agregar atributos necesarios
 		this.precioTemporadas = new HashMap<>();
 		this.colaDeEspera = new ArrayList<>();
 		this.setPrecioBase(precioBase);
+		this.setPoliticaDeCancelacion(politica);
+		this.estado = new Libre();
 	}
 	
 	public LocalDate getFechaDeEntrada() {
@@ -84,7 +90,12 @@ public class Alquiler {
 	        throw new IllegalArgumentException("indique temporada y precio");
 	    }
 	}
+	
 	public void addReserva(String reserva) {//cambiar string por objeto reserva
 		this.colaDeEspera.add(reserva);
+	}
+	
+	public void setPoliticaDeCancelacion(PoliticaDeCancelacion politica) {
+		this.politicaDeCancelacion = politica;
 	}
 }
