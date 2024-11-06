@@ -1,28 +1,23 @@
 package tp_final;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class SitioWebTest {
+import tp_final.SitioWeb.ManagerDeOpciones;
 
-	private SitioWeb sitioWeb;
-	private SistemaDeBúsqueda sistemaDeBúsqueda;
+class ManagerDeOpcionesTest {
+
+	private ManagerDeOpciones sitioWeb;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		// setup
-		sistemaDeBúsqueda = mock(SistemaDeBúsqueda.class);
-		sitioWeb = new SitioWeb(sistemaDeBúsqueda);
+		sitioWeb = new ManagerDeOpciones();
 	}
 
 	@Test
@@ -118,84 +113,6 @@ class SitioWebTest {
 
 		// verify
 		assertTrue(sitioWeb.getTiposInmueble().isEmpty());
-	}
-
-	@Test
-	void testRegistrarUsuario() {
-		// setup
-		UsuarioPlaceholder usuario = mock(UsuarioPlaceholder.class);
-
-		// exercise
-		sitioWeb.registrar(usuario);
-
-		// verify
-
-		assertFalse(sitioWeb.getUsuarios().isEmpty());
-	}
-
-	@Test
-	void testGetUsuarios() {
-		// setup
-		UsuarioPlaceholder usuario = mock(UsuarioPlaceholder.class);
-		sitioWeb.registrar(usuario);
-
-		// verify
-		assertEquals(1, sitioWeb.getUsuarios().stream().count());
-
-	}
-
-	@Test
-	void testLoguearUsuario() {
-		// setup
-		UsuarioPlaceholder usuario = mock(UsuarioPlaceholder.class);
-		when(usuario.getNombre()).thenReturn("pepe");
-		sitioWeb.registrar(usuario);
-
-		// exercise
-		UsuarioPlaceholder usuarioLogueado = sitioWeb.loguear("pepe");
-
-		// verify
-		assertEquals(usuario, usuarioLogueado);
-	}
-
-	@Test
-	void testNoSePuedeLoguearUsuarioQueNoExista() {
-		// setup
-		UsuarioPlaceholder usuario = mock(UsuarioPlaceholder.class);
-		sitioWeb.registrar(usuario);
-
-		// verify
-		assertThrows(NoSuchElementException.class, () -> sitioWeb.loguear("pepe"));
-	}
-
-	@Test
-	void testObtenerInmuebles() {
-		// setup
-		UsuarioPlaceholder usuario = mock(UsuarioPlaceholder.class);
-		sitioWeb.registrar(usuario);
-
-		// verify
-
-		// TO DO
-
-	}
-
-	@Test
-	void testBuscar() {
-//		List<ParámetroDeBúsqueda> parámetrosDeBúsqueda = mock(ArrayList.class);
-//		when(sistemaDeBúsqueda.buscar(parámetrosDeBúsqueda)).thenReturn();
-		// resolver cosas más sencillas primero
-	}
-
-	@Test
-	void testObtenerAlquileres() {
-		// setup
-		UsuarioPlaceholder usuario = mock(UsuarioPlaceholder.class);
-		sitioWeb.registrar(usuario);
-
-		// verify
-
-		// TO DO
 	}
 
 }

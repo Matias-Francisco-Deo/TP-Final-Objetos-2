@@ -1,21 +1,18 @@
-package tp_final;
+package tp_final.SitioWeb;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SitioWeb {
+public class ManagerDeOpciones {
 
 	private List<String> categorías;
 	private List<String> servicios;
 	private List<String> tiposInmueble;
-	private List<UsuarioPlaceholder> usuarios;
-	private SistemaDeBúsqueda sistemaDeBúsqueda;
 
-	public SitioWeb(SistemaDeBúsqueda sistemaDeBúsqueda) {
+	public ManagerDeOpciones() {
 		this.setCategorías(new ArrayList<String>());
 		this.setServicios(new ArrayList<String>());
 		this.setTiposInmueble(new ArrayList<String>());
-		this.setUsuarios(new ArrayList<UsuarioPlaceholder>());
 	}
 
 	public void añadirCategoría(String categoría) {
@@ -71,32 +68,6 @@ public class SitioWeb {
 	public void eliminarTipoInmueble(String tipo) {
 		this.getTiposInmueble().remove(tipo);
 
-	}
-
-	public void registrar(UsuarioPlaceholder usuario) {
-		this.getUsuarios().add(usuario);
-	}
-
-	public List<UsuarioPlaceholder> getUsuarios() {
-		// TODO Auto-generated method stub
-		return this.usuarios;
-	}
-
-	private void setUsuarios(ArrayList<UsuarioPlaceholder> usuarios) {
-		this.usuarios = usuarios;
-	}
-
-	public UsuarioPlaceholder loguear(String nombre) {
-		// TODO Auto-generated method stub
-		return this.getUsuarios().stream().filter(usuario -> usuario.getNombre() == nombre).findFirst().orElseThrow();
-	}
-
-	private SistemaDeBúsqueda getSistemaDeBúsqueda() {
-		return sistemaDeBúsqueda;
-	}
-
-	private void setSistemaDeBúsqueda(SistemaDeBúsqueda sistemaDeBúsqueda) {
-		this.sistemaDeBúsqueda = sistemaDeBúsqueda;
 	}
 
 }
