@@ -3,18 +3,20 @@ package tp_final;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.*;
 
 class AlquilerTest {
 	Alquiler alquiler;
+	private Inmueble inmueble;
 	private PoliticaDeCancelacion politica;
 
 	@BeforeEach
 	void setUp() throws Exception {
+		inmueble = mock(Inmueble.class);
 		politica = new SinCancelacion();
-		alquiler = new Alquiler(LocalTime.of(10, 0), LocalTime.of(14, 30), "Tarjeta Credito",200d,politica);
+		alquiler = new Alquiler(inmueble,LocalTime.of(10, 0), LocalTime.of(14, 30), "Tarjeta Credito",200d,politica);
 	}
 
 	@Test

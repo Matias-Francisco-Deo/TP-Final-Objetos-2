@@ -7,6 +7,8 @@ import java.util.List;
 import java.time.LocalTime;
 
 public class Alquiler {
+	private Inmueble inmueble;
+	
 	private LocalDate fechaEntrada;
 	
 	private LocalDate fechaSalida;
@@ -29,7 +31,8 @@ public class Alquiler {
 	
 	private List<Reserva> colaDeEspera;//cambiar String de la lista por objeto reserva
 
-	Alquiler(LocalTime checkIn, LocalTime checkOut, String medioDePago, double precioBase,PoliticaDeCancelacion politica) {//agregar atributos necesarios
+	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, String medioDePago, double precioBase,PoliticaDeCancelacion politica) {//agregar atributos necesarios
+		this.inmueble = inmueble;
 		this.precioTemporadas = new HashMap<>();
 		this.colaDeEspera = new ArrayList<>();
 		this.setPrecioBase(precioBase);
