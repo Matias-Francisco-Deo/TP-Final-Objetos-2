@@ -39,6 +39,6 @@ public class Intermedia implements PoliticaDeCancelacion{
 	}
 	
 	public void enviarMail(String texto) {
-		 System.out.println(texto);//se envio el email
+		 
 	}
 }
