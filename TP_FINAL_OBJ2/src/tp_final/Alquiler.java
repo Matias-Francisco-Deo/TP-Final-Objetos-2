@@ -132,7 +132,7 @@ public class Alquiler {
 	public void cancelarReserva(Reserva reserva) {
 		//reserva.cancelar()?
 		this.estado.cancelar(reserva,this);
-		this.politicaDeCancelacion.aplicarPolitica(reserva,this.getFechaDeEntrada(),this.getFechaDeSalida(),this.getPrecioBase());
+		this.politicaDeCancelacion.aplicarPolitica(reserva,this.getPrecioBase());
 	}
 	
 	public void confirmarReserva(Reserva reserva) {//agregar reserva como parametro?

@@ -5,7 +5,11 @@ import java.time.temporal.ChronoUnit;
 
 public class Intermedia implements PoliticaDeCancelacion{
 	
-	public void aplicarPolitica(Reserva reserva,LocalDate checkIn,LocalDate checkOut,double precio){
+	public void aplicarPolitica(Reserva reserva,double precio){
+		
+		LocalDate checkIn = reserva.getfechaEntrada();
+		LocalDate checkOut = reserva.getfechaSalida();
+		
 		double monto = this.calcularCosto(checkIn,checkOut,precio);
 		String texto = this.generarMail(monto);
 		this.enviarMail(texto);
