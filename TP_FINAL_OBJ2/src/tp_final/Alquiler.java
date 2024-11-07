@@ -7,6 +7,7 @@ import java.util.List;
 import java.time.LocalTime;
 
 public class Alquiler {
+	
 	private Inmueble inmueble;
 	
 	private LocalDate fechaEntrada;
@@ -17,7 +18,7 @@ public class Alquiler {
 	
 	private LocalTime checkOut;
 	
-	private String medioPago;//cambiar String por objeto medio de pago
+	private MedioDePago medioPago;//cambiar String por objeto medio de pago
 	
 	private Map<String,Double> precioTemporadas;
 	
@@ -31,14 +32,21 @@ public class Alquiler {
 	
 	private List<Reserva> colaDeEspera;//cambiar String de la lista por objeto reserva
 
-	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, String medioDePago, double precioBase,PoliticaDeCancelacion politica) {//agregar atributos necesarios
+	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago, double precioBase,PoliticaDeCancelacion politica) {//agregar atributos necesarios
 		this.inmueble = inmueble;
+		this.setCheckIn(checkIn);
+		this.setCheckOut(checkOut);
+		this.setMedioDePago(medioDePago);
 		this.precioTemporadas = new HashMap<>();
 		this.colaDeEspera = new ArrayList<>();
 		this.setPrecioBase(precioBase);
 		this.setPoliticaDeCancelacion(politica);
 		this.estado = new Libre();
 		this.colaDeEspera = new ArrayList<>();
+	}
+	
+	public Inmueble getInmueble() {
+		return inmueble;
 	}
 	
 	public LocalDate getFechaDeEntrada() {
@@ -73,11 +81,11 @@ public class Alquiler {
 		this.checkOut = checkOut;
 	}
 	
-	public String getMedioDePago(){
+	public MedioDePago getMedioDePago(){
 		return medioPago;
 	}
 	
-	public void setMedioDePago(String medioPago){
+	public void setMedioDePago(MedioDePago medioPago){
 		this.medioPago = medioPago;
 	}
 	
@@ -127,8 +135,13 @@ public class Alquiler {
 		this.politicaDeCancelacion.aplicarPolitica(reserva,this.getFechaDeEntrada(),this.getFechaDeSalida(),this.getPrecioBase());
 	}
 	
-	public void confirmarReserva() {//agregar reserva como parametro?
+	public void confirmarReserva(Reserva reserva) {//agregar reserva como parametro?
 		this.setEstadoDeAlquiler(new Alquilado());
+		
+		this.setFechaDeEntrada(reserva.getfechaEntrada());
+		this.setFechaDeSalida(reserva.getfechaSalida());
+		
+		this.getInmueble().sumarCantAlquilado();
 		//reserva.confirmar?
 	}
 }

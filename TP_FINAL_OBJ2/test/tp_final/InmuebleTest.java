@@ -8,19 +8,23 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.*;
 
 public class InmuebleTest {
 	
 	private ArrayList<Foto> misFotos;
 	private ArrayList<String> misServicios;
+	private Ranking ranking;
 	private Inmueble inmueble;
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		ranking = mock(Ranking.class);
+		
 		misServicios= new ArrayList<>(Arrays.asList("Agua", "Luz"));
 		misFotos= new ArrayList<>(Arrays.asList(new FotoEjemplo()));
 		
-		inmueble = new Inmueble("Casa", 20, "Argentina", "Quilmes", "mi casa", misServicios, 4, misFotos);
+		inmueble = new Inmueble("Casa", 20, "Argentina", "Quilmes", "mi direccion", misServicios, 4, misFotos);
 	}
 	
 	@Test
@@ -53,9 +57,9 @@ public class InmuebleTest {
 	
 	@Test
 	void getterYSetterDireccionTest() {
-		assertEquals(inmueble.getDireccion(),"mi casa");
-		inmueble.setDireccion("Tu casa");
-		assertEquals(inmueble.getDireccion(),"Tu casa");
+		assertEquals(inmueble.getDireccion(),"mi direccion");
+		inmueble.setDireccion("Tu direccion");
+		assertEquals(inmueble.getDireccion(),"Tu direccion");
 	}
 	
 	@Test
@@ -87,4 +91,6 @@ public class InmuebleTest {
 		inmueble.sumarCantAlquilado();
 		assertEquals(inmueble.getCantVecesEnAlquiler(),1);
 	}
+	
+	
 }

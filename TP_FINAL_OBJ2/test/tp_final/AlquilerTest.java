@@ -10,13 +10,15 @@ import static org.mockito.Mockito.*;
 class AlquilerTest {
 	Alquiler alquiler;
 	private Inmueble inmueble;
+	private Reserva reserva1;
 	private PoliticaDeCancelacion politica;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		inmueble = mock(Inmueble.class);
+		reserva1 = mock(Reserva.class);
 		politica = new SinCancelacion();
-		alquiler = new Alquiler(inmueble,LocalTime.of(10, 0), LocalTime.of(14, 30), "Tarjeta Credito",200d,politica);
+		alquiler = new Alquiler(inmueble,LocalTime.of(10, 0), LocalTime.of(14, 30), MedioDePago.EFECTIVO,200d,politica);
 	}
 
 	@Test
@@ -64,9 +66,23 @@ class AlquilerTest {
 	
 	@Test
 	void getterYSetterMedioPago() {
-		String medioDePago = "Mercado Pago";
+		MedioDePago medioDePago = MedioDePago.DEBITO;
         alquiler.setMedioDePago(medioDePago);
 		
 		assertEquals(medioDePago, alquiler.getMedioDePago());
+	}
+	
+	@Test
+	void confirmarReservaTest(){
+		when(reserva1.getfechaEntrada()).thenReturn(LocalDate.of(2024, 11, 1));
+		when(reserva1.getfechaSalida()).thenReturn(LocalDate.of(2024, 11, 5));
+		
+		assertEquals(null, alquiler.getFechaDeEntrada());
+		assertEquals(null, alquiler.getFechaDeSalida());
+		
+		alquiler.confirmarReserva(reserva1);
+		
+		assertEquals(reserva1.getfechaEntrada(), alquiler.getFechaDeEntrada());
+		assertEquals(reserva1.getfechaSalida(), alquiler.getFechaDeSalida());
 	}
 }

@@ -22,6 +22,8 @@ public class Inmueble {
 	
 	private int cantVecesEnAlquiler;
 	
+	private Ranking ranking;
+	
 	Inmueble(String tipo, double superficie, String pais, String ciudad, String direccion, ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos){
 		this.tipoInmueble = tipo;
 		this.superficie =superficie;
@@ -32,6 +34,7 @@ public class Inmueble {
 		this.capacidad = capacidad;
 		this.fotos = fotos;
 		this.cantVecesEnAlquiler = 0;
+		this.ranking = new Ranking();
 	}
 	
 	public void setTipoInmueble(String tipoInmueble) {//cambiar string a tipoinmueble
@@ -104,5 +107,9 @@ public class Inmueble {
 	
 	public void sumarCantAlquilado() {
 		this.cantVecesEnAlquiler+=1;
+	}
+	
+	public Ranking getRanking() {
+		return ranking;
 	}
 }
