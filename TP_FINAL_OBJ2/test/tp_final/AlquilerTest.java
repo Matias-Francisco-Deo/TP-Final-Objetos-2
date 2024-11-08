@@ -115,13 +115,13 @@ class AlquilerTest {
 		
 		alquiler.addPrecioTemporada("Verano",20000.0);
 		
-		Map<String, Double> precios = alquiler.getPrecioTemporada();
+		Map<String, Double> precios = alquiler.getPreciosTemporadas();
 		
 		assertEquals(1,precios.size());
 		
 		alquiler.addPrecioTemporada("Carnaval",15000.0);
 		
-		precios = alquiler.getPrecioTemporada();
+		precios = alquiler.getPreciosTemporadas();
 		
 		assertEquals(2,precios.size());
 		

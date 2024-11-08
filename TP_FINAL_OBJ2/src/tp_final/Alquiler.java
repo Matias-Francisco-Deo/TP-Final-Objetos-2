@@ -99,9 +99,9 @@ public class Alquiler {
 	    	precioTemporadas.put(temporada, precio);
 	}
 	
-	public Map<String, Double> getPrecioTemporada() {
+	public Map<String, Double> getPreciosTemporadas() {
 		return this.precioTemporadas;                                                    //revisar metodo
- }
+	}
 	
 	public void addReserva(Reserva reserva) {
 		this.colaDeEspera.add(reserva);

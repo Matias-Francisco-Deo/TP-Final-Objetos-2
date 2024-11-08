@@ -1,6 +1,7 @@
 package tp_final;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,7 @@ public class Inmueble {
 		this.capacidad = capacidad;
 		this.fotos = fotos;
 		this.cantVecesEnAlquiler = 0;
+		this.promedioPuntajePorCategoria = new HashMap<>();
 		this.ranking = new Ranking();
 	}
 	
@@ -110,6 +112,14 @@ public class Inmueble {
 	
 	public void sumarCantAlquilado() {
 		this.cantVecesEnAlquiler+=1;
+	}
+	
+	public void addPuntajePorCategoria(String temporada, Double precio) {
+		promedioPuntajePorCategoria.put(temporada, precio);
+	}
+	
+	public Map<String, Double> getPuntajesPorCategoria() {
+		return this.promedioPuntajePorCategoria;                                                    //revisar metodo
 	}
 	
 	public Ranking getRanking() {

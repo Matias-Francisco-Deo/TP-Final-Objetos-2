@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -96,5 +97,21 @@ public class InmuebleTest {
 		assertEquals(inmueble.getCantVecesEnAlquiler(),1);
 	}
 	
-	
+	@Test
+	void addYGetterPuntajesPorCategoria(){
+		
+		inmueble.addPuntajePorCategoria("Limpieza",8.3);
+		
+		Map<String, Double> precios = inmueble.getPuntajesPorCategoria();
+		
+		assertEquals(1,precios.size());
+		
+		inmueble.addPuntajePorCategoria("Ubicacion",6.1);
+		
+		precios = inmueble.getPuntajesPorCategoria();
+		
+		assertEquals(2,precios.size());
+		
+		assertEquals(8.3,precios.get("Limpieza"));
+	}
 }
