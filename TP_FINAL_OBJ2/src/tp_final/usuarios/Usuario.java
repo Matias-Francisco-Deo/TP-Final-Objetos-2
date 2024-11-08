@@ -1,9 +1,16 @@
 package tp_final.usuarios;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import tp_final.reserva.Reserva;
+
 public class Usuario {
 	private String nombre;
 	private String email;
 	private String telefono;
+	private List<Reserva> reservas = new ArrayList<Reserva>();
 
 	public Usuario(String nombre, String email, String telefono) {
 		this.setNombre(nombre);
@@ -12,7 +19,7 @@ public class Usuario {
 	}
 
 	// ------------------------------
-	// GETTERS
+	// GETTERS & SETTERS
 	// ------------------------------
 
 	public String getNombre() {
@@ -27,10 +34,6 @@ public class Usuario {
 		return this.telefono;
 	}
 
-	// ------------------------------
-	// SETTERS
-	// ------------------------------
-
 	private void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -41,5 +44,34 @@ public class Usuario {
 
 	private void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+
+	// ------------------------------
+	// RESERVAS
+	// ------------------------------
+
+	public List<Reserva> getReservas() {
+		return this.reservas;
+	}
+
+	public void realizarReserva(Reserva reserva) {
+		this.getReservas().add(reserva);
+	}
+
+	public void cancelarReserva(Reserva reserva) {
+		this.getReservas().remove(reserva);
+	}
+
+	public List<Reserva> getReservasFuturas() {
+		return this.getReservas().stream().filter(reserva -> reserva.getFechaCheckIn().isAfter(LocalDate.now()))
+				.toList();
+	}
+
+	public List<Reserva> getReservasEnCiudad(String ciudad) {
+		return this.getReservas().stream().filter(reserva -> reserva.getCiudad().equals(ciudad)).toList();
+	}
+
+	public List<String> getCiudadesConReserva() {
+		return this.getReservas().stream().map(reserva -> reserva.getCiudad()).toList();
 	}
 }
