@@ -18,7 +18,7 @@ public class Alquiler {
 	
 	private LocalTime checkOut;
 	
-	private MedioDePago medioPago;//cambiar String por objeto medio de pago
+	private MedioDePago medioPago;
 	
 	private Map<String,Double> precioTemporadas;
 	
@@ -28,9 +28,7 @@ public class Alquiler {
 	
 	private EstadoDeAlquiler estado;
 	
-//	private Reserva reservaActual;
-	
-	private List<Reserva> colaDeEspera;//cambiar String de la lista por objeto reserva
+	private List<Reserva> colaDeEspera;
 
 	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago, double precioBase,PoliticaDeCancelacion politica) {//agregar atributos necesarios
 		this.inmueble = inmueble;
@@ -98,14 +96,14 @@ public class Alquiler {
 	}
 	
 	public void addPrecioTemporada(String temporada, Double precio) {
-	    if (temporada != null && precio != null) {
 	    	precioTemporadas.put(temporada, precio);
-	    } else {
-	        throw new IllegalArgumentException("indique temporada y precio");
-	    }
 	}
 	
-	public void addReserva(Reserva reserva) {//cambiar string por objeto reserva
+	public Map<String, Double> getPrecioTemporada() {
+		return this.precioTemporadas;                                                    //revisar metodo
+ }
+	
+	public void addReserva(Reserva reserva) {
 		this.colaDeEspera.add(reserva);
 	} 
 	
@@ -135,13 +133,14 @@ public class Alquiler {
 		this.politicaDeCancelacion.aplicarPolitica(reserva,this.getPrecioBase());
 	}
 	
-	public void confirmarReserva(Reserva reserva) {//agregar reserva como parametro?
+	public void confirmarReserva(Reserva reserva) {
+		
 		this.setEstadoDeAlquiler(new Alquilado());
 		
 		this.setFechaDeEntrada(reserva.getfechaEntrada());
 		this.setFechaDeSalida(reserva.getfechaSalida());
 		
 		this.getInmueble().sumarCantAlquilado();
-		//reserva.confirmar?
+		
 	}
 }

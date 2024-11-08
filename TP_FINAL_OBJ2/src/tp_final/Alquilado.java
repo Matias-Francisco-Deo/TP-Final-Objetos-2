@@ -21,6 +21,6 @@ public class Alquilado implements EstadoDeAlquiler{
 			alquiler.setEstadoDeAlquiler(new Libre());
 			//cola.get(0).encolar()
 		}
-		
+		 
 	}
 }

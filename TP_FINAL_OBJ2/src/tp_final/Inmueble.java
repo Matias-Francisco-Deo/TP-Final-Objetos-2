@@ -2,9 +2,10 @@ package tp_final;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Inmueble {
-	private String tipoInmueble;//cambiar string a tipoinmueble
+	private TipoInmueble tipoInmueble;//revisar si tipo inmueble es una clase o un string
 	
 	private double superficie;
 	
@@ -22,9 +23,11 @@ public class Inmueble {
 	
 	private int cantVecesEnAlquiler;
 	
+	private Map<String,Double> promedioPuntajePorCategoria;
+	
 	private Ranking ranking;
 	
-	Inmueble(String tipo, double superficie, String pais, String ciudad, String direccion, ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos){
+	Inmueble(TipoInmueble tipo, double superficie, String pais, String ciudad, String direccion, ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos){
 		this.tipoInmueble = tipo;
 		this.superficie =superficie;
 		this.pais = pais;
@@ -37,11 +40,11 @@ public class Inmueble {
 		this.ranking = new Ranking();
 	}
 	
-	public void setTipoInmueble(String tipoInmueble) {//cambiar string a tipoinmueble
+	public void setTipoInmueble(TipoInmueble tipoInmueble) {//cambiar string a tipoinmueble
 		this.tipoInmueble = tipoInmueble;
 	}
 	
-	public String getTipoInmueble() {
+	public TipoInmueble getTipoInmueble() {
 		return tipoInmueble;
 	}
 	

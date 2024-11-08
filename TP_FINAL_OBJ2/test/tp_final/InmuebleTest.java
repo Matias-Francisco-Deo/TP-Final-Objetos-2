@@ -16,6 +16,7 @@ public class InmuebleTest {
 	private ArrayList<String> misServicios;
 	private Ranking ranking;
 	private Inmueble inmueble;
+	private  TipoInmueble casa;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -24,14 +25,17 @@ public class InmuebleTest {
 		misServicios= new ArrayList<>(Arrays.asList("Agua", "Luz"));
 		misFotos= new ArrayList<>(Arrays.asList(new FotoEjemplo()));
 		
-		inmueble = new Inmueble("Casa", 20, "Argentina", "Quilmes", "mi direccion", misServicios, 4, misFotos);
+		casa = new TipoInmueble();
+		
+		inmueble = new Inmueble(casa, 20, "Argentina", "Quilmes", "mi direccion", misServicios, 4, misFotos);
 	}
 	
 	@Test
-	void getterYSetterTipoInmuebleTest() {
-		assertEquals(inmueble.getTipoInmueble(),"Casa");
-		inmueble.setTipoInmueble("Departamento");
-		assertEquals(inmueble.getTipoInmueble(),"Departamento");
+	void getterYSetterTipoInmuebleTest() {//revisar si tipo inmueble es una clase o un string
+		TipoInmueble departamento = new TipoInmueble();
+		assertEquals(inmueble.getTipoInmueble(),casa);
+		inmueble.setTipoInmueble(departamento);
+		assertEquals(inmueble.getTipoInmueble(),departamento);
 	}
 	
 	@Test

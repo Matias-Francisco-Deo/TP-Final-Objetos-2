@@ -26,7 +26,7 @@ public class Intermedia implements PoliticaDeCancelacion{
 		if (diasFaltantes >= 20) {
             return 0;
             
-        } else if (diasFaltantes >= 10 && diasFaltantes <= 19) {
+        } else if (diasFaltantes > 10 && diasFaltantes < 20) {
             return (precio * diasAlquilados) / 2;
             
         } else {
