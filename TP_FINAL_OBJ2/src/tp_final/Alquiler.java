@@ -43,6 +43,7 @@ public class Alquiler {
 		this.setPoliticaDeCancelacion(politica);
 		this.estado = new Libre();
 		this.colaDeEspera = new ArrayList<>();
+		this.subscriptores = new ArrayList<>();
 	}
 	
 	public Inmueble getInmueble() {
@@ -81,7 +82,7 @@ public class Alquiler {
 		return this.colaDeEspera;
 	}
 	
-	private List<Usuario> getSubscriptores(){
+	public List<Usuario> getSubscriptores(){
 		return subscriptores;
 	}
 	

@@ -17,10 +17,14 @@ class AlquilerTest {
 	private Reserva reserva2;
 	private Reserva reserva3;
 	private PoliticaDeCancelacion politica;
+	
+	private Usuario sub;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		inmueble = mock(Inmueble.class);
+		
+		sub =new Usuario();
 		
 		reserva1 = mock(Reserva.class);
 		reserva2 = mock(Reserva.class);
@@ -134,6 +138,23 @@ class AlquilerTest {
 		alquiler.addReserva(reserva1);
 		assertEquals(alquiler.getcolaDeEspera().size(),1);
 		assertEquals(alquiler.getcolaDeEspera().get(0),reserva1);
+	}
+	
+	@Test
+	void subscriptoresTest() {
+		
+		when(reserva1.getfechaEntrada()).thenReturn(LocalDate.of(2024, 11, 1));
+		when(reserva1.getfechaSalida()).thenReturn(LocalDate.of(2024, 11, 5));
+		
+		alquiler.reservar(reserva1);
+		alquiler.confirmarReserva(reserva1);
+		
+		alquiler.addSubscriptor(sub);
+		
+		alquiler.cancelarReserva(reserva1);
+		
+		assertEquals("notificado",sub.getNotificacion());
+		assertEquals(alquiler.getSubscriptores().size(),1);
 	}
 	
 	@Test
