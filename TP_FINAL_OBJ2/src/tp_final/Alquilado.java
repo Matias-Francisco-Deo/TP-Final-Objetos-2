@@ -17,8 +17,10 @@ public class Alquilado implements EstadoDeAlquiler{
 		
 		if(cola.isEmpty()) {
 			alquiler.setEstadoDeAlquiler(new Libre());
+			alquiler.notificarSubs();
 		}else if(!cola.get(0).equals(reservaActual)) {
 			alquiler.setEstadoDeAlquiler(new Libre());
+			alquiler.notificarSubs();
 			//cola.get(0).encolar()
 		}
 		 

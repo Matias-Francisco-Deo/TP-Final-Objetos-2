@@ -49,11 +49,11 @@ public class Alquiler {
 		return inmueble;
 	}
 	
-	public LocalDate getFechaDeEntrada() {
+	public LocalDate getFechaDeCheckIn() {
 		return fechaEntrada;
 	}
 	
-	public LocalDate getFechaDeSalida() {
+	public LocalDate getFechaDeCheckOut() {
 		return fechaSalida;
 	}
 	
@@ -79,6 +79,10 @@ public class Alquiler {
 	
 	public List<Reserva> getcolaDeEspera() {
 		return this.colaDeEspera;
+	}
+	
+	private List<Usuario> getSubscriptores(){
+		return subscriptores;
 	}
 	
 	public Map<String, Double> getPreciosTemporadas() {
@@ -117,6 +121,10 @@ public class Alquiler {
 		this.estado = estado;
 	}
 	
+	public void addSubscriptor(Usuario sub) {
+		subscriptores.add(sub);
+	}
+	
 	public void addPrecioTemporada(String temporada, Double precio) {
 	    	precioTemporadas.put(temporada, precio);
 	}
@@ -144,5 +152,12 @@ public class Alquiler {
 		
 		this.getInmueble().sumarCantAlquilado();
 		
+	}
+	
+	public void notificarSubs() {
+		
+		for(Usuario sub : subscriptores) {
+			sub.notificar();
+		}
 	}
 }

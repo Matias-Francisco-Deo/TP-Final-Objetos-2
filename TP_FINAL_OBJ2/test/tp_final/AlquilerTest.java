@@ -47,7 +47,7 @@ class AlquilerTest {
 		LocalDate entrada = LocalDate.of(2024, 11, 3);
         alquiler.setFechaDeEntrada(entrada);
 		
-		assertEquals(entrada, alquiler.getFechaDeEntrada());
+		assertEquals(entrada, alquiler.getFechaDeCheckIn());
 	}
 	
 	@Test
@@ -55,7 +55,7 @@ class AlquilerTest {
         LocalDate salida = LocalDate.of(2024, 11, 4);
         alquiler.setFechaDeSalida(salida);
 		
-		assertEquals(salida, alquiler.getFechaDeSalida());
+		assertEquals(salida, alquiler.getFechaDeCheckOut());
 	}
 	
 	@Test
@@ -87,13 +87,13 @@ class AlquilerTest {
 		when(reserva1.getfechaEntrada()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getfechaSalida()).thenReturn(LocalDate.of(2024, 11, 5));
 		
-		assertEquals(null, alquiler.getFechaDeEntrada());
-		assertEquals(null, alquiler.getFechaDeSalida());
+		assertEquals(null, alquiler.getFechaDeCheckIn());
+		assertEquals(null, alquiler.getFechaDeCheckOut());
 		
 		alquiler.confirmarReserva(reserva1);
 		
-		assertEquals(reserva1.getfechaEntrada(), alquiler.getFechaDeEntrada());
-		assertEquals(reserva1.getfechaSalida(), alquiler.getFechaDeSalida());
+		assertEquals(reserva1.getfechaEntrada(), alquiler.getFechaDeCheckIn());
+		assertEquals(reserva1.getfechaSalida(), alquiler.getFechaDeCheckOut());
 	}
 	
 	@Test
