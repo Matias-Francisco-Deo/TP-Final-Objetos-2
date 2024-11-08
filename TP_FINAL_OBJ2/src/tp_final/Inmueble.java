@@ -42,80 +42,33 @@ public class Inmueble {
 		this.ranking = new Ranking();
 	}
 	
-	public void setTipoInmueble(TipoInmueble tipoInmueble) {//cambiar string a tipoinmueble
-		this.tipoInmueble = tipoInmueble;
-	}
-	
+
 	public TipoInmueble getTipoInmueble() {
 		return tipoInmueble;
-	}
-	
-	public void setSuperficie(double superficie) {
-		this.superficie = superficie;
 	}
 	
 	public double getSuperficie() {
 		return superficie;
 	}
 	
-	public void setPais(String pais) {
-		this.pais = pais;
-	}
-	
 	public String getPais() {
 		return pais;
-	}
-	
-	public void setCiudad(String ciudad) {
-		this.ciudad = ciudad;
 	}
 	
 	public String getCiudad() {
 		return ciudad;
 	}
 	
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-	
 	public String getDireccion() {
 		return direccion;
-	}
-	
-	public void addServicio(String servicio) {
-		this.servicios.add(servicio);
-	}
-	
-	public ArrayList<String> getServicios() {
-		return servicios;
-	}
-	
-	public void setCapacidad(int capacidad) {
-		this.capacidad = capacidad;
 	}
 	
 	public int getCapacidad() {
 		return capacidad;
 	}
 	
-	public void addFoto(Foto foto) {
-		this.fotos.add(foto);
-	}
-	
-	public ArrayList<Foto> getFotos() {
-		return fotos;
-	}
-	
 	public int getCantVecesEnAlquiler(){
 		return cantVecesEnAlquiler;
-	}
-	
-	public void sumarCantAlquilado() {
-		this.cantVecesEnAlquiler+=1;
-	}
-	
-	public void addPuntajePorCategoria(String temporada, Double precio) {
-		promedioPuntajePorCategoria.put(temporada, precio);
 	}
 	
 	public Map<String, Double> getPuntajesPorCategoria() {
@@ -124,5 +77,54 @@ public class Inmueble {
 	
 	public Ranking getRanking() {
 		return ranking;
+	}
+	
+	public ArrayList<Foto> getFotos() {
+		return fotos;
+	}
+	
+	public ArrayList<String> getServicios() {
+		return servicios;
+	}
+	
+	public void setTipoInmueble(TipoInmueble tipoInmueble) {//cambiar string a tipoinmueble?
+		this.tipoInmueble = tipoInmueble;
+	}
+	
+	
+	public void setSuperficie(double superficie) {
+		this.superficie = superficie;
+	}
+	
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+	
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
+	}
+	
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	
+	public void setCapacidad(int capacidad) {
+		this.capacidad = capacidad;
+	}
+	
+	public void addServicio(String servicio) {
+		this.servicios.add(servicio);
+	}
+	
+	public void addFoto(Foto foto) {
+		this.fotos.add(foto);
+	}
+	
+	public void addPuntajePorCategoria(String temporada, Double precio) {
+		promedioPuntajePorCategoria.put(temporada, precio);
+	}
+	
+	public void sumarCantAlquilado() {
+		this.cantVecesEnAlquiler+=1;
 	}
 }

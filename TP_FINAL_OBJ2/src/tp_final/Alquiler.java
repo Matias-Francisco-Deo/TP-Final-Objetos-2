@@ -29,6 +29,8 @@ public class Alquiler {
 	private EstadoDeAlquiler estado;
 	
 	private List<Reserva> colaDeEspera;
+	
+	private List<Usuario> subscriptores;
 
 	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago, double precioBase,PoliticaDeCancelacion politica) {//agregar atributos necesarios
 		this.inmueble = inmueble;
@@ -50,77 +52,77 @@ public class Alquiler {
 	public LocalDate getFechaDeEntrada() {
 		return fechaEntrada;
 	}
-
-	public void setFechaDeEntrada(LocalDate fechaEntrada) {
-		this.fechaEntrada = fechaEntrada;
-	}
 	
 	public LocalDate getFechaDeSalida() {
 		return fechaSalida;
-	}
-
-	public void setFechaDeSalida(LocalDate fechaSalida) {
-		this.fechaSalida = fechaSalida;
 	}
 	
 	public LocalTime getCheckIn(){
 		return checkIn;
 	}
 	
-	public void setCheckIn(LocalTime checkIn){
-		this.checkIn = checkIn;
-	}
-	
 	public LocalTime getCheckOut(){
 		return checkOut;
-	}
-	
-	public void setCheckOut(LocalTime checkOut){
-		this.checkOut = checkOut;
 	}
 	
 	public MedioDePago getMedioDePago(){
 		return medioPago;
 	}
 	
-	public void setMedioDePago(MedioDePago medioPago){
-		this.medioPago = medioPago;
-	}
-	
 	public double getPrecioBase() {
 		return precioBase;
+	} 
+	
+	public EstadoDeAlquiler getEstadoDeAlquiler() {
+		return estado;
+	}
+	
+	public List<Reserva> getcolaDeEspera() {
+		return this.colaDeEspera;
+	}
+	
+	public Map<String, Double> getPreciosTemporadas() {
+		return this.precioTemporadas;                                                    //revisar metodo
+	}
+
+	public void setFechaDeEntrada(LocalDate fechaEntrada) {
+		this.fechaEntrada = fechaEntrada;
+	}
+
+	public void setFechaDeSalida(LocalDate fechaSalida) {
+		this.fechaSalida = fechaSalida;
+	}
+	
+	public void setCheckIn(LocalTime checkIn){
+		this.checkIn = checkIn;
+	}
+	
+	public void setCheckOut(LocalTime checkOut){
+		this.checkOut = checkOut;
+	}
+	
+	public void setMedioDePago(MedioDePago medioPago){
+		this.medioPago = medioPago;
 	}
 
 	public void setPrecioBase(double precioBase) {
 		this.precioBase = precioBase;
 	}
 	
-	public void addPrecioTemporada(String temporada, Double precio) {
-	    	precioTemporadas.put(temporada, precio);
-	}
-	
-	public Map<String, Double> getPreciosTemporadas() {
-		return this.precioTemporadas;                                                    //revisar metodo
-	}
-	
-	public void addReserva(Reserva reserva) {
-		this.colaDeEspera.add(reserva);
-	} 
-	
-	public List<Reserva> getcolaDeEspera() {
-		return this.colaDeEspera;
-	}
-	
 	public void setPoliticaDeCancelacion(PoliticaDeCancelacion politica) {
 		this.politicaDeCancelacion = politica;
-	}
-	
-	public EstadoDeAlquiler getEstadoDeAlquiler() {
-		return estado;
 	}
 
 	public void setEstadoDeAlquiler(EstadoDeAlquiler estado) {
 		this.estado = estado;
+	}
+	
+	public void addPrecioTemporada(String temporada, Double precio) {
+	    	precioTemporadas.put(temporada, precio);
+	}
+	
+	public void addReserva(Reserva reserva) {
+		this.colaDeEspera.add(reserva);
 	}
 	
 	public void reservar(Reserva reserva) {
