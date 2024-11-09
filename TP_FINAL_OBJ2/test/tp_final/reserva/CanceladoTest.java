@@ -18,7 +18,7 @@ import tp_final.varios.ServidorDeCorreo;
 
 class CanceladoTest {
 	private EstadoDeReserva estado;
-	private Reserva reserva;
+	private Reserva spy;
 
 	@BeforeEach
 	void setUp() {
@@ -34,7 +34,7 @@ class CanceladoTest {
 		when(propietario.getEmail()).thenReturn("propietario@gmail.com");
 
 		// SPY
-		reserva = spy(new Reserva(alquiler, inquilino, medioDePago, servidorDeCorreo));
+		spy = spy(new Reserva(alquiler, inquilino, medioDePago, servidorDeCorreo));
 
 		// SUT
 		estado = new Cancelado();
@@ -42,19 +42,19 @@ class CanceladoTest {
 
 	@Test
 	void UnEstadoCanceladoEsAprobadoYLaReservaNoCambiaDeEstado() {
-		estado.aprobar(reserva);
-		verify(reserva, never()).setEstado(any());
+		estado.aprobar(spy);
+		verify(spy, never()).setEstado(any());
 	}
 
 	@Test
 	void UnEstadoCanceladoEsCanceladoYLaReservaNoCambiaDeEstado() {
-		estado.cancelar(reserva);
-		verify(reserva, never()).setEstado(any());
+		estado.cancelar(spy);
+		verify(spy, never()).setEstado(any());
 	}
 
 	@Test
 	void UnEstadoCanceladoEsFinalizadoYLaReservaCambiaAPendienteDeAprobacion() {
-		estado.finalizar(reserva);
-		verify(reserva).setEstado(isA(PendienteDeAprobacion.class));
+		estado.finalizar(spy);
+		verify(spy).setEstado(isA(PendienteDeAprobacion.class));
 	}
 }
