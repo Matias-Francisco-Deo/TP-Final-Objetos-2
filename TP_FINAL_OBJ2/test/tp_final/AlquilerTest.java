@@ -153,7 +153,7 @@ class AlquilerTest {
 		
 		alquiler.cancelarReserva(reserva1);
 		
-		assertEquals("notificado",sub.getNotificacion());
+		assertEquals("notificado",sub.getNotificacion());// va a tener que cambiar
 		assertEquals(alquiler.getSubscriptores().size(),1);
 	}
 	
@@ -217,5 +217,5 @@ class AlquilerTest {
 		alquiler.cancelarReserva(reserva2);
 		assertEquals(alquiler.getcolaDeEspera().size(),0);
 		assertNotEquals(alquiler.getEstadoDeAlquiler(),estado);
-	}
+	}// verify(mockObject,Mockito.times(1)) probar si la cancelacion fue llamada
 }
