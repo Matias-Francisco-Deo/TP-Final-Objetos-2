@@ -3,55 +3,39 @@ package tp_final.sitioweb;
 import java.util.ArrayList;
 import java.util.List;
 
-import tp_final.AlquilerPlaceholder;
-import tp_final.InmueblePlaceholder;
-import tp_final.InquilinoPlaceholder;
-import tp_final.PropietarioPlaceholder;
+import tp_final.alquiler.Alquiler;
+import tp_final.inmueble.Inmueble;
+import tp_final.usuarios.Usuario;
 
 public class SitioWeb {
 
-	private List<InquilinoPlaceholder> inquilinos;
-	private List<PropietarioPlaceholder> propietarios;
+	private List<Usuario> usuarios;
 
 	public SitioWeb() {
-		this.setInquilinos(new ArrayList<InquilinoPlaceholder>());
-		this.setPropietarios(new ArrayList<PropietarioPlaceholder>());
+		this.setUsuarios(new ArrayList<Usuario>());
 	}
 
-	public void registrarInquilino(InquilinoPlaceholder inquilino) {
-		this.getInquilinos().add(inquilino);
-
-	}
-
-	public List<InquilinoPlaceholder> getInquilinos() {
-		return this.inquilinos;
-	}
-
-	private void setInquilinos(ArrayList<InquilinoPlaceholder> inquilinos) {
-		this.inquilinos = inquilinos;
-	}
-
-	public void registrarPropietario(PropietarioPlaceholder propietario) {
-		this.getPropietarios().add(propietario);
+	public void registrarUsuario(Usuario usuario) {
+		this.getUsuarios().add(usuario);
 
 	}
 
-	public List<PropietarioPlaceholder> getPropietarios() {
-		return propietarios;
+	public List<Usuario> getUsuarios() {
+		return this.usuarios;
 	}
 
-	private void setPropietarios(ArrayList<PropietarioPlaceholder> propietarios) {
-		this.propietarios = propietarios;
+	private void setUsuarios(ArrayList<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 
-	public List<AlquilerPlaceholder> getAlquileres() {
+	public List<Alquiler> getAlquileres() {
 
-		return this.getPropietarios().stream().flatMap(propietario -> propietario.getAlquileres().stream()).toList();
+		return this.getUsuarios().stream().flatMap(usuario -> usuario.getAlquileres().stream()).toList();
 	}
 
-	public List<InmueblePlaceholder> getInmuebles() {
+	public List<Inmueble> getInmuebles() {
 
-		return this.getPropietarios().stream().flatMap(propietario -> propietario.getInmuebles().stream()).toList();
+		return this.getUsuarios().stream().flatMap(usuario -> usuario.getInmuebles().stream()).toList();
 	}
 
 }

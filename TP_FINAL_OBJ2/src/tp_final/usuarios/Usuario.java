@@ -2,8 +2,11 @@ package tp_final.usuarios;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import tp_final.alquiler.Alquiler;
+import tp_final.inmueble.Inmueble;
 import tp_final.reserva.Reserva;
 
 public class Usuario {
@@ -73,5 +76,20 @@ public class Usuario {
 
 	public List<String> getCiudadesConReserva() {
 		return this.getReservas().stream().map(reserva -> reserva.getCiudad()).toList();
+	}
+
+	public Collection<Alquiler> getAlquileres() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Collection<Inmueble> getInmuebles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int contarInmueblesAlquilados() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

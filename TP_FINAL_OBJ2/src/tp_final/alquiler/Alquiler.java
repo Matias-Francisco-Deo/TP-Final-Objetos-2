@@ -176,4 +176,9 @@ public class Alquiler {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public boolean esLibre() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }
