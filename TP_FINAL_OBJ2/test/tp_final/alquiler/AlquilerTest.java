@@ -38,7 +38,7 @@ class AlquilerTest {
 
 		propietario = mock(Usuario.class);
 
-		sub = new Usuario();
+		sub = mock(Usuario.class);
 
 		reserva1 = mock(Reserva.class);
 		reserva2 = mock(Reserva.class);
