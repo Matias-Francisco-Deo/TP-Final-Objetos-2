@@ -1,4 +1,4 @@
-package tp_final;
+package tp_final_extra;
 //temporal
 public class Ranking {
 

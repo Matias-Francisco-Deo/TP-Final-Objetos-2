@@ -1,6 +1,9 @@
-package tp_final;
+package tp_final.estado_de_alquiler;
 
 import java.util.List;
+
+import tp_final.alquiler.Alquiler;
+import tp_final_extra.Reserva;
 
 public class Alquilado implements EstadoDeAlquiler{
 	

@@ -1,9 +1,11 @@
-package tp_final;
+package tp_final.politica_cancelacion;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class Intermedia implements PoliticaDeCancelacion{
+import tp_final_extra.Reserva;
+
+public class CancelacionIntermedia implements PoliticaDeCancelacion{
 	
 	public void aplicarPolitica(Reserva reserva,double precio){
 		

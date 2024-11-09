@@ -1,29 +1,38 @@
-package tp_final;
+package tp_final.estado_de_alquiler;
 
 import java.util.List;
 
-public class Libre implements EstadoDeAlquiler{
-	
-	public void alquilar(Reserva reserva,Alquiler alquiler) {
+import tp_final.alquiler.Alquiler;
+import tp_final_extra.Reserva;
+
+public class Libre implements EstadoDeAlquiler {
+
+	@Override
+	public void alquilar(Reserva reserva, Alquiler alquiler) {
 		if (alquiler.getcolaDeEspera().isEmpty()) {
-			//reserva.encolar
+			// reserva.encolar
 			alquiler.addReserva(reserva);
-		}else {
+		} else {
 			alquiler.addReserva(reserva);
 		}
-		
-	} 
-	
-	public void cancelar(Reserva reserva,Alquiler alquiler) {
+
+	}
+
+	@Override
+	public void cancelar(Reserva reserva, Alquiler alquiler) {
 		List<Reserva> cola = alquiler.getcolaDeEspera();
 		if (cola.size() > 1 && cola.get(0).equals(reserva)) {
-			//reserva.cancelar()
+
 			alquiler.getcolaDeEspera().remove(0);
-			
-			//cola.get(0).encolar()
-		}else {
+
+			this.prepararSiguiente(cola);
+		} else {
 			alquiler.getcolaDeEspera().remove(reserva);
 		}
-		//reserva.cancelar()
+		// reserva.cancelar()
+	}
+
+	private void prepararSiguiente(List<Reserva> cola) {
+		cola.get(0).desencolar();
 	}
 }

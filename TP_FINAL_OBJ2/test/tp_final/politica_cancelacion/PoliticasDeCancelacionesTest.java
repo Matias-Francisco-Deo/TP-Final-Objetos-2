@@ -1,4 +1,4 @@
-package tp_final;
+package tp_final.politica_cancelacion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -7,6 +7,11 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import tp_final.politica_cancelacion.CancelacionGratuita;
+import tp_final.politica_cancelacion.CancelacionIntermedia;
+import tp_final.politica_cancelacion.SinCancelacion;
+import tp_final_extra.Reserva;
 
 
 public class PoliticasDeCancelacionesTest {
@@ -19,8 +24,8 @@ public class PoliticasDeCancelacionesTest {
 	private SinCancelacion sinCancelacion;
 	private SinCancelacion sincancelacionMock;
 	
-	private Intermedia cancelacionIntermedia;
-	private Intermedia intermediaMock;
+	private CancelacionIntermedia cancelacionIntermedia;
+	private CancelacionIntermedia intermediaMock;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -29,11 +34,11 @@ public class PoliticasDeCancelacionesTest {
 		
 		politicaCancelacion = new CancelacionGratuita();
 		sinCancelacion = new SinCancelacion();
-		cancelacionIntermedia = new Intermedia();
+		cancelacionIntermedia = new CancelacionIntermedia();
 		
 		cancelacionMock = mock(CancelacionGratuita.class);
 		sincancelacionMock = mock(SinCancelacion.class);
-		intermediaMock = mock(Intermedia.class);
+		intermediaMock = mock(CancelacionIntermedia.class);
 		
 	}
 	

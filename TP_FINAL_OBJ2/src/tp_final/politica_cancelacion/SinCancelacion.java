@@ -1,7 +1,9 @@
-package tp_final;
+package tp_final.politica_cancelacion;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+
+import tp_final_extra.Reserva;
 
 public class SinCancelacion implements PoliticaDeCancelacion{
 	

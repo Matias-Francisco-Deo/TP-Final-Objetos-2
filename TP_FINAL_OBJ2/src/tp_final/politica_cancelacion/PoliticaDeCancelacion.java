@@ -1,5 +1,7 @@
-package tp_final;
+package tp_final.politica_cancelacion;
 import java.time.LocalDate;
+
+import tp_final_extra.Reserva;
 
 public interface PoliticaDeCancelacion {
 	public void aplicarPolitica(Reserva reserva,double precio);
