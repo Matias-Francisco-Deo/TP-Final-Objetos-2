@@ -1,12 +1,10 @@
 package tp_final.reserva;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,10 +27,6 @@ class CanceladoTest {
 		ServidorDeCorreo servidorDeCorreo = mock(ServidorDeCorreo.class);
 		Usuario propietario = mock(Usuario.class);
 
-		// STUB
-		when(alquiler.getPropietario()).thenReturn(propietario);
-		when(propietario.getEmail()).thenReturn("propietario@gmail.com");
-
 		// SPY
 		spy = spy(new Reserva(alquiler, inquilino, medioDePago, servidorDeCorreo));
 
@@ -53,8 +47,8 @@ class CanceladoTest {
 	}
 
 	@Test
-	void UnEstadoCanceladoEsFinalizadoYLaReservaCambiaAPendienteDeAprobacion() {
+	void UnEstadoCanceladoEsFinalizadoYLaReservaNoCambiaDeEstado() {
 		estado.finalizar(spy);
-		verify(spy).setEstado(isA(PendienteDeAprobacion.class));
+		verify(spy, never()).setEstado(any());
 	}
 }

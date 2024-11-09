@@ -15,6 +15,6 @@ public class PendienteDeAprobacion implements EstadoDeReserva {
 
 	@Override
 	public void finalizar(Reserva reserva) {
-		// TODO: NOTHING
+		// NOTHING
 	}
 }

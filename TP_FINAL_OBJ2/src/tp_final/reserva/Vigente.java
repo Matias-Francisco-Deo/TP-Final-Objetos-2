@@ -3,7 +3,7 @@ package tp_final.reserva;
 public class Vigente implements EstadoDeReserva {
 	@Override
 	public void aprobar(Reserva reserva) {
-		// TODO: NOTHING
+		// NOTHING
 	}
 
 	@Override
@@ -14,6 +14,6 @@ public class Vigente implements EstadoDeReserva {
 
 	@Override
 	public void finalizar(Reserva reserva) {
-		// TODO: NOTHING
+		reserva.setEstado(new Finalizado());
 	}
 }
