@@ -12,8 +12,8 @@ import tp_final.estado_de_alquiler.EstadoDeAlquiler;
 import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
+import tp_final.usuarios.Usuario;
 import tp_final_extra.Reserva;
-import tp_final_extra.Usuario;
 
 public class Alquiler {
 
@@ -179,7 +179,7 @@ public class Alquiler {
 	public void notificarSubs() {
 
 		for (Usuario sub : subscriptores) {
-			sub.notificar();
+
 		}
 	}
 }

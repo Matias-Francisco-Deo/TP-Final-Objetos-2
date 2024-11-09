@@ -18,8 +18,8 @@ import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
 import tp_final.politica_cancelacion.SinCancelacion;
+import tp_final.usuarios.Usuario;
 import tp_final_extra.Reserva;
-import tp_final_extra.Usuario;
 
 class AlquilerTest {
 	Alquiler alquiler;
