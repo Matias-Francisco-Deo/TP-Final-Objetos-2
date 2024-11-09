@@ -17,6 +17,8 @@ import tp_final_extra.Usuario;
 
 public class Alquiler {
 
+	private Usuario propietario;
+
 	private Inmueble inmueble;
 
 	private LocalDate fechaEntrada;
@@ -41,9 +43,10 @@ public class Alquiler {
 
 	private List<Usuario> subscriptores;
 
-	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago, double precioBase,
-			PoliticaDeCancelacion politica) {// agregar atributos necesarios
+	Alquiler(Usuario propietario, Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago,
+			double precioBase, PoliticaDeCancelacion politica) {// agregar atributos necesarios
 		this.inmueble = inmueble;
+		this.propietario = propietario;
 		this.setCheckIn(checkIn);
 		this.setCheckOut(checkOut);
 		this.setMedioDePago(medioDePago);
@@ -60,7 +63,11 @@ public class Alquiler {
 		return inmueble;
 	}
 
-	public LocalDate getFechaDeCheckIn() {
+	public Usuario getPropietario() {
+		return propietario;
+	}
+
+	public LocalDate getFechaCheckIn() {
 		return fechaEntrada;
 	}
 
@@ -82,6 +89,10 @@ public class Alquiler {
 
 	public double getPrecioBase() {
 		return precioBase;
+	}
+
+	public String getCiudad() {
+		return this.getInmueble().getCiudad();
 	}
 
 	public EstadoDeAlquiler getEstadoDeAlquiler() {
