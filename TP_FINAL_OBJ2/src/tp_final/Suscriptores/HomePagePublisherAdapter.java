@@ -1,4 +1,4 @@
-package tp_final;
+package tp_final.Suscriptores;
 
 public class HomePagePublisherAdapter implements Suscriptor {
 

@@ -1,4 +1,4 @@
-package tp_final;
+package tp_final.Suscriptores;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
