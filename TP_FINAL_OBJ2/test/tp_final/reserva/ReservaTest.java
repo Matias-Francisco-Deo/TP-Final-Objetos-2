@@ -1,6 +1,7 @@
 package tp_final.reserva;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -83,7 +84,7 @@ class ReservaTest {
 	}
 
 	// ------------------------------------------------------------
-	// ESTADO DE RESERVA
+	// METODOS DE CAMBIO DE ESTADO
 	// ------------------------------------------------------------
 
 	@Test
@@ -98,21 +99,23 @@ class ReservaTest {
 		assertEquals(reserva.getEstado(), estado);
 	}
 
+	// ESTADO INICIAL
+
 	@Test
-	void unaReservaInicialmenteTieneUnEstadoPendienteDeAprobacionTest() {
+	void unaReservaInicialmenteTieneUnEstadoPendienteDeAprobacion() {
 		assertEquals(reserva.getEstado().getClass(), PendienteDeAprobacion.class);
 	}
 
 	// ESTADO PENDIENTE DE APROBACION
 
 	@Test
-	void unaReservaPendienteDeAprobacionEsAprobadaYCambiaSuEstadoAVigenteTest() {
+	void unaReservaPendienteDeAprobacionEsAprobadaYCambiaSuEstadoAVigente() {
 		reserva.aprobar();
-		assertEquals(reserva.getEstado().getClass(), VigenteTest.class);
+		assertEquals(reserva.getEstado().getClass(), Vigente.class);
 	}
 
 	@Test
-	void unaReservaPendienteDeAprobacionEsCanceladaYCambiaSuEstadoACanceladoTest() {
+	void unaReservaPendienteDeAprobacionEsCanceladaYCambiaSuEstadoACancelado() {
 		reserva.cancelar();
 		assertEquals(reserva.getEstado().getClass(), Cancelado.class);
 	}
@@ -120,7 +123,7 @@ class ReservaTest {
 	@Test
 	void unaReservaEnviaUnCorreoDeAprobacion() {
 		reserva.doAprobar();
-		verify(servidorDeCorreo).enviar(anyString(), anyString(), anyString());
+		verify(servidorDeCorreo).enviar(anyString(), anyString(), any());
 	}
 
 	// ESTADO VIGENTE
@@ -135,6 +138,13 @@ class ReservaTest {
 	@Test
 	void unaReservaEnviaUnCorreoDeCancelacion() {
 		reserva.doCancelar();
-		verify(servidorDeCorreo).enviar(anyString(), anyString(), anyString());
+		verify(servidorDeCorreo).enviar(anyString(), anyString(), any());
+	}
+
+	@Test
+	void unaReservaVigenteRealizaElCheckOutYCambiaSuEstadoAFinalizado() {
+		reserva.aprobar();
+		reserva.realizarCheckOut();
+		assertEquals(reserva.getEstado().getClass(), Finalizado.class);
 	}
 }

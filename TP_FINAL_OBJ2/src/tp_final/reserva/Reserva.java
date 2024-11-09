@@ -102,6 +102,10 @@ public class Reserva {
 		this.enviarCorreoDeCancelacion();
 	}
 
+	public void realizarCheckOut() {
+		this.getEstado().finalizar(this);
+	}
+
 	// ------------------------------------------------------------
 	// ENVIO DE CORREOS
 	// ------------------------------------------------------------
@@ -109,14 +113,12 @@ public class Reserva {
 	public void enviarCorreoDeAprobacion() {
 		String destinatario = this.getInquilino().getEmail();
 		String asunto = "Reserva aprobada";
-		String cuerpo = this.toString();
-		this.getServidorDeCorreo().enviar(destinatario, asunto, cuerpo);
+		this.getServidorDeCorreo().enviar(destinatario, asunto, this);
 	}
 
 	public void enviarCorreoDeCancelacion() {
 		String destinatario = this.getPropietario().getEmail();
 		String asunto = "Reserva cancelada";
-		String cuerpo = this.toString();
-		this.getServidorDeCorreo().enviar(destinatario, asunto, cuerpo);
+		this.getServidorDeCorreo().enviar(destinatario, asunto, this);
 	}
 }
