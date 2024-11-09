@@ -2,7 +2,7 @@ package tp_final.reserva;
 
 import java.time.LocalDate;
 
-import tp_final.Alquiler;
+import tp_final.alquiler.Alquiler;
 import tp_final.usuarios.Usuario;
 import tp_final.varios.MedioDePago;
 import tp_final.varios.ServidorDeCorreo;

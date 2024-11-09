@@ -1,4 +1,4 @@
-package tp_final.Suscriptores;
+package tp_final.suscriptores;
 
 public class PopUpWindowAdapter implements Suscriptor {
 	// OBJECT ADAPTER

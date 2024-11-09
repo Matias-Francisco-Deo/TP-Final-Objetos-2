@@ -1,4 +1,4 @@
-package tp_final.Búsqueda;
+package tp_final.busqueda;
 
 public class SistemaDeBúsqueda {
 

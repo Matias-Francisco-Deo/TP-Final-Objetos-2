@@ -1,4 +1,4 @@
-package tp_final.SitioWeb;
+package tp_final.sitioweb;
 
 import java.util.Comparator;
 import java.util.List;

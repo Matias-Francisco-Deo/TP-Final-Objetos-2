@@ -1,4 +1,4 @@
-package tp_final.SitioWeb;
+package tp_final.sitioweb;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import tp_final.AlquilerPlaceholder;
 import tp_final.InmueblePlaceholder;
 import tp_final.InquilinoPlaceholder;
+import tp_final.sitioweb.RecolectorDeDatos;
+import tp_final.sitioweb.SitioWeb;
 
 class RecolectorDeDatosTest {
 

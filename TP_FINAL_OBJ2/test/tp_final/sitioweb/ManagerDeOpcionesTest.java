@@ -1,4 +1,4 @@
-package tp_final.SitioWeb;
+package tp_final.sitioweb;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tp_final.SitioWeb.ManagerDeOpciones;
+import tp_final.sitioweb.ManagerDeOpciones;
 
 class ManagerDeOpcionesTest {
 

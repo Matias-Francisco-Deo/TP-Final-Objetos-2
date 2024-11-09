@@ -1,4 +1,4 @@
-package tp_final.Suscriptores;
+package tp_final.suscriptores;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -6,6 +6,9 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import tp_final.suscriptores.HomePagePublisher;
+import tp_final.suscriptores.HomePagePublisherAdapter;
 
 class HomePagePublisherAdapterTest {
 

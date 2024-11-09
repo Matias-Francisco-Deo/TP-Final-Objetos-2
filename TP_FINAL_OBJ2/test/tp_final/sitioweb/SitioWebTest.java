@@ -1,4 +1,4 @@
-package tp_final.SitioWeb;
+package tp_final.sitioweb;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -14,6 +14,7 @@ import tp_final.AlquilerPlaceholder;
 import tp_final.InmueblePlaceholder;
 import tp_final.InquilinoPlaceholder;
 import tp_final.PropietarioPlaceholder;
+import tp_final.sitioweb.SitioWeb;
 
 class SitioWebTest {
 

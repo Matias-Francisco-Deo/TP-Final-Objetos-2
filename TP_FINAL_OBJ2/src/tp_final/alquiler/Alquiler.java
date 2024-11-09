@@ -171,4 +171,9 @@ public class Alquiler {
 			sub.notificar();
 		}
 	}
+
+	public Object getPropietario() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

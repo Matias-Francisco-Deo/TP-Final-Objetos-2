@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tp_final.Alquiler;
+import tp_final.alquiler.Alquiler;
 import tp_final.usuarios.Usuario;
 import tp_final.varios.MedioDePago;
 import tp_final.varios.ServidorDeCorreo;
