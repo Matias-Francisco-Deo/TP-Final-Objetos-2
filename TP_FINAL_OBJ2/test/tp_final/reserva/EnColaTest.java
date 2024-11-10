@@ -1,7 +1,6 @@
 package tp_final.reserva;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -9,7 +8,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class VigenteTest {
+class EnColaTest {
 	private EstadoDeReserva estado;
 	private Reserva reserva;
 
@@ -19,36 +18,36 @@ class VigenteTest {
 		reserva = mock(Reserva.class);
 
 		// SUT
-		estado = new Vigente();
+		estado = new EnCola();
 	}
 
 	@Test
-	void UnEstadoVigenteEsAprobadoYLaReservaNoCambiaDeEstado() {
+	void UnEstadoEnColaEsAprobadoYLaReservaNoCambiaDeEstado() {
 		estado.aprobar(reserva);
 		verify(reserva, never()).setEstado(any());
 	}
 
 	@Test
-	void UnEstadoVigenteEsCanceladoYLaReservaCambiaACancelado() {
+	void UnEstadoEnColaEsCanceladoYLaReservaCambiaACancelado() {
 		estado.cancelar(reserva);
-		verify(reserva).setEstado(isA(Cancelado.class));
+		verify(reserva).setEstado(any(Cancelado.class));
 	}
 
 	@Test
-	void UnEstadoVigenteEsFinalizadoYLaReservaCambiaAFinalizado() {
+	void UnEstadoEnColaEsFinalizadoYLaReservaNoCambiaDeEstado() {
 		estado.finalizar(reserva);
-		verify(reserva).setEstado(isA(Finalizado.class));
+		verify(reserva, never()).setEstado(any());
 	}
 
 	@Test
-	void UnEstadoVigenteEsEncoladoYLaReservaNoCambiaDeEstado() {
+	void UnEstadoEnColaEsEncoladoYLaReservaNoCambiaDeEstado() {
 		estado.encolar(reserva);
 		verify(reserva, never()).setEstado(any());
 	}
 
 	@Test
-	void UnEstadoVigenteEsDesencoladoYLaReservaNoCambiaDeEstado() {
+	void UnEstadoEnColaEsDesencoladoYLaReservaCambiaAPendienteDeAprobacion() {
 		estado.desencolar(reserva);
-		verify(reserva, never()).setEstado(any());
+		verify(reserva).setEstado(any(PendienteDeAprobacion.class));
 	}
 }

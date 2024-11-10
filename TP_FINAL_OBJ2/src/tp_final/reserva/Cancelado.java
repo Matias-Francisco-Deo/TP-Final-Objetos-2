@@ -15,4 +15,14 @@ public class Cancelado implements EstadoDeReserva {
 	public void finalizar(Reserva reserva) {
 		// NOTHING
 	}
+
+	@Override
+	public void encolar(Reserva reserva) {
+		// NOTHING
+	}
+
+	@Override
+	public void desencolar(Reserva reserva) {
+		// NOTHING
+	}
 }

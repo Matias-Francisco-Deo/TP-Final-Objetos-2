@@ -38,4 +38,16 @@ class FinalizadoTest {
 		estado.finalizar(reserva);
 		verify(reserva, never()).setEstado(any());
 	}
+
+	@Test
+	void UnEstadoFinalizadoEsEncoladoYLaReservaNoCambiaDeEstado() {
+		estado.encolar(reserva);
+		verify(reserva, never()).setEstado(any());
+	}
+
+	@Test
+	void UnEstadoFinalizadoEsDesencoladoYLaReservaNoCambiaDeEstado() {
+		estado.desencolar(reserva);
+		verify(reserva, never()).setEstado(any());
+	}
 }

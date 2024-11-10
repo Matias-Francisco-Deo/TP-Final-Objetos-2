@@ -38,4 +38,16 @@ class CanceladoTest {
 		estado.finalizar(reserva);
 		verify(reserva, never()).setEstado(any());
 	}
+
+	@Test
+	void UnEstadoCanceladoEsEncoladoYLaReservaNoCambiaDeEstado() {
+		estado.encolar(reserva);
+		verify(reserva, never()).setEstado(any());
+	}
+
+	@Test
+	void UnEstadoCanceladoEsDesencoladoYLaReservaNoCambiaDeEstado() {
+		estado.desencolar(reserva);
+		verify(reserva, never()).setEstado(any());
+	}
 }

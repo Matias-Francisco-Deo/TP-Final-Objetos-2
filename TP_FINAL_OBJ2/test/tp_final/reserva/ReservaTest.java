@@ -129,7 +129,7 @@ class ReservaTest {
 	// ESTADO VIGENTE
 
 	@Test
-	void unaReservaVigenteEsCanceladaYCambiaSuEstadoACanceladoTest() {
+	void unaReservaVigenteEsCanceladaYCambiaSuEstadoACancelado() {
 		reserva.aprobar();
 		reserva.cancelar();
 		assertEquals(reserva.getEstado().getClass(), Cancelado.class);

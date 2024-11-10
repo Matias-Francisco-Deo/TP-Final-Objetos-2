@@ -39,4 +39,16 @@ class PendienteDeAprobacionTest {
 		estado.finalizar(reserva);
 		verify(reserva, never()).setEstado(any());
 	}
+
+	@Test
+	void UnEstadoPendienteDeAprobacionEsEncoladoYLaReservaCambiaAEnCola() {
+		estado.encolar(reserva);
+		verify(reserva).setEstado(isA(EnCola.class));
+	}
+
+	@Test
+	void UnEstadoPendienteDeAprobacionEsDesencoladoYLaReservaNoCambiaDeEstado() {
+		estado.desencolar(reserva);
+		verify(reserva, never()).setEstado(any());
+	}
 }

@@ -6,4 +6,8 @@ public interface EstadoDeReserva {
 	public void cancelar(Reserva reserva);
 
 	public void finalizar(Reserva reserva);
+
+	public void encolar(Reserva reserva);
+
+	public void desencolar(Reserva reserva);
 }

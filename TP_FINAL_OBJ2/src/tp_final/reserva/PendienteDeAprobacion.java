@@ -17,4 +17,14 @@ public class PendienteDeAprobacion implements EstadoDeReserva {
 	public void finalizar(Reserva reserva) {
 		// NOTHING
 	}
+
+	@Override
+	public void encolar(Reserva reserva) {
+		reserva.setEstado(new EnCola());
+	}
+
+	@Override
+	public void desencolar(Reserva reserva) {
+		// NOTHING
+	}
 }

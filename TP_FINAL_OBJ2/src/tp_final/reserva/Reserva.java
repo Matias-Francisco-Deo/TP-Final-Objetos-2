@@ -110,13 +110,13 @@ public class Reserva {
 	// ENVIO DE CORREOS
 	// ------------------------------------------------------------
 
-	public void enviarCorreoDeAprobacion() {
+	private void enviarCorreoDeAprobacion() {
 		String destinatario = this.getInquilino().getEmail();
 		String asunto = "Reserva aprobada";
 		this.getServidorDeCorreo().enviar(destinatario, asunto, this);
 	}
 
-	public void enviarCorreoDeCancelacion() {
+	private void enviarCorreoDeCancelacion() {
 		String destinatario = this.getPropietario().getEmail();
 		String asunto = "Reserva cancelada";
 		this.getServidorDeCorreo().enviar(destinatario, asunto, this);

@@ -1,6 +1,6 @@
 package tp_final.reserva;
 
-public class Vigente implements EstadoDeReserva {
+public class EnCola implements EstadoDeReserva {
 	@Override
 	public void aprobar(Reserva reserva) {
 		// NOTHING
@@ -14,7 +14,7 @@ public class Vigente implements EstadoDeReserva {
 
 	@Override
 	public void finalizar(Reserva reserva) {
-		reserva.setEstado(new Finalizado());
+		// NOTHING
 	}
 
 	@Override
@@ -24,6 +24,6 @@ public class Vigente implements EstadoDeReserva {
 
 	@Override
 	public void desencolar(Reserva reserva) {
-		// NOTHING
+		reserva.setEstado(new PendienteDeAprobacion());
 	}
 }
