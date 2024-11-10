@@ -10,10 +10,11 @@ public class Libre implements EstadoDeAlquiler {
 	@Override
 	public void alquilar(Reserva reserva, Alquiler alquiler) {
 		if (alquiler.getcolaDeEspera().isEmpty()) {
-			// reserva.encolar
+
 			alquiler.addReserva(reserva);
 		} else {
 			alquiler.addReserva(reserva);
+			// reserva.encolar
 		}
 
 	}
@@ -21,6 +22,9 @@ public class Libre implements EstadoDeAlquiler {
 	@Override
 	public void cancelar(Reserva reserva, Alquiler alquiler) {
 		List<Reserva> cola = alquiler.getcolaDeEspera();
+
+		// reserva.cancelar()
+
 		if (cola.size() > 1 && cola.get(0).equals(reserva)) {
 
 			alquiler.getcolaDeEspera().remove(0);
@@ -29,10 +33,10 @@ public class Libre implements EstadoDeAlquiler {
 		} else {
 			alquiler.getcolaDeEspera().remove(reserva);
 		}
-		// reserva.cancelar()
+
 	}
 
 	private void prepararSiguiente(List<Reserva> cola) {
-		cola.get(0).desencolar();
+		cola.get(0).desencolar(); // cambiar por el metodo de la reserva original
 	}
 }
