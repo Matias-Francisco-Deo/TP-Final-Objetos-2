@@ -44,7 +44,7 @@ public class Alquiler {
 	private List<Usuario> subscriptores;
 
 	Alquiler(Usuario propietario, Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago,
-			double precioBase, PoliticaDeCancelacion politica) {// agregar atributos necesarios
+			double precioBase, PoliticaDeCancelacion politica) {
 		this.inmueble = inmueble;
 		this.propietario = propietario;
 		this.setCheckIn(checkIn);
@@ -97,6 +97,10 @@ public class Alquiler {
 
 	public EstadoDeAlquiler getEstadoDeAlquiler() {
 		return estado;
+	}
+
+	public PoliticaDeCancelacion getPoliticaDeCancelacion() {
+		return this.politicaDeCancelacion;
 	}
 
 	public List<Reserva> getcolaDeEspera() {
@@ -155,14 +159,20 @@ public class Alquiler {
 		this.colaDeEspera.add(reserva);
 	}
 
-	public void reservar(Reserva reserva) {
-		estado.alquilar(reserva, this);
+	public void deleteSubscriptor(Usuario sub) {
+		this.subscriptores.remove(sub);
 	}
 
-	public void cancelarReserva(Reserva reserva) {
-		// reserva.cancelar()?
-		this.estado.cancelar(reserva, this);
-		this.politicaDeCancelacion.aplicarPolitica(reserva, this.getPrecioBase());
+	public boolean esLibre() {
+		return this.estado instanceof Libre;
+	}
+
+	public boolean esAlquilado() {
+		return this.estado instanceof Alquilado;
+	}
+
+	public void reservar(Reserva reserva) {
+		estado.alquilar(reserva, this);
 	}
 
 	public void confirmarReserva(Reserva reserva) {
@@ -174,6 +184,12 @@ public class Alquiler {
 
 		this.getInmueble().sumarCantAlquilado();
 
+	}
+
+	public void cancelarReserva(Reserva reserva) {
+		// reserva.cancelar()?
+		this.estado.cancelar(reserva, this);
+		this.politicaDeCancelacion.aplicarPolitica(reserva, this.getPrecioBase());
 	}
 
 	public void notificarSubs() {
