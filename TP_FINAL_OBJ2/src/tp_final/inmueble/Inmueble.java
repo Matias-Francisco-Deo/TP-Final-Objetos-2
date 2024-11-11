@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import tp_final.usuarios.Usuario;
 import tp_final_extra.Ranking;
 
 public class Inmueble {
 	private String tipoInmueble;// revisar si tipo inmueble es una clase o un string
+
+	private Usuario propietario;
 
 	private double superficie;
 
@@ -29,9 +32,10 @@ public class Inmueble {
 
 	private Ranking ranking;
 
-	Inmueble(String tipo, double superficie, String pais, String ciudad, String direccion, ArrayList<String> servicios,
-			int capacidad, ArrayList<Foto> fotos) {
+	Inmueble(String tipo, Usuario propietario, double superficie, String pais, String ciudad, String direccion,
+			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos) {
 		this.tipoInmueble = tipo;
+		this.propietario = propietario;
 		this.superficie = superficie;
 		this.pais = pais;
 		this.ciudad = ciudad;
@@ -46,6 +50,10 @@ public class Inmueble {
 
 	public String getTipoInmueble() {
 		return tipoInmueble;
+	}
+
+	public Usuario getPropietario() {
+		return propietario;
 	}
 
 	public double getSuperficie() {
@@ -124,7 +132,7 @@ public class Inmueble {
 		promedioPuntajePorCategoria.put(temporada, precio);
 	}
 
-	public void sumarCantAlquilado() {
+	public void aumentarCantDeVecesAlquilado() {
 		this.cantVecesEnAlquiler += 1;
 	}
 }

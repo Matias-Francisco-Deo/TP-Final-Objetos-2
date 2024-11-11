@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tp_final.FotoEjemplo;
+import tp_final.usuarios.Usuario;
 import tp_final_extra.Ranking;
 
 public class InmuebleTest {
@@ -20,17 +21,21 @@ public class InmuebleTest {
 	private Ranking ranking;
 	private Inmueble inmueble;
 	private String casa;
+	private Usuario propietario;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		ranking = mock(Ranking.class);
+
+		propietario = mock(Usuario.class);
 
 		misServicios = new ArrayList<>(Arrays.asList("Agua", "Luz"));
 		misFotos = new ArrayList<>(Arrays.asList(new FotoEjemplo()));
 
 		casa = new String();
 
-		inmueble = new Inmueble(casa, 20, "Argentina", "Quilmes", "mi direccion", misServicios, 4, misFotos);
+		inmueble = new Inmueble(casa, propietario, 20, "Argentina", "Quilmes", "mi direccion", misServicios, 4,
+				misFotos);
 	}
 
 	@Test
@@ -39,6 +44,12 @@ public class InmuebleTest {
 		assertEquals(inmueble.getTipoInmueble(), casa);
 		inmueble.setTipoInmueble(departamento);
 		assertEquals(inmueble.getTipoInmueble(), departamento);
+	}
+
+	@Test
+	void getterPropietarioTest() {
+
+		assertEquals(inmueble.getPropietario(), propietario);
 	}
 
 	@Test
@@ -95,7 +106,7 @@ public class InmuebleTest {
 	@Test
 	void sumaYGetterDeCantAlquiladoTest() {
 		assertEquals(inmueble.getCantVecesEnAlquiler(), 0);
-		inmueble.sumarCantAlquilado();
+		inmueble.aumentarCantDeVecesAlquilado();
 		assertEquals(inmueble.getCantVecesEnAlquiler(), 1);
 	}
 

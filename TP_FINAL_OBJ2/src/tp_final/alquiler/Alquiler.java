@@ -43,8 +43,8 @@ public class Alquiler {
 
 	private List<Usuario> subscriptores;
 
-	Alquiler(Usuario propietario, Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago,
-			double precioBase, PoliticaDeCancelacion politica) {
+	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago, double precioBase,
+			PoliticaDeCancelacion politica) {
 		this.inmueble = inmueble;
 		this.propietario = propietario;
 		this.setCheckIn(checkIn);
@@ -64,7 +64,7 @@ public class Alquiler {
 	}
 
 	public Usuario getPropietario() {
-		return propietario;
+		return (inmueble.getPropietario());
 	}
 
 	public LocalDate getFechaCheckIn() {
@@ -135,8 +135,13 @@ public class Alquiler {
 		this.medioPago = medioPago;
 	}
 
-	public void setPrecioBase(double precioBase) {
-		this.precioBase = precioBase;
+	public void setPrecioBase(double precioNuevo) {
+		if (precioBase < precioNuevo) {
+
+			// this.notificarSubs(this.mesajeDescuento());
+		}
+
+		this.precioBase = precioNuevo;
 	}
 
 	public void setPoliticaDeCancelacion(PoliticaDeCancelacion politica) {
@@ -192,10 +197,19 @@ public class Alquiler {
 		this.politicaDeCancelacion.aplicarPolitica(reserva, this.getPrecioBase());
 	}
 
-	public void notificarSubs() {
+	public void notificarSubs(String mensaje) {
 
 		for (Usuario sub : subscriptores) {
-
+			sub.mandarMensaje(mensaje);// implementar en usuario
 		}
+	}
+
+	private String mesajeDescuento() {
+		return ("“No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
+				+ this.getPrecioBase() + "pesos”.");
+	}
+
+	private String getTipoInmueble() {
+		return this.inmueble.getTipoInmueble();
 	}
 }

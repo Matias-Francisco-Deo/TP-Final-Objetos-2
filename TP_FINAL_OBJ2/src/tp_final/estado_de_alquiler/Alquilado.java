@@ -15,7 +15,7 @@ public class Alquilado implements EstadoDeAlquiler {
 	@Override
 	public void cancelar(Reserva reserva, Alquiler alquiler) {
 
-		List<Reserva> cola = alquiler.getcolaDeEspera();
+		List<Reserva> cola = alquiler.getcolaDeEspera();// mover codigo a alquiler
 		Reserva reservaActual = cola.get(0);
 		// reserva.cancelar()
 		alquiler.getcolaDeEspera().remove(reserva);

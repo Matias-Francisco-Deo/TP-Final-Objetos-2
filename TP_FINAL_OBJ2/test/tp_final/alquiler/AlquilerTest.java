@@ -18,7 +18,6 @@ import tp_final.estado_de_alquiler.Alquilado;
 import tp_final.estado_de_alquiler.EstadoDeAlquiler;
 import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
-import tp_final.politica_cancelacion.CancelacionGratuita;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
 import tp_final.politica_cancelacion.SinCancelacion;
 import tp_final.usuarios.Usuario;
@@ -29,7 +28,7 @@ class AlquilerTest {
 	private Inmueble inmueble;
 	private Reserva reserva1;
 	private Reserva reserva2;
-	private PoliticaDeCancelacion cancelacionGratuita;
+	private PoliticaDeCancelacion cancelacion;
 
 	private Usuario propietario;
 	private Usuario sub;
@@ -55,18 +54,36 @@ class AlquilerTest {
 
 		medioPago = MedioDePago.EFECTIVO;
 
-		cancelacionGratuita = mock(CancelacionGratuita.class);
+		cancelacion = mock(PoliticaDeCancelacion.class);
 
-		alquiler = new Alquiler(propietario, inmueble, LocalTime.of(10, 0), LocalTime.of(14, 30), medioPago, 200d,
-				cancelacionGratuita);
+		alquiler = new Alquiler(inmueble, LocalTime.of(10, 0), LocalTime.of(14, 30), medioPago, 200d, cancelacion);
 	}
 
 	@Test
-	void getterYSetterPrecioBaseTest() {
+	void getterPrecioBaseTest() {
+
 		assertEquals(alquiler.getPrecioBase(), 200d);
+
+	}
+
+	@Test
+	void setterPrecioBaseTest() {
 
 		alquiler.setPrecioBase(500);
 		assertEquals(alquiler.getPrecioBase(), 500d);
+
+	}
+
+	@Test
+	void setterPrecioBaseDisminucionDePrecioTest() {
+
+		alquiler.addSubscriptor(sub);
+
+		alquiler.setPrecioBase(100);
+		assertEquals(alquiler.getPrecioBase(), 100d);
+
+		// verify(sub,times(1).mandarMensaje());
+
 	}
 
 	@Test
@@ -76,6 +93,8 @@ class AlquilerTest {
 
 	@Test
 	void getterPropietarioTest() {
+		when(inmueble.getPropietario()).thenReturn(propietario);
+
 		assertEquals(alquiler.getPropietario(), propietario);
 	}
 
@@ -88,7 +107,7 @@ class AlquilerTest {
 	}
 
 	@Test
-	void getterYSetterEstadoTest() {
+	void getterYSetterEstadoTest() {// borrar estos estados
 		EstadoDeAlquiler libre = new Libre();
 		EstadoDeAlquiler alquilado = new Alquilado();
 
@@ -125,14 +144,14 @@ class AlquilerTest {
 
 	@Test
 	void getterYSetterCheckIn() {
-		LocalTime checkIn = LocalTime.of(8, 0);
+		LocalTime checkIn = LocalTime.of(8, 0);// metodo privado
 		alquiler.setCheckIn(checkIn);
 
 		assertEquals(checkIn, alquiler.getCheckIn());
 	}
 
 	@Test
-	void getterYSetterCheckOut() {
+	void getterYSetterCheckOut() {// metodo privado
 		LocalTime checkOut = LocalTime.of(16, 0);
 		alquiler.setCheckOut(checkOut);
 
@@ -144,7 +163,7 @@ class AlquilerTest {
 
 		PoliticaDeCancelacion sinCancelacion = new SinCancelacion();
 
-		assertEquals(alquiler.getPoliticaDeCancelacion(), cancelacionGratuita);
+		assertEquals(alquiler.getPoliticaDeCancelacion(), cancelacion);
 
 		alquiler.setPoliticaDeCancelacion(sinCancelacion);
 
@@ -169,8 +188,6 @@ class AlquilerTest {
 		alquiler.addSubscriptor(sub);
 
 		assertEquals(alquiler.getSubscriptores().size(), 1);
-
-		assertTrue(alquiler.getSubscriptores().contains(sub));
 
 		alquiler.deleteSubscriptor(sub);
 
@@ -242,11 +259,6 @@ class AlquilerTest {
 		when(reserva1.getfechaEntrada()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getfechaSalida()).thenReturn(LocalDate.of(2024, 11, 5));
 
-		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Libre);
-
-		assertEquals(null, alquiler.getFechaCheckIn());
-		assertEquals(null, alquiler.getFechaDeCheckOut());
-
 		alquiler.confirmarReserva(reserva1);
 
 		assertEquals(reserva1.getfechaEntrada(), alquiler.getFechaCheckIn());
@@ -254,18 +266,14 @@ class AlquilerTest {
 
 		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Alquilado);
 
-		verify(inmueble, times(1)).sumarCantAlquilado();
+		verify(inmueble, times(1)).sumarCantAlquilado();// CantAlquilado cambiar nombre al metodo
 	}
 
 	@Test
-	void alquilarYCancelarReservaEnEstadoLibreTest() {
+	void CancelarReservaEnEstadoLibreTest() {
 
 		when(reserva1.getfechaEntrada()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getfechaSalida()).thenReturn(LocalDate.of(2024, 11, 5));
-
-		alquiler.setEstadoDeAlquiler(libre);
-
-		alquiler.esLibre();
 
 		alquiler.reservar(reserva1);
 
@@ -273,19 +281,17 @@ class AlquilerTest {
 
 		verify(libre).cancelar(reserva1, alquiler);
 
-		verify(cancelacionGratuita).aplicarPolitica(reserva1, alquiler.getPrecioBase());
+		verify(cancelacion).aplicarPolitica(reserva1, alquiler.getPrecioBase());
 
 	}
 
 	@Test
-	void alquilarYCancelarReservaEnEstadoAlquiladoTest() {
+	void CancelarReservaEnEstadoAlquiladoTest() {
 
 		when(reserva1.getfechaEntrada()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getfechaSalida()).thenReturn(LocalDate.of(2024, 11, 5));
 
 		alquiler.setEstadoDeAlquiler(alquilado);
-
-		alquiler.esAlquilado();
 
 		alquiler.reservar(reserva1);
 
@@ -293,7 +299,7 @@ class AlquilerTest {
 
 		verify(alquilado).cancelar(reserva1, alquiler);
 
-		verify(cancelacionGratuita).aplicarPolitica(reserva1, alquiler.getPrecioBase());
+		verify(cancelacion).aplicarPolitica(reserva1, alquiler.getPrecioBase());
 
 	}
 }

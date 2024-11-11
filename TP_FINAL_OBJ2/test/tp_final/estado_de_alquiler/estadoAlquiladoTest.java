@@ -84,7 +84,7 @@ public class estadoAlquiladoTest {
 
 		when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
 
-		alquilado.cancelar(reserva1, alquiler);
+		alquilado.cancelar(reserva1, alquiler);// error en alquilado con notificarsubs
 
 		verify(reserva2).desencolar();
 
@@ -100,7 +100,7 @@ public class estadoAlquiladoTest {
 		colaReservas.add(reserva1);
 		colaReservas.add(reserva2);
 
-		alquilado.cancelar(reserva2, alquiler);
+		alquilado.cancelar(reserva2, alquiler);// error en alquilado con notificarsubs
 		verify(reserva2, never()).desencolar();
 
 	}
