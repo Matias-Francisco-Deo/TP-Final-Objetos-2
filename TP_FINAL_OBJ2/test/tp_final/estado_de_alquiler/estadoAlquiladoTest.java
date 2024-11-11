@@ -1,6 +1,7 @@
 package tp_final.estado_de_alquiler;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -38,6 +39,8 @@ public class estadoAlquiladoTest {
 
 		alquilado = new Alquilado();
 
+		alquiler.setEstadoDeAlquiler(alquilado);
+
 	}
 
 	@Test
@@ -55,6 +58,8 @@ public class estadoAlquiladoTest {
 	@Test
 	void alquiladoCancelarConUnaSolaReservaTest() {
 
+		verify(alquiler).setEstadoDeAlquiler(any(Alquilado.class));
+
 		colaReservas.add(reserva1);
 
 		when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
@@ -63,7 +68,10 @@ public class estadoAlquiladoTest {
 
 		assertTrue(colaReservas.isEmpty());
 
-		// verify(alquiler).getcolaDeEspera();
+		verify(alquiler).notificarSubs();
+
+		verify(alquiler).setEstadoDeAlquiler(any(Libre.class));
+
 	}
 
 	@Test

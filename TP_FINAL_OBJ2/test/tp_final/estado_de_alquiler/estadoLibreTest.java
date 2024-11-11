@@ -1,5 +1,7 @@
 package tp_final.estado_de_alquiler;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -47,7 +49,7 @@ public class estadoLibreTest {
 
 		// verify(reserva1).encolarReserva();
 
-		reset(alquiler);
+		reset(alquiler);// quitar si no arregla otros verify
 
 		colaReservas.add(reserva1);
 
@@ -66,9 +68,15 @@ public class estadoLibreTest {
 		colaReservas.add(reserva1);
 		colaReservas.add(reserva2);
 
+		assertEquals(colaReservas.size(), 2);
+
 		when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
 
 		libre.cancelar(reserva1, alquiler);
+
+		assertEquals(colaReservas.size(), 1);
+
+		assertEquals(colaReservas.get(0), reserva2);
 
 		verify(reserva2).desencolar();
 
@@ -84,7 +92,13 @@ public class estadoLibreTest {
 		colaReservas.add(reserva1);
 		colaReservas.add(reserva2);
 
+		assertEquals(colaReservas.size(), 2);
+
 		libre.cancelar(reserva2, alquiler);
+
+		assertEquals(colaReservas.size(), 1);
+
+		assertEquals(colaReservas.get(0), reserva1);
 
 	}
 
@@ -97,7 +111,11 @@ public class estadoLibreTest {
 
 		colaReservas.add(reserva1);
 
+		assertEquals(colaReservas.size(), 1);
+
 		libre.cancelar(reserva1, alquiler);
+
+		assertTrue(colaReservas.isEmpty());
 
 	}
 
