@@ -1,9 +1,9 @@
-package tp_final.reseña;
+package tp_final.resenia;
 
 import java.util.List;
 
-public interface Reseñable {
-	public List<Reseña> getReseñas();
+public interface Reseniable {
+	public List<Resenia> getResenias();
 
 	public List<Double> getPuntajes();
 

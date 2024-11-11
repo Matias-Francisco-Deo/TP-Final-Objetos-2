@@ -1,6 +1,6 @@
-package tp_final.reseña;
+package tp_final.resenia;
 
-public class Reseña {
+public class Resenia {
 	private double puntaje;
 	private String comentario;
 

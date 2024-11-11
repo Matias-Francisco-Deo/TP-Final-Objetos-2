@@ -1,28 +1,27 @@
-package tp_final.reseña;
+package tp_final.resenia;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ReseñaTest {
-	private Reseña reseña;
+class ReseniaTest {
+	private Resenia resenia;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		// SUT
-		reseña = new Reseña();
+		resenia = new Resenia();
 	}
 
 	@Test
 	void getPuntajeTest() {
-		reseña.setPuntaje(5d);
-		assertEquals(reseña.getPuntaje(), 5d);
+		resenia.setPuntaje(5d);
+		assertEquals(resenia.getPuntaje(), 5d);
 	}
 
 	@Test
 	void getComentarioTest() {
-		reseña.setComentario("Excelente");
-		assertEquals(reseña.getComentario(), "Excelente");
+		resenia.setComentario("Excelente");
+		assertEquals(resenia.getComentario(), "Excelente");
 	}
 }
