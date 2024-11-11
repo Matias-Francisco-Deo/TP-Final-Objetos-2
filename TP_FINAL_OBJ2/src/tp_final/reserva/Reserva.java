@@ -3,6 +3,8 @@ package tp_final.reserva;
 import java.time.LocalDate;
 
 import tp_final.alquiler.Alquiler;
+import tp_final.reseña.CategoriaDeReseñaDeInmueble;
+import tp_final.reseña.Reseña;
 import tp_final.usuarios.Usuario;
 import tp_final.varios.MedioDePago;
 import tp_final.varios.ServidorDeCorreo;
@@ -120,5 +122,39 @@ public class Reserva {
 		String destinatario = this.getPropietario().getEmail();
 		String asunto = "Reserva cancelada";
 		this.getServidorDeCorreo().enviar(destinatario, asunto, this);
+	}
+
+	// ------------------------------------------------------------
+	// RANKEO DE INMUEBLE, INQUILINO Y PROPIETARIO
+	// ------------------------------------------------------------
+
+	// INMUEBLE
+
+	public void rankearInmueble(CategoriaDeReseñaDeInmueble categoria, Reseña reseña) {
+		this.getEstado().rankearInmueble(this, categoria, reseña);
+	}
+
+	public void doRankearInmueble(CategoriaDeReseñaDeInmueble categoria, Reseña reseña) {
+		this.getAlquiler().getInmueble().recibirReseña(categoria, reseña);
+	}
+
+	// INQUILINO
+
+	public void rankearInquilino(Reseña reseña) {
+		this.getEstado().rankearInquilino(this, reseña);
+	}
+
+	public void doRankearInquilino(Reseña reseña) {
+		this.getInquilino().recibirReseña(reseña);
+	}
+
+	// PROPIETARIO
+
+	public void rankearPropietario(Reseña reseña) {
+		this.getEstado().rankearPropietario(this, reseña);
+	}
+
+	public void doRankearPropietario(Reseña reseña) {
+		this.getPropietario().recibirReseña(reseña);
 	}
 }

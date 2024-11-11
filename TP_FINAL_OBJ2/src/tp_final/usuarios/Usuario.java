@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tp_final.reserva.Reserva;
+import tp_final.reseña.Reseña;
+import tp_final.reseña.Reseñable;
 
-public class Usuario {
+public class Usuario implements Reseñable {
 	private String nombre;
 	private String email;
 	private String telefono;
 	private List<Reserva> reservas = new ArrayList<Reserva>();
+	private List<Reseña> reseñas = new ArrayList<Reseña>();
 
 	public Usuario(String nombre, String email, String telefono) {
 		this.setNombre(nombre);
@@ -18,9 +21,9 @@ public class Usuario {
 		this.setTelefono(telefono);
 	}
 
-	// ------------------------------
-	// GETTERS & SETTERS
-	// ------------------------------
+	// ------------------------------------------------------------
+	// NOMBRE, EMAIL Y TELEFONO
+	// ------------------------------------------------------------
 
 	public String getNombre() {
 		return this.nombre;
@@ -46,9 +49,9 @@ public class Usuario {
 		this.telefono = telefono;
 	}
 
-	// ------------------------------
-	// RESERVAS
-	// ------------------------------
+	// ------------------------------------------------------------
+	// ACCIONES DE RESERVA
+	// ------------------------------------------------------------
 
 	public List<Reserva> getReservas() {
 		return this.reservas;
@@ -73,5 +76,33 @@ public class Usuario {
 
 	public List<String> getCiudadesConReserva() {
 		return this.getReservas().stream().map(reserva -> reserva.getCiudad()).toList();
+	}
+
+	// ------------------------------------------------------------
+	// RESEÑAS DE INQUILINO
+	// ------------------------------------------------------------
+
+	@Override
+	public List<Reseña> getReseñas() {
+		return this.reseñas;
+	}
+
+	public void recibirReseña(Reseña reseña) {
+		this.getReseñas().add(reseña);
+	}
+
+	@Override
+	public List<Double> getPuntajes() {
+		return this.getReseñas().stream().map(reseña -> reseña.getPuntaje()).toList();
+	}
+
+	@Override
+	public double getPuntajePromedio() {
+		return this.getPuntajes().stream().mapToDouble(puntaje -> puntaje).average().orElse(0);
+	}
+
+	@Override
+	public List<String> getComentarios() {
+		return this.getReseñas().stream().map(reseña -> reseña.getComentario()).toList();
 	}
 }
