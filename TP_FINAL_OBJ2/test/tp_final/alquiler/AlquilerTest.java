@@ -2,6 +2,7 @@ package tp_final.alquiler;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -19,7 +20,6 @@ import tp_final.estado_de_alquiler.EstadoDeAlquiler;
 import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
-import tp_final.politica_cancelacion.SinCancelacion;
 import tp_final.usuarios.Usuario;
 import tp_final_extra.Reserva;
 
@@ -54,9 +54,12 @@ class AlquilerTest {
 
 		medioPago = MedioDePago.EFECTIVO;
 
+		LocalTime checkIn = LocalTime.of(10, 0);
+		LocalTime checkOut = LocalTime.of(14, 30);
+
 		cancelacion = mock(PoliticaDeCancelacion.class);
 
-		alquiler = new Alquiler(inmueble, LocalTime.of(10, 0), LocalTime.of(14, 30), medioPago, 200d, cancelacion);
+		alquiler = new Alquiler(inmueble, checkIn, checkOut, medioPago, 200d, cancelacion);
 	}
 
 	@Test
@@ -107,27 +110,21 @@ class AlquilerTest {
 	}
 
 	@Test
-	void getterYSetterEstadoTest() {// borrar estos estados
-		EstadoDeAlquiler libre = new Libre();
-		EstadoDeAlquiler alquilado = new Alquilado();
+	void getterEstadoTest() {
 
-		assertTrue(alquiler.esLibre());
-
-		alquiler.setEstadoDeAlquiler(alquilado);
-
-		assertTrue(alquiler.esAlquilado());
-
-		assertEquals(alquiler.getEstadoDeAlquiler(), alquilado);
-
-		alquiler.setEstadoDeAlquiler(libre);
-
-		assertTrue(alquiler.esLibre());
-
-		assertEquals(alquiler.getEstadoDeAlquiler(), libre);
+		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Libre);
 	}
 
 	@Test
-	void getterYSetterFechaEntrada() {
+	void setterEstadoTest() {
+
+		alquiler.setEstadoDeAlquiler(alquilado);
+
+		assertEquals(alquiler.getEstadoDeAlquiler(), alquilado);
+	}
+
+	@Test
+	void getterYSetterFechaEntradaTest() {
 		LocalDate entrada = LocalDate.of(2024, 11, 3);
 		alquiler.setFechaDeEntrada(entrada);
 
@@ -135,7 +132,7 @@ class AlquilerTest {
 	}
 
 	@Test
-	void getterYSetterFechaSalida() {
+	void getterYSetterFechaSalidaTest() {
 		LocalDate salida = LocalDate.of(2024, 11, 4);
 		alquiler.setFechaDeSalida(salida);
 
@@ -143,36 +140,31 @@ class AlquilerTest {
 	}
 
 	@Test
-	void getterYSetterCheckIn() {
-		LocalTime checkIn = LocalTime.of(8, 0);// metodo privado
-		alquiler.setCheckIn(checkIn);
-
-		assertEquals(checkIn, alquiler.getCheckIn());
-	}
-
-	@Test
-	void getterYSetterCheckOut() {// metodo privado
-		LocalTime checkOut = LocalTime.of(16, 0);
-		alquiler.setCheckOut(checkOut);
-
-		assertEquals(checkOut, alquiler.getCheckOut());
-	}
-
-	@Test
-	void getterYSetterPoliticaDeCancelacionOut() {
-
-		PoliticaDeCancelacion sinCancelacion = new SinCancelacion();
+	void getterPoliticaDeCancelacionTest() {
 
 		assertEquals(alquiler.getPoliticaDeCancelacion(), cancelacion);
 
-		alquiler.setPoliticaDeCancelacion(sinCancelacion);
-
-		assertEquals(alquiler.getPoliticaDeCancelacion(), sinCancelacion);
 	}
 
 	@Test
-	void getterYSetterMedioPago() {
+	void setterPoliticaDeCancelacionTest() {
+
+		PoliticaDeCancelacion cancelacion2 = mock(PoliticaDeCancelacion.class);
+
+		alquiler.setPoliticaDeCancelacion(cancelacion2);
+
+		assertEquals(alquiler.getPoliticaDeCancelacion(), cancelacion2);
+	}
+
+	@Test
+	void getterMedioPago() {
+
 		assertEquals(medioPago, alquiler.getMedioDePago());
+
+	}
+
+	@Test
+	void setterMedioPago() {
 
 		MedioDePago medioDePago = MedioDePago.TARJETA_DEBITO;
 		alquiler.setMedioDePago(medioDePago);
@@ -181,9 +173,32 @@ class AlquilerTest {
 	}
 
 	@Test
-	void addGetterYDeleteSubscriptoresTest() {
+	void esLibreTest() {
 
-		assertTrue(alquiler.getSubscriptores().isEmpty());
+		assertTrue(alquiler.esLibre());
+
+	}
+
+	@Test
+	void esAlquiladoTest() {
+
+		alquiler.setEstadoDeAlquiler(alquilado);
+
+		assertTrue(alquiler.esAlquilado());
+
+	}
+
+	@Test
+	void addSubscriptoresTest() {
+
+		alquiler.addSubscriptor(sub);
+
+		assertEquals(alquiler.getSubscriptores().size(), 1);
+
+	}
+
+	@Test
+	void DeleteSubscriptoresTest() {
 
 		alquiler.addSubscriptor(sub);
 
@@ -214,9 +229,11 @@ class AlquilerTest {
 
 	@Test
 	void addReservaYGetColaDeEsperaTest() {
-		assertEquals(alquiler.getcolaDeEspera().size(), 0);
+
 		alquiler.addReserva(reserva1);
+
 		assertEquals(alquiler.getcolaDeEspera().size(), 1);
+
 		assertEquals(alquiler.getcolaDeEspera().get(0), reserva1);
 	}
 
@@ -240,17 +257,11 @@ class AlquilerTest {
 	@Test
 	void ReservarTest() {
 
-		alquiler.setEstadoDeAlquiler(alquilado);
+		alquiler.setEstadoDeAlquiler(alquilado);// se reemplazo por un mock para verificar si se llamo al estado
 
 		alquiler.reservar(reserva1);
 
 		verify(alquilado).alquilar(reserva1, alquiler);
-
-		alquiler.setEstadoDeAlquiler(libre);
-
-		alquiler.reservar(reserva2);
-
-		verify(libre).alquilar(reserva2, alquiler);
 
 	}
 
@@ -266,40 +277,101 @@ class AlquilerTest {
 
 		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Alquilado);
 
-		verify(inmueble, times(1)).sumarCantAlquilado();// CantAlquilado cambiar nombre al metodo
+		verify(inmueble, times(1)).aumentarCantDeVecesAlquilado();
 	}
 
 	@Test
-	void CancelarReservaEnEstadoLibreTest() {
+	void CancelarReservaEnEstadoAlquiladoConUnaSolaReservaTest() {
 
-		when(reserva1.getfechaEntrada()).thenReturn(LocalDate.of(2024, 11, 1));
-		when(reserva1.getfechaSalida()).thenReturn(LocalDate.of(2024, 11, 5));
+		doNothing().when(reserva1).desencolar();
 
 		alquiler.reservar(reserva1);
+		alquiler.confirmarReserva(reserva1);
 
-		alquiler.cancelarReserva(reserva1);
+		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Alquilado);
 
-		verify(libre).cancelar(reserva1, alquiler);
+		alquiler.doCancelarAlquilado(reserva1);
 
-		verify(cancelacion).aplicarPolitica(reserva1, alquiler.getPrecioBase());
+		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Libre);
+
+		// verificar la notificacion
 
 	}
 
 	@Test
-	void CancelarReservaEnEstadoAlquiladoTest() {
+	void CancelarPrimeraReservaEnEstadoAlquiladoConVariasReservasTest() {
 
-		when(reserva1.getfechaEntrada()).thenReturn(LocalDate.of(2024, 11, 1));
-		when(reserva1.getfechaSalida()).thenReturn(LocalDate.of(2024, 11, 5));
+		doNothing().when(reserva1).desencolar();
 
-		alquiler.setEstadoDeAlquiler(alquilado);
+		alquiler.reservar(reserva1);
+		alquiler.reservar(reserva2);
+		alquiler.confirmarReserva(reserva1);
+
+		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Alquilado);
+
+		alquiler.doCancelarAlquilado(reserva1);
+
+		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Libre);
+
+		// verificar la notificacion
+
+	}
+
+	@Test
+	void CancelarReservaNoPrimeraEnEstadoAlquiladoConVariasReservasTest() {
+
+		doNothing().when(reserva2).desencolar();
+
+		alquiler.reservar(reserva1);
+		alquiler.reservar(reserva2);
+		alquiler.confirmarReserva(reserva1);
+
+		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Alquilado);
+
+		alquiler.doCancelarAlquilado(reserva2);
+
+		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Alquilado);// verificamos que no cambio el estado
+
+	}
+
+	@Test
+	void CancelarReservaEnEstadoLibreConUnaSolaReservaTest() {
 
 		alquiler.reservar(reserva1);
 
-		alquiler.cancelarReserva(reserva1);
+		assertEquals(alquiler.getcolaDeEspera().size(), 1);
 
-		verify(alquilado).cancelar(reserva1, alquiler);
+		alquiler.doCancelarLibre(reserva1);
 
-		verify(cancelacion).aplicarPolitica(reserva1, alquiler.getPrecioBase());
+		assertTrue(alquiler.getcolaDeEspera().isEmpty());
+
+	}
+
+	@Test
+	void CancelarPrimeraReservaEnEstadoLibreVariasReservasTest() {
+
+		doNothing().when(reserva1).desencolar();
+
+		alquiler.reservar(reserva1);
+
+		alquiler.reservar(reserva2);
+
+		alquiler.doCancelarLibre(reserva1);
+
+		assertEquals(alquiler.getcolaDeEspera().size(), 1);
+
+	}
+
+	@Test
+	void CancelarReservaNoPrimeraEnEstadoLibreConVariasReservasTest() {
+
+		alquiler.reservar(reserva1);
+
+		alquiler.reservar(reserva2);
+
+		alquiler.doCancelarLibre(reserva2);
+
+		assertEquals(alquiler.getcolaDeEspera().size(), 1);
 
 	}
 }

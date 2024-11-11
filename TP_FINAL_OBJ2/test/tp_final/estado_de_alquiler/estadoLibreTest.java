@@ -1,9 +1,9 @@
 package tp_final.estado_de_alquiler;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -61,62 +61,72 @@ public class estadoLibreTest {
 	}
 
 	@Test
-	void libreCancelarPimeraConMasDeUnaReservaTest() {
+	void cancelarTest() {
 
 		List<Reserva> colaReservas = new ArrayList<>();
 
 		colaReservas.add(reserva1);
-		colaReservas.add(reserva2);
 
-		assertEquals(colaReservas.size(), 2);
+		doNothing().when(alquiler).doCancelarAlquilado(reserva1);
 
-		when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
+		libre.cancelar(reserva1, alquiler);// error en alquilado con notificarsubs
 
-		libre.cancelar(reserva1, alquiler);
-
-		assertEquals(colaReservas.size(), 1);
-
-		assertEquals(colaReservas.get(0), reserva2);
-
-		verify(reserva2).desencolar();
+		verify(alquiler, times(1)).doCancelarLibre(reserva1);
 
 	}
-
-	@Test
-	void libreCancelarConMasDeUnaReservaYNoLaPrimeraTest() {
-
-		List<Reserva> colaReservas = new ArrayList<>();
-
-		when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
-
-		colaReservas.add(reserva1);
-		colaReservas.add(reserva2);
-
-		assertEquals(colaReservas.size(), 2);
-
-		libre.cancelar(reserva2, alquiler);
-
-		assertEquals(colaReservas.size(), 1);
-
-		assertEquals(colaReservas.get(0), reserva1);
-
-	}
-
-	@Test
-	void libreCancelarConUnaSolaReservaTest() {
-
-		List<Reserva> colaReservas = new ArrayList<>();
-
-		when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
-
-		colaReservas.add(reserva1);
-
-		assertEquals(colaReservas.size(), 1);
-
-		libre.cancelar(reserva1, alquiler);
-
-		assertTrue(colaReservas.isEmpty());
-
-	}
-
+	/*
+	 * @Test void libreCancelarPimeraConMasDeUnaReservaTest() {
+	 *
+	 * List<Reserva> colaReservas = new ArrayList<>();
+	 *
+	 * colaReservas.add(reserva1); colaReservas.add(reserva2);
+	 *
+	 * assertEquals(colaReservas.size(), 2);
+	 *
+	 * when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
+	 *
+	 * libre.cancelar(reserva1, alquiler);
+	 *
+	 * assertEquals(colaReservas.size(), 1);
+	 *
+	 * assertEquals(colaReservas.get(0), reserva2);
+	 *
+	 * verify(reserva2).desencolar();
+	 *
+	 * }
+	 *
+	 * @Test void libreCancelarConMasDeUnaReservaYNoLaPrimeraTest() {
+	 *
+	 * List<Reserva> colaReservas = new ArrayList<>();
+	 *
+	 * when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
+	 *
+	 * colaReservas.add(reserva1); colaReservas.add(reserva2);
+	 *
+	 * assertEquals(colaReservas.size(), 2);
+	 *
+	 * libre.cancelar(reserva2, alquiler);
+	 *
+	 * assertEquals(colaReservas.size(), 1);
+	 *
+	 * assertEquals(colaReservas.get(0), reserva1);
+	 *
+	 * }
+	 *
+	 * @Test void libreCancelarConUnaSolaReservaTest() {
+	 *
+	 * List<Reserva> colaReservas = new ArrayList<>();
+	 *
+	 * when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
+	 *
+	 * colaReservas.add(reserva1);
+	 *
+	 * assertEquals(colaReservas.size(), 1);
+	 *
+	 * libre.cancelar(reserva1, alquiler);
+	 *
+	 * assertTrue(colaReservas.isEmpty());
+	 *
+	 * }
+	 */
 }

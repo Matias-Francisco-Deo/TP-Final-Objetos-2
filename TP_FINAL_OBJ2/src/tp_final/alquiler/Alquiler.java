@@ -17,8 +17,6 @@ import tp_final_extra.Reserva;
 
 public class Alquiler {
 
-	private Usuario propietario;
-
 	private Inmueble inmueble;
 
 	private LocalDate fechaEntrada;
@@ -46,7 +44,6 @@ public class Alquiler {
 	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago, double precioBase,
 			PoliticaDeCancelacion politica) {
 		this.inmueble = inmueble;
-		this.propietario = propietario;
 		this.setCheckIn(checkIn);
 		this.setCheckOut(checkOut);
 		this.setMedioDePago(medioDePago);
@@ -75,11 +72,11 @@ public class Alquiler {
 		return fechaSalida;
 	}
 
-	public LocalTime getCheckIn() {
+	private LocalTime getCheckIn() {
 		return checkIn;
 	}
 
-	public LocalTime getCheckOut() {
+	private LocalTime getCheckOut() {
 		return checkOut;
 	}
 
@@ -123,11 +120,11 @@ public class Alquiler {
 		this.fechaSalida = fechaSalida;
 	}
 
-	public void setCheckIn(LocalTime checkIn) {
+	private void setCheckIn(LocalTime checkIn) {
 		this.checkIn = checkIn;
 	}
 
-	public void setCheckOut(LocalTime checkOut) {
+	private void setCheckOut(LocalTime checkOut) {
 		this.checkOut = checkOut;
 	}
 
@@ -187,12 +184,12 @@ public class Alquiler {
 		this.setFechaDeEntrada(reserva.getfechaEntrada());
 		this.setFechaDeSalida(reserva.getfechaSalida());
 
-		this.getInmueble().sumarCantAlquilado();
+		this.getInmueble().aumentarCantDeVecesAlquilado();
 
 	}
 
 	public void cancelarReserva(Reserva reserva) {
-		// reserva.cancelar()?
+
 		this.estado.cancelar(reserva, this);
 		this.politicaDeCancelacion.aplicarPolitica(reserva, this.getPrecioBase());
 	}
@@ -209,7 +206,47 @@ public class Alquiler {
 				+ this.getPrecioBase() + "pesos”.");
 	}
 
+	private String mesajeCancelacion() {
+		return ("“No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
+				+ this.getPrecioBase() + "pesos”.");
+	}
+
 	private String getTipoInmueble() {
 		return this.inmueble.getTipoInmueble();
 	}
+
+	public void doCancelarAlquilado(Reserva reserva) {
+
+		List<Reserva> cola = this.getcolaDeEspera();
+		Reserva reservaActual = cola.get(0);
+		// reserva.cancelar()
+		this.getcolaDeEspera().remove(reserva);
+
+		if (cola.isEmpty()) {
+			this.setEstadoDeAlquiler(new Libre());
+			// this.notificarSubs(this.mesajeCancelacion());
+		} else if (!cola.get(0).equals(reservaActual)) {
+			this.setEstadoDeAlquiler(new Libre());
+			// this.notificarSubs(this.mesajeCancelacion());
+			cola.get(0).desencolar();
+		}
+
+	}
+
+	public void doCancelarLibre(Reserva reserva) {
+		List<Reserva> cola = this.getcolaDeEspera();
+
+		// reserva.cancelar()
+
+		if (cola.size() > 1 && cola.get(0).equals(reserva)) {
+
+			this.getcolaDeEspera().remove(0);
+
+			cola.get(0).desencolar();
+		} else {
+			this.getcolaDeEspera().remove(reserva);
+		}
+
+	}
+
 }
