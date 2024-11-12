@@ -12,9 +12,9 @@ import tp_final.estado_de_alquiler.EstadoDeAlquiler;
 import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
-import tp_final.reserva.Reserva;
 import tp_final.suscriptores.Suscriptor;
 import tp_final.usuarios.Usuario;
+import tp_final_extra.Reserva;//reemplazar por el reserva real
 
 public class Alquiler {
 
@@ -50,7 +50,7 @@ public class Alquiler {
 		this.setMedioDePago(medioDePago);
 		this.precioTemporadas = new HashMap<>();
 		this.colaDeEspera = new ArrayList<>();
-		this.setPrecioBase(precioBase);
+		this.precioBase = precioBase;
 		this.setPoliticaDeCancelacion(politica);
 		this.estado = new Libre();
 		this.colaDeEspera = new ArrayList<>();
@@ -134,12 +134,15 @@ public class Alquiler {
 	}
 
 	public void setPrecioBase(double precioNuevo) {
-		if (precioBase < precioNuevo) {
-
-			// this.notificarSubs(this.mesajeDescuento());
-		}
+		double precioantiguo = precioBase;
 
 		this.precioBase = precioNuevo;
+
+		if (precioBase < precioantiguo) {
+
+			this.notificarSubs(this.mesajeDescuento());
+		}
+
 	}
 
 	public void setPoliticaDeCancelacion(PoliticaDeCancelacion politica) {
@@ -202,12 +205,12 @@ public class Alquiler {
 		}
 	}
 
-	private String mesajeDescuento() {
-		return ("“No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
-				+ this.getPrecioBase() + "pesos”.");
+	public String mesajeDescuento() {
+		return ("No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
+				+ this.getPrecioBase() + "pesos.");
 	}
 
-	private String mesajeCancelacion() {
+	public String mesajeCancelacion() {
 		return ("“No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
 				+ this.getPrecioBase() + "pesos”.");
 	}
@@ -220,15 +223,19 @@ public class Alquiler {
 
 		List<Reserva> cola = this.getcolaDeEspera();
 		Reserva reservaActual = cola.get(0);
-		// reserva.cancelar()
+
 		this.getcolaDeEspera().remove(reserva);
 
 		if (cola.isEmpty()) {
 			this.setEstadoDeAlquiler(new Libre());
-			// this.notificarSubs(this.mesajeCancelacion());
+
+			this.notificarSubs(this.mesajeCancelacion());
+
 		} else if (!cola.get(0).equals(reservaActual)) {
 			this.setEstadoDeAlquiler(new Libre());
-			// this.notificarSubs(this.mesajeCancelacion());
+
+			this.notificarSubs(this.mesajeCancelacion());
+
 			cola.get(0).desencolar();
 		}
 

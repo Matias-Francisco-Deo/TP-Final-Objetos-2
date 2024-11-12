@@ -86,7 +86,7 @@ class AlquilerTest {
 		alquiler.setPrecioBase(100);
 		assertEquals(alquiler.getPrecioBase(), 100d);
 
-		// verify(sub,times(1).mandarMensaje());
+		verify(sub).mandarMensaje(alquiler.mesajeDescuento());
 
 	}
 
@@ -239,30 +239,40 @@ class AlquilerTest {
 	}
 
 	@Test
-	void subscriptoresTest() {
-
-		when(reserva1.getfechaEntrada()).thenReturn(LocalDate.of(2024, 11, 1));
-		when(reserva1.getfechaSalida()).thenReturn(LocalDate.of(2024, 11, 5));
-
-		alquiler.reservar(reserva1);
-		alquiler.confirmarReserva(reserva1);
+	void notificarSubscriptoresTest() {
 
 		alquiler.addSubscriptor(sub);
 
-		alquiler.cancelarReserva(reserva1);
+		alquiler.notificarSubs(alquiler.mesajeCancelacion());
 
-		assertEquals("notificado", sub.getNotificacion());// va a tener que cambiar por el de usuario real
-		assertEquals(alquiler.getSubscriptores().size(), 1);
+		alquiler.notificarSubs(alquiler.mesajeDescuento());
+
+		verify(sub).mandarMensaje(alquiler.mesajeCancelacion());
+
+		verify(sub).mandarMensaje(alquiler.mesajeDescuento());
 	}
 
 	@Test
-	void ReservarTest() {
+	void reservarTest() {
 
 		alquiler.setEstadoDeAlquiler(alquilado);// se reemplazo por un mock para verificar si se llamo al estado
 
 		alquiler.reservar(reserva1);
 
 		verify(alquilado).alquilar(reserva1, alquiler);
+
+	}
+
+	@Test
+	void cancelarReservarTest() {
+
+		alquiler.setEstadoDeAlquiler(alquilado);// se reemplazo por un mock para verificar si se llamo al estado
+
+		alquiler.reservar(reserva1);
+
+		alquiler.cancelarReserva(reserva1);
+
+		verify(alquilado).cancelar(reserva1, alquiler);
 
 	}
 
@@ -286,6 +296,8 @@ class AlquilerTest {
 
 		doNothing().when(reserva1).desencolar();
 
+		alquiler.addSubscriptor(sub);
+
 		alquiler.reservar(reserva1);
 		alquiler.confirmarReserva(reserva1);
 
@@ -295,7 +307,7 @@ class AlquilerTest {
 
 		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Libre);
 
-		// verificar la notificacion
+		verify(sub).mandarMensaje(alquiler.mesajeCancelacion());
 
 	}
 
@@ -303,6 +315,8 @@ class AlquilerTest {
 	void CancelarPrimeraReservaEnEstadoAlquiladoConVariasReservasTest() {
 
 		doNothing().when(reserva1).desencolar();
+
+		alquiler.addSubscriptor(sub);
 
 		alquiler.reservar(reserva1);
 		alquiler.reservar(reserva2);
@@ -314,7 +328,7 @@ class AlquilerTest {
 
 		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Libre);
 
-		// verificar la notificacion
+		verify(sub).mandarMensaje(alquiler.mesajeCancelacion());
 
 	}
 

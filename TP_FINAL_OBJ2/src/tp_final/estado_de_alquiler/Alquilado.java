@@ -1,7 +1,7 @@
 package tp_final.estado_de_alquiler;
 
 import tp_final.alquiler.Alquiler;
-import tp_final_extra.Reserva;
+import tp_final_extra.Reserva;//reemplazar por el reserva real
 
 public class Alquilado implements EstadoDeAlquiler {
 
