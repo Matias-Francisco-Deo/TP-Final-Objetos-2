@@ -20,6 +20,7 @@ import tp_final.estado_de_alquiler.EstadoDeAlquiler;
 import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
+import tp_final.suscriptores.Suscriptor;
 import tp_final.usuarios.Usuario;
 import tp_final_extra.Reserva;
 
@@ -31,7 +32,7 @@ class AlquilerTest {
 	private PoliticaDeCancelacion cancelacion;
 
 	private Usuario propietario;
-	private Usuario sub;
+	private Suscriptor sub;
 
 	private MedioDePago medioPago;
 
@@ -44,7 +45,7 @@ class AlquilerTest {
 		inmueble = mock(Inmueble.class);
 		propietario = mock(Usuario.class);
 
-		sub = mock(Usuario.class);
+		sub = mock(Suscriptor.class);
 
 		libre = mock(Libre.class);
 		alquilado = mock(Alquilado.class);

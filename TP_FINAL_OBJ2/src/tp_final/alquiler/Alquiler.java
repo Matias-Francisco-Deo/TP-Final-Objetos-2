@@ -12,8 +12,9 @@ import tp_final.estado_de_alquiler.EstadoDeAlquiler;
 import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
+import tp_final.reserva.Reserva;
+import tp_final.suscriptores.Suscriptor;
 import tp_final.usuarios.Usuario;
-import tp_final_extra.Reserva;
 
 public class Alquiler {
 
@@ -39,7 +40,7 @@ public class Alquiler {
 
 	private List<Reserva> colaDeEspera;
 
-	private List<Usuario> subscriptores;
+	private List<Suscriptor> subscriptores;
 
 	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago, double precioBase,
 			PoliticaDeCancelacion politica) {
@@ -104,7 +105,7 @@ public class Alquiler {
 		return this.colaDeEspera;
 	}
 
-	public List<Usuario> getSubscriptores() {
+	public List<Suscriptor> getSubscriptores() {
 		return subscriptores;
 	}
 
@@ -149,7 +150,7 @@ public class Alquiler {
 		this.estado = estado;
 	}
 
-	public void addSubscriptor(Usuario sub) {
+	public void addSubscriptor(Suscriptor sub) {
 		subscriptores.add(sub);
 	}
 
@@ -161,7 +162,7 @@ public class Alquiler {
 		this.colaDeEspera.add(reserva);
 	}
 
-	public void deleteSubscriptor(Usuario sub) {
+	public void deleteSubscriptor(Suscriptor sub) {
 		this.subscriptores.remove(sub);
 	}
 
@@ -196,7 +197,7 @@ public class Alquiler {
 
 	public void notificarSubs(String mensaje) {
 
-		for (Usuario sub : subscriptores) {
+		for (Suscriptor sub : subscriptores) {
 			sub.mandarMensaje(mensaje);// implementar en usuario
 		}
 	}
@@ -211,7 +212,7 @@ public class Alquiler {
 				+ this.getPrecioBase() + "pesos”.");
 	}
 
-	private String getTipoInmueble() {
+	public String getTipoInmueble() {
 		return this.inmueble.getTipoInmueble();
 	}
 
