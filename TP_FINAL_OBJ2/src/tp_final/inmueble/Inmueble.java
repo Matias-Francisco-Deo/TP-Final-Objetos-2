@@ -128,8 +128,8 @@ public class Inmueble {
 		this.fotos.add(foto);
 	}
 
-	public void addPuntajePorCategoria(String temporada, Double precio) {
-		promedioPuntajePorCategoria.put(temporada, precio);
+	public void addPuntajePorCategoria(String temporada, Double valor) {
+		promedioPuntajePorCategoria.put(temporada, valor);
 	}
 
 	public void aumentarCantDeVecesAlquilado() {
