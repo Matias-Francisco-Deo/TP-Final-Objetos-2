@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tp_final.alquiler.Alquiler;
+import tp_final.búsqueda.FiltroDefault;
 import tp_final.inmueble.Inmueble;
 import tp_final.usuarios.Usuario;
 
@@ -36,6 +37,11 @@ public class SitioWeb {
 	public List<Inmueble> getInmuebles() {
 
 		return this.getUsuarios().stream().flatMap(usuario -> usuario.getInmuebles().stream()).toList();
+	}
+
+	public List<Alquiler> buscar(FiltroDefault filtro) {
+		return filtro.filtrar(this.getAlquileres());
+
 	}
 
 }
