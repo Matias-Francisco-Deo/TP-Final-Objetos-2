@@ -1,7 +1,5 @@
 package tp_final.búsqueda;
 
-import java.util.List;
-
 import tp_final.alquiler.Alquiler;
 
 public class FiltroCiudad implements ParámetroDeBúsqueda {
@@ -12,17 +10,18 @@ public class FiltroCiudad implements ParámetroDeBúsqueda {
 		this.setCiudad(ciudad);
 	}
 
-	@Override
-	public List<Alquiler> filtrar(List<Alquiler> alquileres) {
-		return alquileres.stream().filter(alquiler -> alquiler.getCiudad() == this.getCiudad()).toList();
-	}
-
 	private String getCiudad() {
 		return ciudad;
 	}
 
 	private void setCiudad(String ciudad) {
 		this.ciudad = ciudad;
+	}
+
+	@Override
+	public boolean esVálido(Alquiler alquiler) {
+		// TODO Auto-generated method stub
+		return alquiler.getCiudad() == this.getCiudad();
 	}
 
 }

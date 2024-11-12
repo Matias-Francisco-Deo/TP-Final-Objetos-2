@@ -1,10 +1,10 @@
 package tp_final.búsqueda;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +26,6 @@ class FiltroCiudadTest {
 		String ciudad = "Lanús";
 		filtro = new FiltroCiudad(ciudad);
 		alquiler1 = mock(Alquiler.class);
-		alquiler2 = mock(Alquiler.class);
-		alquiler3 = mock(Alquiler.class);
-		alquileres = Arrays.asList(alquiler1, alquiler2, alquiler3);
 
 	}
 
@@ -36,29 +33,25 @@ class FiltroCiudadTest {
 	void testFiltroCiudadFiltraPorAlquileresEnLaMismaCiudad() {
 		// setup
 		when(alquiler1.getCiudad()).thenReturn("Lanús");
-		when(alquiler2.getCiudad()).thenReturn("Lanús");
-		when(alquiler3.getCiudad()).thenReturn("Quilmes");
 
 		// exercise
-		List<Alquiler> filtrado = filtro.filtrar(alquileres);
+		boolean filtrado = filtro.esVálido(alquiler1);
 
 		// verify
-		assertEquals(Arrays.asList(alquiler1, alquiler2), filtrado);
+		assertTrue(filtrado);
 
 	}
 
 	@Test
-	void testFiltroNoDevuelveNadaSiNoCumpleNingúnAlquiler() {
+	void testFiltroCiudadNoDejaPasarSiLaCiudadDelAlquilerEsDistinta() {
 		// setup
-		when(alquiler1.getCiudad()).thenReturn("Avellaneda");
-		when(alquiler2.getCiudad()).thenReturn("El Pato");
-		when(alquiler3.getCiudad()).thenReturn("Quilmes");
+		when(alquiler1.getCiudad()).thenReturn("Quilmes");
 
 		// exercise
-		List<Alquiler> filtrado = filtro.filtrar(alquileres);
+		boolean filtrado = filtro.esVálido(alquiler1);
 
 		// verify
-		assertEquals(Arrays.asList(), filtrado);
+		assertFalse(filtrado);
 
 	}
 

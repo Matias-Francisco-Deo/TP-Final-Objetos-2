@@ -1,12 +1,11 @@
 package tp_final.búsqueda;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,51 +14,41 @@ import tp_final.alquiler.Alquiler;
 
 class FiltroFechaSalidaTest {
 
-	private FiltroFechaSalida filtro;
+	private FiltroFechaEntrada filtro;
 	private Alquiler alquiler1;
-	private Alquiler alquiler2;
-	private Alquiler alquiler3;
-	private List<Alquiler> alquileres;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		// setup
-		LocalDate fechaSalida = LocalDate.of(2025, 1, 10);
-		filtro = new FiltroFechaSalida(fechaSalida);
+		LocalDate fechaEntrada = LocalDate.of(2024, 12, 15);
+		filtro = new FiltroFechaEntrada(fechaEntrada);
 		alquiler1 = mock(Alquiler.class);
-		alquiler2 = mock(Alquiler.class);
-		alquiler3 = mock(Alquiler.class);
-		alquileres = Arrays.asList(alquiler1, alquiler2, alquiler3);
 
 	}
 
 	@Test
-	void testFiltroFechaSalidaFiltraPorAlquileresConLaMismaFechaDeSalida() {
+	void testFiltroFechaEntradaFiltraPorAlquileresConLaMismaFechaDeEntrada() {
 		// setup
-		when(alquiler1.getFechaSalida()).thenReturn(LocalDate.of(2025, 1, 10));
-		when(alquiler2.getFechaSalida()).thenReturn(LocalDate.of(2025, 2, 20));
-		when(alquiler3.getFechaSalida()).thenReturn(LocalDate.of(2025, 1, 13));
+		when(alquiler1.getFechaEntrada()).thenReturn(LocalDate.of(2024, 12, 15));
 
 		// exercise
-		List<Alquiler> filtrado = filtro.filtrar(alquileres);
+		boolean filtrado = filtro.esVálido(alquiler1);
 
 		// verify
-		assertEquals(Arrays.asList(alquiler1), filtrado);
+		assertTrue(filtrado);
 
 	}
 
 	@Test
-	void testFiltroNoDevuelveNadaSiNoCumpleNingúnAlquiler() {
+	void testFiltroNoDejaPasarSiLaFechaEsDiferente() {
 		// setup
-		when(alquiler1.getFechaSalida()).thenReturn(LocalDate.of(2024, 12, 20));
-		when(alquiler2.getFechaSalida()).thenReturn(LocalDate.of(2025, 1, 20));
-		when(alquiler3.getFechaSalida()).thenReturn(LocalDate.of(2024, 11, 9));
+		when(alquiler1.getFechaEntrada()).thenReturn(LocalDate.of(2024, 11, 30));
 
 		// exercise
-		List<Alquiler> filtrado = filtro.filtrar(alquileres);
+		boolean filtrado = filtro.esVálido(alquiler1);
 
 		// verify
-		assertEquals(Arrays.asList(), filtrado);
+		assertFalse(filtrado);
 
 	}
 

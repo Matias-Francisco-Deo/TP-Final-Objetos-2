@@ -39,9 +39,20 @@ class FiltroDefaultTest {
 	@Test
 	void testFiltroDefaultPermiteAplicarVariosFiltrosDondeCadaUnoEsUnaIntersecciónEntreLosResultadosDelOtro() {
 		// setup
-		when(ciudad.filtrar(alquileres)).thenReturn(Arrays.asList(alquiler2));
-		when(fechaEntrada.filtrar(Arrays.asList(alquiler2))).thenReturn(Arrays.asList(alquiler2));
-		when(fechaSalida.filtrar(Arrays.asList(alquiler2))).thenReturn(Arrays.asList(alquiler2));
+
+		when(ciudad.esVálido(alquiler1)).thenReturn(false);
+		when(fechaEntrada.esVálido(alquiler1)).thenReturn(true);
+		when(fechaSalida.esVálido(alquiler1)).thenReturn(true);
+
+		// dejan pasar alquiler2
+		when(ciudad.esVálido(alquiler2)).thenReturn(true);
+		when(fechaEntrada.esVálido(alquiler2)).thenReturn(true);
+		when(fechaSalida.esVálido(alquiler2)).thenReturn(true);
+
+		when(ciudad.esVálido(alquiler3)).thenReturn(true);
+		when(fechaEntrada.esVálido(alquiler3)).thenReturn(false);
+		when(fechaSalida.esVálido(alquiler3)).thenReturn(true);
+
 		List<Alquiler> alquileresEsperados = Arrays.asList(alquiler2);
 
 		// exercise
@@ -54,9 +65,18 @@ class FiltroDefaultTest {
 	@Test
 	void testFiltroDefaultPermiteAplicarVariosFiltrosDondeSiNoHayUnAlquilerEnComúnDevuelveVacío() {
 		// setup
-		when(ciudad.filtrar(alquileres)).thenReturn(Arrays.asList(alquiler2));
-		when(fechaEntrada.filtrar(Arrays.asList(alquiler2))).thenReturn(Arrays.asList());
-		when(fechaSalida.filtrar(Arrays.asList())).thenReturn(Arrays.asList());
+		when(ciudad.esVálido(alquiler1)).thenReturn(false);
+		when(fechaEntrada.esVálido(alquiler1)).thenReturn(false);
+		when(fechaSalida.esVálido(alquiler1)).thenReturn(true);
+
+		when(ciudad.esVálido(alquiler2)).thenReturn(true);
+		when(fechaEntrada.esVálido(alquiler2)).thenReturn(false);
+		when(fechaSalida.esVálido(alquiler2)).thenReturn(true);
+
+		when(ciudad.esVálido(alquiler3)).thenReturn(true);
+		when(fechaEntrada.esVálido(alquiler3)).thenReturn(true);
+		when(fechaSalida.esVálido(alquiler3)).thenReturn(false);
+
 		List<Alquiler> alquileresEsperados = Arrays.asList();
 
 		// exercise
@@ -69,13 +89,24 @@ class FiltroDefaultTest {
 	@Test
 	void testFiltroDefaultPermiteAñadirFiltrosAdemásDeLosPorDefecto() {
 		// setup
+
+		when(ciudad.esVálido(alquiler1)).thenReturn(true);
+		when(fechaEntrada.esVálido(alquiler1)).thenReturn(true);
+		when(fechaSalida.esVálido(alquiler1)).thenReturn(true);
+
+		when(ciudad.esVálido(alquiler2)).thenReturn(true);
+		when(fechaEntrada.esVálido(alquiler2)).thenReturn(true);
+		when(fechaSalida.esVálido(alquiler2)).thenReturn(true);
+
+		when(ciudad.esVálido(alquiler3)).thenReturn(true);
+		when(fechaEntrada.esVálido(alquiler3)).thenReturn(true);
+		when(fechaSalida.esVálido(alquiler3)).thenReturn(true);
+
 		FiltroCantidadHuéspedes filtroCantidadHuéspedes = mock(FiltroCantidadHuéspedes.class);
-		when(ciudad.filtrar(alquileres)).thenReturn(Arrays.asList(alquiler1, alquiler2, alquiler3));
-		when(fechaEntrada.filtrar(Arrays.asList(alquiler1, alquiler2, alquiler3)))
-				.thenReturn(Arrays.asList(alquiler1, alquiler2, alquiler3));
-		when(fechaSalida.filtrar(Arrays.asList(alquiler1, alquiler2, alquiler3)))
-				.thenReturn(Arrays.asList(alquiler1, alquiler2));
-		when(filtroCantidadHuéspedes.filtrar(Arrays.asList(alquiler1, alquiler2))).thenReturn(Arrays.asList(alquiler1));
+		when(filtroCantidadHuéspedes.esVálido(alquiler1)).thenReturn(true);
+		when(filtroCantidadHuéspedes.esVálido(alquiler2)).thenReturn(false);
+		when(filtroCantidadHuéspedes.esVálido(alquiler3)).thenReturn(false);
+
 		List<Alquiler> alquileresEsperados = Arrays.asList(alquiler1);
 
 		// exercise

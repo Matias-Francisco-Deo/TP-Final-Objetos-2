@@ -1,11 +1,9 @@
 package tp_final.búsqueda;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,9 +14,6 @@ class FiltroPrecioMínimoTest {
 
 	private FiltroPrecioMínimo filtro;
 	private Alquiler alquiler1;
-	private Alquiler alquiler2;
-	private Alquiler alquiler3;
-	private List<Alquiler> alquileres;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -26,39 +21,45 @@ class FiltroPrecioMínimoTest {
 		double precioMínimo = 1500d;
 		filtro = new FiltroPrecioMínimo(precioMínimo);
 		alquiler1 = mock(Alquiler.class);
-		alquiler2 = mock(Alquiler.class);
-		alquiler3 = mock(Alquiler.class);
-		alquileres = Arrays.asList(alquiler1, alquiler2, alquiler3);
 
 	}
 
 	@Test
-	void testFiltroPrecioMínimoFiltraPorPrecioDejandoLosAlquileresQueSuperenOIgualenSuPrecioMínimo() {
+	void testFiltroPrecioMínimoFiltraPorPrecioDejandoLosAlquileresQueIgualenSuPrecioMínimo() {
 		// setup
-		when(alquiler1.getPrecio()).thenReturn(20000d);
-		when(alquiler2.getPrecio()).thenReturn(1500d);
-		when(alquiler3.getPrecio()).thenReturn(1000d);
+		when(alquiler1.getPrecio()).thenReturn(1500d);
 
 		// exercise
-		List<Alquiler> filtrado = filtro.filtrar(alquileres);
+		boolean filtrado = filtro.esVálido(alquiler1);
 
 		// verify
-		assertEquals(Arrays.asList(alquiler1, alquiler2), filtrado);
+		assertTrue(filtrado);
 
 	}
 
 	@Test
-	void testFiltroNoDevuelveNadaSiNoCumpleNingúnAlquiler() {
+	void testFiltroPrecioMínimoFiltraPorPrecioDejandoLosAlquileresQueSuperenSuPrecioMínimo() {
 		// setup
-		when(alquiler1.getPrecio()).thenReturn(200d);
-		when(alquiler2.getPrecio()).thenReturn(1300d);
-		when(alquiler3.getPrecio()).thenReturn(500d);
+		when(alquiler1.getPrecio()).thenReturn(15000d);
 
 		// exercise
-		List<Alquiler> filtrado = filtro.filtrar(alquileres);
+		boolean filtrado = filtro.esVálido(alquiler1);
 
 		// verify
-		assertEquals(Arrays.asList(), filtrado);
+		assertTrue(filtrado);
+
+	}
+
+	@Test
+	void testFiltroNoDejaPasarALosQueTenganUnPrecioInferiorASuPrecioMínimo() {
+		// setup
+		when(alquiler1.getPrecio()).thenReturn(100d);
+
+		// exercise
+		boolean filtrado = filtro.esVálido(alquiler1);
+
+		// verify
+		assertFalse(filtrado);
 
 	}
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 import tp_final.alquiler.Alquiler;
 
-public class FiltroDefault implements Filtro {
+public class FiltroDefault {
 
 	private List<ParámetroDeBúsqueda> filtros;
 
@@ -24,13 +24,13 @@ public class FiltroDefault implements Filtro {
 		this.filtros = filtros;
 	}
 
-	@Override
 	public List<Alquiler> filtrar(List<Alquiler> alquileres) {
-		List<Alquiler> alquileresResultantes = alquileres;
-		for (ParámetroDeBúsqueda filtro : this.getFiltros()) {
-			alquileresResultantes = filtro.filtrar(alquileresResultantes);
-		}
-		return alquileresResultantes;
+		return alquileres.stream().filter(alquiler -> this.cumpleConFiltros(alquiler)).toList();
+
+	}
+
+	private boolean cumpleConFiltros(Alquiler alquiler) {
+		return this.getFiltros().stream().allMatch(filtro -> filtro.esVálido(alquiler));
 	}
 
 	private List<ParámetroDeBúsqueda> getFiltros() {

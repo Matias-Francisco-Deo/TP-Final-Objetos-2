@@ -1,7 +1,5 @@
 package tp_final.búsqueda;
 
-import java.util.List;
-
 import tp_final.alquiler.Alquiler;
 
 public class FiltroCantidadHuéspedes implements ParámetroDeBúsqueda {
@@ -12,18 +10,18 @@ public class FiltroCantidadHuéspedes implements ParámetroDeBúsqueda {
 		this.setCantidadMínimaHuéspedes(i);
 	}
 
-	@Override
-	public List<Alquiler> filtrar(List<Alquiler> alquileres) {
-		return alquileres.stream()
-				.filter(alquiler -> alquiler.getCantidadHuéspedes() >= this.getCantidadMínimaHuéspedes()).toList();
-	}
-
 	private int getCantidadMínimaHuéspedes() {
 		return cantidadMínimaHuéspedes;
 	}
 
 	private void setCantidadMínimaHuéspedes(int cantidadMínima) {
 		this.cantidadMínimaHuéspedes = cantidadMínima;
+	}
+
+	@Override
+	public boolean esVálido(Alquiler alquiler) {
+
+		return alquiler.getCantidadHuéspedes() >= this.getCantidadMínimaHuéspedes();
 	}
 
 }
