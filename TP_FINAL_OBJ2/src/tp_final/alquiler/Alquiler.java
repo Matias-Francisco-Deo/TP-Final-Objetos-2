@@ -182,4 +182,34 @@ public class Alquiler {
 
 		}
 	}
+
+	public boolean esLibre() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	public String getCiudad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getCantidadHuéspedes() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public LocalDate getFechaSalida() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public double getPrecio() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public LocalDate getFechaEntrada() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
