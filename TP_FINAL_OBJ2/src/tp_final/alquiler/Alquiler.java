@@ -188,11 +188,6 @@ public class Alquiler {
 		return true;
 	}
 
-	public String getCiudad() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public int getCantidadHuéspedes() {
 		// TODO Auto-generated method stub
 		return 0;

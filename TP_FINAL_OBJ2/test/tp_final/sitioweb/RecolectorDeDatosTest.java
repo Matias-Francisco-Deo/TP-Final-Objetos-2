@@ -43,17 +43,17 @@ class RecolectorDeDatosTest {
 		Usuario inquilino10 = mock(Usuario.class);
 		Usuario inquilino11 = mock(Usuario.class);
 
-		when(inquilino1.contarInmueblesAlquilados()).thenReturn(1);
-		when(inquilino2.contarInmueblesAlquilados()).thenReturn(2);
-		when(inquilino3.contarInmueblesAlquilados()).thenReturn(3);
-		when(inquilino4.contarInmueblesAlquilados()).thenReturn(4);
-		when(inquilino5.contarInmueblesAlquilados()).thenReturn(5);
-		when(inquilino6.contarInmueblesAlquilados()).thenReturn(6);
-		when(inquilino7.contarInmueblesAlquilados()).thenReturn(7);
-		when(inquilino8.contarInmueblesAlquilados()).thenReturn(8);
-		when(inquilino9.contarInmueblesAlquilados()).thenReturn(9);
-		when(inquilino10.contarInmueblesAlquilados()).thenReturn(10);
-		when(inquilino11.contarInmueblesAlquilados()).thenReturn(11);
+		when(inquilino1.getCantidadDeReservas()).thenReturn(1);
+		when(inquilino2.getCantidadDeReservas()).thenReturn(2);
+		when(inquilino3.getCantidadDeReservas()).thenReturn(3);
+		when(inquilino4.getCantidadDeReservas()).thenReturn(4);
+		when(inquilino5.getCantidadDeReservas()).thenReturn(5);
+		when(inquilino6.getCantidadDeReservas()).thenReturn(6);
+		when(inquilino7.getCantidadDeReservas()).thenReturn(7);
+		when(inquilino8.getCantidadDeReservas()).thenReturn(8);
+		when(inquilino9.getCantidadDeReservas()).thenReturn(9);
+		when(inquilino10.getCantidadDeReservas()).thenReturn(10);
+		when(inquilino11.getCantidadDeReservas()).thenReturn(11);
 
 		when(sitioWeb.getUsuarios()).thenReturn(Arrays.asList(inquilino1, inquilino2, inquilino3, inquilino4,
 				inquilino5, inquilino6, inquilino7, inquilino8, inquilino9, inquilino10, inquilino11));
@@ -76,10 +76,10 @@ class RecolectorDeDatosTest {
 		Usuario inquilino3 = mock(Usuario.class);
 		Usuario inquilino4 = mock(Usuario.class);
 
-		when(inquilino1.contarInmueblesAlquilados()).thenReturn(1);
-		when(inquilino2.contarInmueblesAlquilados()).thenReturn(2);
-		when(inquilino3.contarInmueblesAlquilados()).thenReturn(3);
-		when(inquilino4.contarInmueblesAlquilados()).thenReturn(4);
+		when(inquilino1.getCantidadDeReservas()).thenReturn(1);
+		when(inquilino2.getCantidadDeReservas()).thenReturn(2);
+		when(inquilino3.getCantidadDeReservas()).thenReturn(3);
+		when(inquilino4.getCantidadDeReservas()).thenReturn(4);
 
 		when(sitioWeb.getUsuarios()).thenReturn(Arrays.asList(inquilino1, inquilino2, inquilino3, inquilino4));
 

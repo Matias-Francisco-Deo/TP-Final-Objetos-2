@@ -26,11 +26,7 @@ public class RecolectorDeDatos {
 
 	public List<Usuario> getTopTenInquilinos() {
 		List<Usuario> inquilinos = getUsuarios().stream()
-				.sorted(Comparator.comparingInt(usuario -> ((Usuario) usuario).contarInmueblesAlquilados()) // cómo
-						// evitar
-						// este
-						// cast?
-						.reversed())
+				.sorted(Comparator.comparingInt(usuario -> ((Usuario) usuario).getCantidadDeReservas()).reversed())
 				.limit(10).collect(Collectors.toList());
 
 		return inquilinos;
