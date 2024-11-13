@@ -2,7 +2,7 @@ package tp_final.reserva;
 
 import tp_final.ranking.Ranking;
 
-public class Finalizado implements EstadoDeReserva {
+public class EnCola implements EstadoDeReserva {
 	@Override
 	public void aprobar(Reserva reserva) {
 		// NOTHING
@@ -10,7 +10,8 @@ public class Finalizado implements EstadoDeReserva {
 
 	@Override
 	public void cancelar(Reserva reserva) {
-		// NOTHING
+		reserva.setEstado(new Cancelado());
+		reserva.doCancelar();
 	}
 
 	@Override
@@ -25,21 +26,21 @@ public class Finalizado implements EstadoDeReserva {
 
 	@Override
 	public void desencolar(Reserva reserva) {
-		// NOTHING
+		reserva.setEstado(new PendienteDeAprobacion());
 	}
 
 	@Override
 	public void rankearInmueble(Reserva reserva, Ranking ranking) {
-		reserva.doRankearInmueble(ranking);
+		// NOTHING
 	}
 
 	@Override
 	public void rankearInquilino(Reserva reserva, Ranking ranking) {
-		reserva.doRankearInquilino(ranking);
+		// NOTHING
 	}
 
 	@Override
 	public void rankearPropietario(Reserva reserva, Ranking ranking) {
-		reserva.doRankearPropietario(ranking);
+		// NOTHING
 	}
 }

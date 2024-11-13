@@ -1,7 +1,6 @@
 package tp_final.reserva;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import tp_final.ranking.Ranking;
 
-class VigenteTest {
+class EnColaTest {
 	private EstadoDeReserva estado;
 	private Reserva reserva;
 	private Ranking ranking;
@@ -25,7 +24,7 @@ class VigenteTest {
 		ranking = mock(Ranking.class);
 
 		// SUT
-		estado = new Vigente();
+		estado = new EnCola();
 	}
 
 	// ------------------------------------------------------------
@@ -33,33 +32,33 @@ class VigenteTest {
 	// ------------------------------------------------------------
 
 	@Test
-	void UnEstadoVigenteEsAprobadoYLaReservaNoCambiaDeEstado() {
+	void UnEstadoEnColaEsAprobadoYLaReservaNoCambiaDeEstado() {
 		estado.aprobar(reserva);
 		verify(reserva, never()).setEstado(any());
 	}
 
 	@Test
-	void UnEstadoVigenteEsCanceladoYLaReservaCambiaACancelado() {
+	void UnEstadoEnColaEsCanceladoYLaReservaCambiaACancelado() {
 		estado.cancelar(reserva);
-		verify(reserva).setEstado(isA(Cancelado.class));
+		verify(reserva).setEstado(any(Cancelado.class));
 	}
 
 	@Test
-	void UnEstadoVigenteEsFinalizadoYLaReservaCambiaAFinalizado() {
+	void UnEstadoEnColaEsFinalizadoYLaReservaNoCambiaDeEstado() {
 		estado.finalizar(reserva);
-		verify(reserva).setEstado(isA(Finalizado.class));
+		verify(reserva, never()).setEstado(any());
 	}
 
 	@Test
-	void UnEstadoVigenteEsEncoladoYLaReservaNoCambiaDeEstado() {
+	void UnEstadoEnColaEsEncoladoYLaReservaNoCambiaDeEstado() {
 		estado.encolar(reserva);
 		verify(reserva, never()).setEstado(any());
 	}
 
 	@Test
-	void UnEstadoVigenteEsDesencoladoYLaReservaNoCambiaDeEstado() {
+	void UnEstadoEnColaEsDesencoladoYLaReservaCambiaAPendienteDeAprobacion() {
 		estado.desencolar(reserva);
-		verify(reserva, never()).setEstado(any());
+		verify(reserva).setEstado(any(PendienteDeAprobacion.class));
 	}
 
 	// ------------------------------------------------------------
@@ -67,19 +66,19 @@ class VigenteTest {
 	// ------------------------------------------------------------
 
 	@Test
-	void UnEstadoVigenteNoPuedeRankearInmueble() {
+	void UnEstadoEnColaNoPuedeRankearInmueble() {
 		estado.rankearInmueble(reserva, ranking);
 		verify(reserva, never()).doRankearInmueble(ranking);
 	}
 
 	@Test
-	void UnEstadoVigenteNoPuedeRankearInquilino() {
+	void UnEstadoEnColaNoPuedeRankearInquilino() {
 		estado.rankearInquilino(reserva, ranking);
 		verify(reserva, never()).doRankearInquilino(ranking);
 	}
 
 	@Test
-	void UnEstadoVigenteNoPuedeRankearPropietario() {
+	void UnEstadoEnColaNoPuedeRankearPropietario() {
 		estado.rankearPropietario(reserva, ranking);
 		verify(reserva, never()).doRankearPropietario(ranking);
 	}

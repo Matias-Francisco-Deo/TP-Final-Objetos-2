@@ -7,23 +7,36 @@ import java.util.List;
 
 import tp_final.alquiler.Alquiler;
 import tp_final.inmueble.Inmueble;
+import tp_final.ranking.GestorDeRanking;
 import tp_final.reserva.Reserva;
 
 public class Usuario {
 	private String nombre;
 	private String email;
 	private String telefono;
+	private GestorDeRanking gestorDeRanking;
+
+	// RESERVAS REALIZADAS COMO INQUILINO
 	private List<Reserva> reservas = new ArrayList<Reserva>();
 
-	public Usuario(String nombre, String email, String telefono) {
+	// ALQUILERES REGISTRADOS COMO PROPIETARIO
+	private List<Alquiler> alquileresRegistrados = new ArrayList<Alquiler>();
+
+	// INMUEBLES REGISTRADOS COMO PROPIETARIO
+	private List<Inmueble> inmueblesRegistrados = new ArrayList<Inmueble>();
+
+	// ------------------------------------------------------------
+
+	public Usuario(String nombre, String email, String telefono, GestorDeRanking gestorDeRanking) {
 		this.setNombre(nombre);
 		this.setEmail(email);
 		this.setTelefono(telefono);
+		this.setGestorDeRanking(gestorDeRanking);
 	}
 
-	// ------------------------------
-	// GETTERS & SETTERS
-	// ------------------------------
+	// ------------------------------------------------------------
+	// NOMBRE, EMAIL, TELEFONO Y GESTOR DE RANKING
+	// ------------------------------------------------------------
 
 	public String getNombre() {
 		return this.nombre;
@@ -35,6 +48,10 @@ public class Usuario {
 
 	public String getTelefono() {
 		return this.telefono;
+	}
+
+	public GestorDeRanking getGestorDeRanking() {
+		return this.gestorDeRanking;
 	}
 
 	private void setNombre(String nombre) {
@@ -49,9 +66,13 @@ public class Usuario {
 		this.telefono = telefono;
 	}
 
-	// ------------------------------
-	// RESERVAS
-	// ------------------------------
+	private void setGestorDeRanking(GestorDeRanking gestorDeRanking) {
+		this.gestorDeRanking = gestorDeRanking;
+	}
+
+	// ------------------------------------------------------------
+	// RESERVAS REALIZADAS COMO INQUILINO
+	// ------------------------------------------------------------
 
 	public List<Reserva> getReservas() {
 		return this.reservas;
@@ -75,21 +96,32 @@ public class Usuario {
 	}
 
 	public List<String> getCiudadesConReserva() {
-		return this.getReservas().stream().map(reserva -> reserva.getCiudad()).toList();
+		return this.getReservas().stream().map(reserva -> reserva.getCiudad()).distinct().toList();
 	}
 
-	public Collection<Alquiler> getAlquileres() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getCantidadDeReservas() {
+		return this.getReservas().size();
 	}
 
-	public Collection<Inmueble> getInmuebles() {
-		// TODO Auto-generated method stub
-		return null;
+	// ------------------------------------------------------------
+	// ALQUILERES E INMUEBLES REGISTRADOS COMO PROPIETARIO
+	// ------------------------------------------------------------
+
+	public void registrarAlquiler(Alquiler alquiler) {
+		this.alquileresRegistrados.add(alquiler);
 	}
 
-	public int contarInmueblesAlquilados() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void registrarInmueble(Inmueble inmueble) {
+		this.inmueblesRegistrados.add(inmueble);
 	}
+
+	public List<Alquiler> getAlquileres() {
+		return this.alquileresRegistrados;
+	}
+
+	public List<Inmueble> getInmuebles() {
+		return this.inmueblesRegistrados;
+	}
+
+	// ------------------------------------------------------------
 }
