@@ -8,6 +8,7 @@ public class Alquilado implements EstadoDeAlquiler {
 	@Override
 	public void alquilar(Reserva reserva, Alquiler alquiler) {
 		alquiler.addReserva(reserva);
+		reserva.encolar();
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class FiltroFechaEntrada implements ParámetroDeBúsqueda {
 	@Override
 	public boolean esVálido(Alquiler alquiler) {
 		// TODO Auto-generated method stub
-		return alquiler.getFechaEntrada().equals(this.getFechaEntrada());
+		return alquiler.getFechaCheckIn().equals(this.getFechaEntrada());
 	}
 
 }

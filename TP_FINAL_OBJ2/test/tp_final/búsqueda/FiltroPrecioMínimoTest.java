@@ -27,7 +27,7 @@ class FiltroPrecioMínimoTest {
 	@Test
 	void testFiltroPrecioMínimoFiltraPorPrecioDejandoLosAlquileresQueIgualenSuPrecioMínimo() {
 		// setup
-		when(alquiler1.getPrecio()).thenReturn(1500d);
+		when(alquiler1.getPrecioBase()).thenReturn(1500d);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);
@@ -40,7 +40,7 @@ class FiltroPrecioMínimoTest {
 	@Test
 	void testFiltroPrecioMínimoFiltraPorPrecioDejandoLosAlquileresQueSuperenSuPrecioMínimo() {
 		// setup
-		when(alquiler1.getPrecio()).thenReturn(15000d);
+		when(alquiler1.getPrecioBase()).thenReturn(15000d);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);
@@ -53,7 +53,7 @@ class FiltroPrecioMínimoTest {
 	@Test
 	void testFiltroNoDejaPasarALosQueTenganUnPrecioInferiorASuPrecioMínimo() {
 		// setup
-		when(alquiler1.getPrecio()).thenReturn(100d);
+		when(alquiler1.getPrecioBase()).thenReturn(100d);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);

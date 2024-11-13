@@ -12,7 +12,7 @@ public class Libre implements EstadoDeAlquiler {
 			alquiler.addReserva(reserva);
 		} else {
 			alquiler.addReserva(reserva);
-			// reserva.encolar
+			reserva.encolar();
 		}
 
 	}

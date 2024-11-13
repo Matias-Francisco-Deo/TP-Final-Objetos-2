@@ -21,7 +21,7 @@ public class FiltroPrecioMínimo implements ParámetroDeBúsqueda {
 	@Override
 	public boolean esVálido(Alquiler alquiler) {
 		// TODO Auto-generated method stub
-		return alquiler.getPrecio() >= this.getPrecioMínimo();
+		return alquiler.getPrecioBase() >= this.getPrecioMínimo();
 	}
 
 }

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tp_final.alquiler.Alquiler;
-import tp_final_extra.Reserva;
+import tp_final.reserva.Reserva;
 
 public class estadoAlquiladoTest {
 

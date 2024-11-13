@@ -12,9 +12,9 @@ import tp_final.estado_de_alquiler.EstadoDeAlquiler;
 import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
+import tp_final.reserva.Reserva;
 import tp_final.suscriptores.Suscriptor;
 import tp_final.usuarios.Usuario;
-import tp_final_extra.Reserva;//reemplazar por el reserva real
 
 public class Alquiler {
 
