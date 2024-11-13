@@ -12,13 +12,11 @@ import org.junit.jupiter.api.Test;
 
 import tp_final.ranking.GestorDeRanking;
 import tp_final.usuarios.Usuario;
-import tp_final_extra.Ranking;
 
 public class InmuebleTest {
 
 	private ArrayList<Foto> misFotos;
 	private ArrayList<String> misServicios;
-	private Ranking ranking;
 	private Inmueble inmueble;
 	private String casa;
 	private Usuario propietario;
@@ -27,7 +25,6 @@ public class InmuebleTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		ranking = mock(Ranking.class);
 
 		propietario = mock(Usuario.class);
 

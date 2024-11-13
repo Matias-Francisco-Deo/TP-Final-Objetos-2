@@ -8,8 +8,8 @@ public abstract class PoliticaDeCancelacion {
 
 	public void aplicarPolitica(Reserva reserva, double precio) {
 
-		LocalDate checkIn = reserva.getfechaCheckIn();
-		LocalDate checkOut = reserva.getfechaCheckOut();
+		LocalDate checkIn = reserva.getFechaCheckIn();
+		LocalDate checkOut = reserva.getFechaCheckOut();
 
 		double monto = this.calcularCosto(checkIn, checkOut, precio);
 		String texto = this.generarMail(monto);

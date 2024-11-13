@@ -14,20 +14,20 @@ import tp_final.alquiler.Alquiler;
 
 class FiltroFechaSalidaTest {
 
-	private FiltroFechaEntrada filtro;
+	private FiltroFechaSalida filtro;
 	private Alquiler alquiler1;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		// setup
-		LocalDate fechaEntrada = LocalDate.of(2024, 12, 15);
-		filtro = new FiltroFechaEntrada(fechaEntrada);
+		LocalDate fechaSalida = LocalDate.of(2024, 12, 15);
+		filtro = new FiltroFechaSalida(fechaSalida);
 		alquiler1 = mock(Alquiler.class);
 
 	}
 
 	@Test
-	void testFiltroFechaEntradaFiltraPorAlquileresConLaMismaFechaDeEntrada() {
+	void testFiltroFechaSalidaFiltraPorAlquileresConLaMismaFechaDeEntrada() {
 		// setup
 		when(alquiler1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 12, 15));
 

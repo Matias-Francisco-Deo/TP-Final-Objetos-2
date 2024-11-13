@@ -1,12 +1,15 @@
 package tp_final.reserva;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,12 +90,18 @@ class ReservaTest {
 	}
 
 	// ------------------------------------------------------------
-	// FECHA DE CHECK-IN, CIUDAD, PROPIETARIO E INMUEBLE
+	// CHECK-IN, CHECK-OUT, CIUDAD, PROPIETARIO E INMUEBLE
 	// ------------------------------------------------------------
 
 	@Test
 	void getFechaCheckInTest() {
-		assertEquals(reserva.getFechaCheckIn(), alquiler.getFechaCheckIn());
+		when(alquiler.getFechaCheckIn()).thenReturn(LocalDate.of(2021, 12, 31));
+		assertTrue(reserva.getFechaCheckIn().isEqual(alquiler.getFechaCheckIn()));
+	}
+
+	void getFechaCheckOutTest() {
+		when(alquiler.getFechaCheckOut()).thenReturn(LocalDate.of(2021, 12, 31));
+		assertTrue(reserva.getFechaCheckOut().isEqual(alquiler.getFechaCheckOut()));
 	}
 
 	@Test
@@ -173,6 +182,21 @@ class ReservaTest {
 		reserva.aprobar();
 		reserva.realizarCheckOut();
 		assertEquals(reserva.getEstado().getClass(), Finalizado.class);
+	}
+
+	// ENCOLAR Y DESENCOLAR
+
+	@Test
+	void unaReservaPendienteDeAprobacionEsEncoladaYCambiaSuEstadoAEnCola() {
+		reserva.encolar();
+		assertEquals(reserva.getEstado().getClass(), EnCola.class);
+	}
+
+	@Test
+	void unaReservaEnColaEsDesencoladaYCambiaSuEstadoAPendienteDeAprobacion() {
+		reserva.encolar();
+		reserva.desencolar();
+		assertEquals(reserva.getEstado().getClass(), PendienteDeAprobacion.class);
 	}
 
 	// ------------------------------------------------------------

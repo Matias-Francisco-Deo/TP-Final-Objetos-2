@@ -69,7 +69,7 @@ public class Alquiler {
 		return fechaEntrada;
 	}
 
-	public LocalDate getFechaDeCheckOut() {
+	public LocalDate getFechaCheckOut() {
 		return fechaSalida;
 	}
 
@@ -189,11 +189,10 @@ public class Alquiler {
 
 		this.setEstadoDeAlquiler(new Alquilado());
 
-		this.setFechaDeEntrada(reserva.getfechaCheckIn());
-		this.setFechaDeSalida(reserva.getfechaCheckOut());
+		this.setFechaDeEntrada(reserva.getFechaCheckIn());
+		this.setFechaDeSalida(reserva.getFechaCheckOut());
 
 		this.getInmueble().aumentarCantDeVecesAlquilado();
-
 	}
 
 	public void cancelarReserva(Reserva reserva) {
@@ -260,5 +259,4 @@ public class Alquiler {
 		}
 
 	}
-
 }

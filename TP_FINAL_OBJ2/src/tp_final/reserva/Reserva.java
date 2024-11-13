@@ -63,11 +63,15 @@ public class Reserva {
 	}
 
 	// ------------------------------------------------------------
-	// FECHA DE CHECK-IN, CIUDAD, PROPIETARIO E INMUEBLE
+	// CHECK-IN, CHECK-OUT, CIUDAD, PROPIETARIO E INMUEBLE
 	// ------------------------------------------------------------
 
 	public LocalDate getFechaCheckIn() {
 		return this.getAlquiler().getFechaCheckIn();
+	}
+
+	public LocalDate getFechaCheckOut() {
+		return this.getAlquiler().getFechaCheckOut();
 	}
 
 	public String getCiudad() {
@@ -114,20 +118,30 @@ public class Reserva {
 		this.getEstado().finalizar(this);
 	}
 
+	public void encolar() {
+		this.getEstado().encolar(this);
+	}
+
+	public void desencolar() {
+		this.getEstado().desencolar(this);
+	}
+
 	// ------------------------------------------------------------
 	// ENVIO DE CORREOS
 	// ------------------------------------------------------------
 
+	private void enviarCorreo(String destinatario, String asunto, Object cuerpo) {
+		this.getServidorDeCorreo().enviar(destinatario, asunto, cuerpo);
+	}
+
 	private void enviarCorreoDeAprobacion() {
 		String destinatario = this.getInquilino().getEmail();
-		String asunto = "Reserva aprobada";
-		this.getServidorDeCorreo().enviar(destinatario, asunto, this);
+		this.enviarCorreo(destinatario, "Reserva aprobada", this);
 	}
 
 	private void enviarCorreoDeCancelacion() {
-		String destinatario = this.getPropietario().getEmail();
-		String asunto = "Reserva cancelada";
-		this.getServidorDeCorreo().enviar(destinatario, asunto, this);
+		String destinatario = this.getInquilino().getEmail();
+		this.enviarCorreo(destinatario, "Reserva cancelada", this);
 	}
 
 	// ------------------------------------------------------------
