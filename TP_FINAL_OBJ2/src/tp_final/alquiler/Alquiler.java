@@ -114,7 +114,7 @@ public class Alquiler {
 	}
 
 	public Map<String, Double> getPreciosTemporadas() {
-		return this.precioTemporadas; // revisar metodo
+		return this.precioTemporadas;
 	}
 
 	public void setFechaDeEntrada(LocalDate fechaEntrada) {

@@ -1,11 +1,9 @@
 package tp_final.inmueble;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
+import tp_final.ranking.GestorDeRanking;
 import tp_final.usuarios.Usuario;
-import tp_final_extra.Ranking;
 
 public class Inmueble {
 	private String tipoInmueble;// revisar si tipo inmueble es una clase o un string
@@ -28,12 +26,10 @@ public class Inmueble {
 
 	private int cantVecesEnAlquiler;
 
-	private Map<String, Double> promedioPuntajePorCategoria;
-
-	private Ranking ranking;
+	private GestorDeRanking gestor;
 
 	Inmueble(String tipo, Usuario propietario, double superficie, String pais, String ciudad, String direccion,
-			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos) {
+			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, GestorDeRanking gestor) {
 		this.tipoInmueble = tipo;
 		this.propietario = propietario;
 		this.superficie = superficie;
@@ -44,8 +40,8 @@ public class Inmueble {
 		this.capacidad = capacidad;
 		this.fotos = fotos;
 		this.cantVecesEnAlquiler = 0;
-		this.promedioPuntajePorCategoria = new HashMap<>();
-		this.ranking = new Ranking();
+		this.gestor = gestor;
+
 	}
 
 	public String getTipoInmueble() {
@@ -80,20 +76,16 @@ public class Inmueble {
 		return cantVecesEnAlquiler;
 	}
 
-	public Map<String, Double> getPuntajesPorCategoria() {
-		return this.promedioPuntajePorCategoria; // revisar metodo
-	}
-
-	public Ranking getRanking() {
-		return ranking;
-	}
-
 	public ArrayList<Foto> getFotos() {
 		return fotos;
 	}
 
 	public ArrayList<String> getServicios() {
 		return servicios;
+	}
+
+	public GestorDeRanking getGestorDeRanking() {
+		return this.gestor;
 	}
 
 	public void setTipoInmueble(String tipoInmueble) {// cambiar string a tipoinmueble?
@@ -126,10 +118,6 @@ public class Inmueble {
 
 	public void addFoto(Foto foto) {
 		this.fotos.add(foto);
-	}
-
-	public void addPuntajePorCategoria(String temporada, Double valor) {
-		promedioPuntajePorCategoria.put(temporada, valor);
 	}
 
 	public void aumentarCantDeVecesAlquilado() {

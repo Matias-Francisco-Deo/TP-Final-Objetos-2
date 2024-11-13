@@ -4,9 +4,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import tp_final.AlquilerPlaceholder;
-import tp_final.InmueblePlaceholder;
-import tp_final.InquilinoPlaceholder;
+import tp_final.alquiler.Alquiler;
+import tp_final.inmueble.Inmueble;
+import tp_final.usuarios.Usuario;
 
 public class RecolectorDeDatos {
 
@@ -24,33 +24,26 @@ public class RecolectorDeDatos {
 		this.sitioWeb = sitioWeb;
 	}
 
-	public List<InquilinoPlaceholder> getTopTenInquilinos() {
-		List<InquilinoPlaceholder> inquilinos = getInquilinos().stream()
-				.sorted(Comparator
-						.comparingInt(inquilino -> ((InquilinoPlaceholder) inquilino).contarInmueblesAlquilados()) // cómo
-						// evitar
-						// este
-						// cast?
-						.reversed())
+	public List<Usuario> getTopTenInquilinos() {
+		List<Usuario> inquilinos = getUsuarios().stream()
+				.sorted(Comparator.comparingInt(usuario -> ((Usuario) usuario).getCantidadDeReservas()).reversed())
 				.limit(10).collect(Collectors.toList());
 
 		return inquilinos;
 	}
 
-	private List<InquilinoPlaceholder> getInquilinos() {
-		return this.getSitioWeb().getInquilinos();
+	private List<Usuario> getUsuarios() {
+		return this.getSitioWeb().getUsuarios();
 	}
 
-	public List<InmueblePlaceholder> getInmueblesLibres() {
-		List<InmueblePlaceholder> inmueblesLibres = getAlquileres().stream().filter(alquiler -> alquiler.esLibre())
-				.map(alquiler -> alquiler.getInmueble()) // puedo evitar este
-															// casteo?
-				.toList();
+	public List<Inmueble> getInmueblesLibres() {
+		List<Inmueble> inmueblesLibres = getAlquileres().stream().filter(alquiler -> alquiler.esLibre())
+				.map(alquiler -> alquiler.getInmueble()).toList();
 
 		return inmueblesLibres;
 	}
 
-	private List<AlquilerPlaceholder> getAlquileres() {
+	private List<Alquiler> getAlquileres() {
 		return sitioWeb.getAlquileres();
 	}
 

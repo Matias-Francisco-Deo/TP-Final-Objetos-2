@@ -6,11 +6,11 @@ import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import tp_final.ranking.GestorDeRanking;
 import tp_final.usuarios.Usuario;
 import tp_final_extra.Ranking;
 
@@ -23,6 +23,7 @@ public class InmuebleTest {
 	private String casa;
 	private Usuario propietario;
 	private Foto foto;
+	private GestorDeRanking gestor;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -32,13 +33,15 @@ public class InmuebleTest {
 
 		foto = mock(Foto.class);
 
+		gestor = mock(GestorDeRanking.class);
+
 		misServicios = new ArrayList<>(Arrays.asList("Agua", "Luz"));
 		misFotos = new ArrayList<>(Arrays.asList());
 
 		casa = new String();
 
 		inmueble = new Inmueble(casa, propietario, 20, "Argentina", "Quilmes", "mi direccion", misServicios, 4,
-				misFotos);
+				misFotos, gestor);
 	}
 
 	@Test
@@ -53,6 +56,12 @@ public class InmuebleTest {
 	void getterPropietarioTest() {
 
 		assertEquals(inmueble.getPropietario(), propietario);
+	}
+
+	@Test
+	void gettergestorTest() {
+
+		assertEquals(inmueble.getGestorDeRanking(), gestor);
 	}
 
 	@Test
@@ -116,21 +125,4 @@ public class InmuebleTest {
 		assertEquals(inmueble.getCantVecesEnAlquiler(), 1);
 	}
 
-	@Test
-	void addYGetterPuntajesPorCategoria() {
-
-		inmueble.addPuntajePorCategoria("Limpieza", 8.3);
-
-		Map<String, Double> precios = inmueble.getPuntajesPorCategoria();
-
-		assertEquals(1, precios.size());
-
-		inmueble.addPuntajePorCategoria("Ubicacion", 6.1);
-
-		precios = inmueble.getPuntajesPorCategoria();
-
-		assertEquals(2, precios.size());
-
-		assertEquals(8.3, precios.get("Limpieza"));
-	}
 }

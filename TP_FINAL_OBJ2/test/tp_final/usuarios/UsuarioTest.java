@@ -9,23 +9,37 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import tp_final.alquiler.Alquiler;
+import tp_final.inmueble.Inmueble;
+import tp_final.ranking.GestorDeRanking;
 import tp_final.reserva.Reserva;
 
 class UsuarioTest {
 	private Usuario usuario;
 	private Reserva reserva;
 
+	private GestorDeRanking gestorDeRanking;
+
+	// ------------------------------------------------------------
+
 	@BeforeEach
 	void setUp() throws Exception {
-		usuario = new Usuario("Juan Perez", "juan.perez@gmail.com", "555-555-555");
-
-		// MOCKS
+		// MOCK
 		reserva = mock(Reserva.class);
+		gestorDeRanking = mock(GestorDeRanking.class);
+		Alquiler alquiler = mock(Alquiler.class);
+		Inmueble inmueble = mock(Inmueble.class);
+
+		// STUB
+		when(alquiler.getInmueble()).thenReturn(inmueble);
+
+		// SUT
+		usuario = new Usuario("Juan Perez", "juan.perez@gmail.com", "555-555-555", gestorDeRanking);
 	}
 
-	// ------------------------------
-	// GETTERS
-	// ------------------------------
+	// ------------------------------------------------------------
+	// NOMBRE, EMAIL, TELEFONO Y GESTOR DE RANKING
+	// ------------------------------------------------------------
 
 	@Test
 	void getNombreTest() {
@@ -42,9 +56,14 @@ class UsuarioTest {
 		assertEquals(usuario.getTelefono(), "555-555-555");
 	}
 
-	// ------------------------------
-	// RESERVAS
-	// ------------------------------
+	@Test
+	void getGestorDeRankingTest() {
+		assertEquals(usuario.getGestorDeRanking(), gestorDeRanking);
+	}
+
+	// ------------------------------------------------------------
+	// RESERVAS REALIZADAS COMO INQUILINO
+	// ------------------------------------------------------------
 
 	@Test
 	void getReservasTest() {
@@ -89,4 +108,32 @@ class UsuarioTest {
 		assertEquals(usuario.getCiudadesConReserva().size(), 1);
 		assertEquals(usuario.getCiudadesConReserva().get(0), "Buenos Aires");
 	}
+
+	@Test
+	void getCantidadDeReservasTest() {
+		usuario.realizarReserva(reserva);
+		assertEquals(usuario.getCantidadDeReservas(), 1);
+	}
+
+	// ------------------------------------------------------------
+	// ALQUILERES E INMUEBLES REGISTRADOS COMO PROPIETARIO
+	// ------------------------------------------------------------
+
+	@Test
+	public void registrarYObtenerAlquilerTest() {
+		Alquiler alquiler = mock(Alquiler.class);
+
+		usuario.registrarAlquiler(alquiler);
+		assertEquals(usuario.getAlquileres().size(), 1);
+	}
+
+	@Test
+	public void registrarYObtenerInmuebleTest() {
+		Inmueble inmueble = mock(Inmueble.class);
+
+		usuario.registrarInmueble(inmueble);
+		assertEquals(usuario.getInmuebles().size(), 1);
+	}
+
+	// ------------------------------------------------------------
 }

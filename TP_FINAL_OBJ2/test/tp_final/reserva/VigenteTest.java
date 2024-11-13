@@ -9,34 +9,80 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import tp_final.ranking.Ranking;
+
 class VigenteTest {
 	private EstadoDeReserva estado;
-	private Reserva spy;
+	private Reserva reserva;
+	private Ranking ranking;
+
+	// ------------------------------------------------------------
 
 	@BeforeEach
 	void setUp() {
 		// MOCK
-		spy = mock(Reserva.class);
+		reserva = mock(Reserva.class);
+		ranking = mock(Ranking.class);
 
 		// SUT
 		estado = new Vigente();
 	}
 
+	// ------------------------------------------------------------
+	// TRANSICION DE ESTADOS
+	// ------------------------------------------------------------
+
 	@Test
 	void UnEstadoVigenteEsAprobadoYLaReservaNoCambiaDeEstado() {
-		estado.aprobar(spy);
-		verify(spy, never()).setEstado(any());
+		estado.aprobar(reserva);
+		verify(reserva, never()).setEstado(any());
 	}
 
 	@Test
 	void UnEstadoVigenteEsCanceladoYLaReservaCambiaACancelado() {
-		estado.cancelar(spy);
-		verify(spy).setEstado(isA(Cancelado.class));
+		estado.cancelar(reserva);
+		verify(reserva).setEstado(isA(Cancelado.class));
 	}
 
 	@Test
 	void UnEstadoVigenteEsFinalizadoYLaReservaCambiaAFinalizado() {
-		estado.finalizar(spy);
-		verify(spy).setEstado(isA(Finalizado.class));
+		estado.finalizar(reserva);
+		verify(reserva).setEstado(isA(Finalizado.class));
 	}
+
+	@Test
+	void UnEstadoVigenteEsEncoladoYLaReservaNoCambiaDeEstado() {
+		estado.encolar(reserva);
+		verify(reserva, never()).setEstado(any());
+	}
+
+	@Test
+	void UnEstadoVigenteEsDesencoladoYLaReservaNoCambiaDeEstado() {
+		estado.desencolar(reserva);
+		verify(reserva, never()).setEstado(any());
+	}
+
+	// ------------------------------------------------------------
+	// RANKING DE INMUEBLES, INQUILINOS Y PROPIETARIOS
+	// ------------------------------------------------------------
+
+	@Test
+	void UnEstadoVigenteNoPuedeRankearInmueble() {
+		estado.rankearInmueble(reserva, ranking);
+		verify(reserva, never()).doRankearInmueble(ranking);
+	}
+
+	@Test
+	void UnEstadoVigenteNoPuedeRankearInquilino() {
+		estado.rankearInquilino(reserva, ranking);
+		verify(reserva, never()).doRankearInquilino(ranking);
+	}
+
+	@Test
+	void UnEstadoVigenteNoPuedeRankearPropietario() {
+		estado.rankearPropietario(reserva, ranking);
+		verify(reserva, never()).doRankearPropietario(ranking);
+	}
+
+	// ------------------------------------------------------------
 }
