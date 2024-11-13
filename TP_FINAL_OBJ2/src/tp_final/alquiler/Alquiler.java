@@ -12,10 +12,12 @@ import tp_final.estado_de_alquiler.EstadoDeAlquiler;
 import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
+import tp_final.usuarios.Usuario;
 import tp_final_extra.Reserva;
-import tp_final_extra.Usuario;
 
 public class Alquiler {
+
+	private Usuario propietario;
 
 	private Inmueble inmueble;
 
@@ -41,9 +43,10 @@ public class Alquiler {
 
 	private List<Usuario> subscriptores;
 
-	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago, double precioBase,
-			PoliticaDeCancelacion politica) {// agregar atributos necesarios
+	Alquiler(Usuario propietario, Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago,
+			double precioBase, PoliticaDeCancelacion politica) {// agregar atributos necesarios
 		this.inmueble = inmueble;
+		this.propietario = propietario;
 		this.setCheckIn(checkIn);
 		this.setCheckOut(checkOut);
 		this.setMedioDePago(medioDePago);
@@ -60,7 +63,11 @@ public class Alquiler {
 		return inmueble;
 	}
 
-	public LocalDate getFechaDeCheckIn() {
+	public Usuario getPropietario() {
+		return propietario;
+	}
+
+	public LocalDate getFechaCheckIn() {
 		return fechaEntrada;
 	}
 
@@ -82,6 +89,10 @@ public class Alquiler {
 
 	public double getPrecioBase() {
 		return precioBase;
+	}
+
+	public String getCiudad() {
+		return this.getInmueble().getCiudad();
 	}
 
 	public EstadoDeAlquiler getEstadoDeAlquiler() {
@@ -168,13 +179,8 @@ public class Alquiler {
 	public void notificarSubs() {
 
 		for (Usuario sub : subscriptores) {
-			sub.notificar();
-		}
-	}
 
-	public Object getPropietario() {
-		// TODO Auto-generated method stub
-		return null;
+		}
 	}
 
 	public boolean esLibre() {

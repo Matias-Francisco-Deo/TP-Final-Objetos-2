@@ -12,16 +12,14 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tp_final.alquiler.Alquiler;
-import tp_final.alquiler.MedioDePago;
 import tp_final.estado_de_alquiler.Alquilado;
 import tp_final.estado_de_alquiler.EstadoDeAlquiler;
 import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
 import tp_final.politica_cancelacion.SinCancelacion;
+import tp_final.usuarios.Usuario;
 import tp_final_extra.Reserva;
-import tp_final_extra.Usuario;
 
 class AlquilerTest {
 	Alquiler alquiler;
@@ -31,13 +29,16 @@ class AlquilerTest {
 	private Reserva reserva3;
 	private PoliticaDeCancelacion politica;
 
+	private Usuario propietario;
 	private Usuario sub;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		inmueble = mock(Inmueble.class);
 
-		sub = new Usuario();
+		propietario = mock(Usuario.class);
+
+		sub = mock(Usuario.class);
 
 		reserva1 = mock(Reserva.class);
 		reserva2 = mock(Reserva.class);
@@ -45,8 +46,8 @@ class AlquilerTest {
 
 		politica = new SinCancelacion();
 
-		alquiler = new Alquiler(inmueble, LocalTime.of(10, 0), LocalTime.of(14, 30), MedioDePago.EFECTIVO, 200d,
-				politica);
+		alquiler = new Alquiler(propietario, inmueble, LocalTime.of(10, 0), LocalTime.of(14, 30), MedioDePago.EFECTIVO,
+				200d, politica);
 	}
 
 	@Test
@@ -65,7 +66,7 @@ class AlquilerTest {
 		LocalDate entrada = LocalDate.of(2024, 11, 3);
 		alquiler.setFechaDeEntrada(entrada);
 
-		assertEquals(entrada, alquiler.getFechaDeCheckIn());
+		assertEquals(entrada, alquiler.getFechaCheckIn());
 	}
 
 	@Test
@@ -105,12 +106,12 @@ class AlquilerTest {
 		when(reserva1.getfechaEntrada()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getfechaSalida()).thenReturn(LocalDate.of(2024, 11, 5));
 
-		assertEquals(null, alquiler.getFechaDeCheckIn());
+		assertEquals(null, alquiler.getFechaCheckIn());
 		assertEquals(null, alquiler.getFechaDeCheckOut());
 
 		alquiler.confirmarReserva(reserva1);
 
-		assertEquals(reserva1.getfechaEntrada(), alquiler.getFechaDeCheckIn());
+		assertEquals(reserva1.getfechaEntrada(), alquiler.getFechaCheckIn());
 		assertEquals(reserva1.getfechaSalida(), alquiler.getFechaDeCheckOut());
 	}
 
