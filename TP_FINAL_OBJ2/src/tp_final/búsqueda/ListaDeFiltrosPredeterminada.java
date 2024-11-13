@@ -5,11 +5,12 @@ import java.util.List;
 
 import tp_final.alquiler.Alquiler;
 
-public class FiltroDefault {
+public class ListaDeFiltrosPredeterminada {
 
 	private List<ParámetroDeBúsqueda> filtros;
 
-	public FiltroDefault(FiltroCiudad ciudad, FiltroFechaEntrada fechaEntrada, FiltroFechaSalida fechaSalida) {
+	public ListaDeFiltrosPredeterminada(FiltroCiudad ciudad, FiltroFechaEntrada fechaEntrada,
+			FiltroFechaSalida fechaSalida) {
 		this.setFiltros(new ArrayList<ParámetroDeBúsqueda>());
 		this.añadirFiltro(ciudad);
 		this.añadirFiltro(fechaEntrada);

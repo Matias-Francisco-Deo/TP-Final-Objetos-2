@@ -44,7 +44,7 @@ public class estadoAlquiladoTest {
 
 	@Test
 	void alquiladoAlquilarTest() {
-		when(alquiler.getcolaDeEspera()).thenReturn(new java.util.ArrayList<>());
+		when(alquiler.getColaDeEspera()).thenReturn(new java.util.ArrayList<>());
 
 		alquilado.alquilar(reserva1, alquiler);
 

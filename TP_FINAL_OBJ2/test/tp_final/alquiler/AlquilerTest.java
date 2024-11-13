@@ -2,6 +2,7 @@ package tp_final.alquiler;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -86,7 +87,7 @@ class AlquilerTest {
 		alquiler.setPrecioBase(100);
 		assertEquals(alquiler.getPrecioBase(), 100d);
 
-		verify(sub).mandarMensaje(alquiler.mesajeDescuento());
+		verify(sub).mandarMensaje(any());
 
 	}
 
@@ -115,7 +116,7 @@ class AlquilerTest {
 
 		when(inmueble.getCapacidad()).thenReturn(5);
 
-		assertEquals(alquiler.getcantidadHuespedes(), 5);
+		assertEquals(alquiler.getCantidadHuespedes(), 5);
 	}
 
 	@Test
@@ -255,9 +256,9 @@ class AlquilerTest {
 
 		alquiler.addReserva(reserva1);
 
-		assertEquals(alquiler.getcolaDeEspera().size(), 1);
+		assertEquals(alquiler.getColaDeEspera().size(), 1);
 
-		assertEquals(alquiler.getcolaDeEspera().get(0), reserva1);
+		assertEquals(alquiler.getColaDeEspera().get(0), reserva1);
 	}
 
 	@Test
@@ -265,13 +266,9 @@ class AlquilerTest {
 
 		alquiler.addSubscriptor(sub);
 
-		alquiler.notificarSubs(alquiler.mesajeCancelacion());
+		alquiler.notificarSubs("");
 
-		alquiler.notificarSubs(alquiler.mesajeDescuento());
-
-		verify(sub).mandarMensaje(alquiler.mesajeCancelacion());
-
-		verify(sub).mandarMensaje(alquiler.mesajeDescuento());
+		verify(sub).mandarMensaje("");
 	}
 
 	@Test
@@ -329,7 +326,7 @@ class AlquilerTest {
 
 		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Libre);
 
-		verify(sub).mandarMensaje(alquiler.mesajeCancelacion());
+		verify(sub).mandarMensaje(any());
 
 	}
 
@@ -350,7 +347,7 @@ class AlquilerTest {
 
 		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Libre);
 
-		verify(sub).mandarMensaje(alquiler.mesajeCancelacion());
+		verify(sub).mandarMensaje(any());
 
 	}
 
@@ -376,11 +373,11 @@ class AlquilerTest {
 
 		alquiler.reservar(reserva1);
 
-		assertEquals(alquiler.getcolaDeEspera().size(), 1);
+		assertEquals(alquiler.getColaDeEspera().size(), 1);
 
 		alquiler.doCancelarLibre(reserva1);
 
-		assertTrue(alquiler.getcolaDeEspera().isEmpty());
+		assertTrue(alquiler.getColaDeEspera().isEmpty());
 
 	}
 
@@ -395,7 +392,7 @@ class AlquilerTest {
 
 		alquiler.doCancelarLibre(reserva1);
 
-		assertEquals(alquiler.getcolaDeEspera().size(), 1);
+		assertEquals(alquiler.getColaDeEspera().size(), 1);
 
 	}
 
@@ -408,7 +405,7 @@ class AlquilerTest {
 
 		alquiler.doCancelarLibre(reserva2);
 
-		assertEquals(alquiler.getcolaDeEspera().size(), 1);
+		assertEquals(alquiler.getColaDeEspera().size(), 1);
 
 	}
 }

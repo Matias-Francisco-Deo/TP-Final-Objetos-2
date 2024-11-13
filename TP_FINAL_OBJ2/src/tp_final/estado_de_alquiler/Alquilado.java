@@ -18,4 +18,9 @@ public class Alquilado implements EstadoDeAlquiler {
 
 	}
 
+	@Override
+	public boolean esLibre() {
+		return false;
+	}
+
 }

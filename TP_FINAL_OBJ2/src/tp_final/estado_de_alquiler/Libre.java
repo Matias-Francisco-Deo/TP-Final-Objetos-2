@@ -7,7 +7,7 @@ public class Libre implements EstadoDeAlquiler {
 
 	@Override
 	public void alquilar(Reserva reserva, Alquiler alquiler) {
-		if (alquiler.getcolaDeEspera().isEmpty()) {
+		if (alquiler.getColaDeEspera().isEmpty()) {
 
 			alquiler.addReserva(reserva);
 		} else {
@@ -22,5 +22,10 @@ public class Libre implements EstadoDeAlquiler {
 
 		alquiler.doCancelarLibre(reserva);
 
+	}
+
+	@Override
+	public boolean esLibre() {
+		return true;
 	}
 }

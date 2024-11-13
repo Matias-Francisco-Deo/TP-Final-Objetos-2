@@ -27,7 +27,7 @@ class FiltroCantidadHuéspedesTest {
 	@Test
 	void testFiltroSólamentePasaComoVálidoLosAlquileresQueTenganComoMínimoLaCantidadEstablecidaDeHuéspedesEnÉl() {
 		// setup
-		when(alquiler1.getcantidadHuespedes()).thenReturn(20);
+		when(alquiler1.getCantidadHuespedes()).thenReturn(20);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);
@@ -40,7 +40,7 @@ class FiltroCantidadHuéspedesTest {
 	@Test
 	void testFiltroSólamentePasaComoVálidoLosAlquileresQueTenganLaMismaCantidadDeHuéspedesQueÉl() {
 		// setup
-		when(alquiler1.getcantidadHuespedes()).thenReturn(5);
+		when(alquiler1.getCantidadHuespedes()).thenReturn(5);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);
@@ -53,7 +53,7 @@ class FiltroCantidadHuéspedesTest {
 	@Test
 	void testFiltroNoDejaPasarSiNoEsMayorOIgualQueSuCantidadDeHuéspedes() {
 		// setup
-		when(alquiler1.getcantidadHuespedes()).thenReturn(4);
+		when(alquiler1.getCantidadHuespedes()).thenReturn(4);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);

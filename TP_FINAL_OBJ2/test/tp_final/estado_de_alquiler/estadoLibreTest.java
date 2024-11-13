@@ -41,7 +41,7 @@ public class estadoLibreTest {
 	void libreAlquilarTest() {
 		List<Reserva> colaReservas = new ArrayList<>();
 
-		when(alquiler.getcolaDeEspera()).thenReturn(new java.util.ArrayList<>());
+		when(alquiler.getColaDeEspera()).thenReturn(new java.util.ArrayList<>());
 
 		libre.alquilar(reserva1, alquiler);
 
@@ -51,7 +51,7 @@ public class estadoLibreTest {
 
 		colaReservas.add(reserva1);
 
-		when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
+		when(alquiler.getColaDeEspera()).thenReturn(colaReservas);
 
 		libre.alquilar(reserva2, alquiler);
 

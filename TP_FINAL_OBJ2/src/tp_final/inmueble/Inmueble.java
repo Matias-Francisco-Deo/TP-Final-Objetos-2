@@ -1,6 +1,6 @@
 package tp_final.inmueble;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import tp_final.ranking.GestorDeRanking;
 import tp_final.usuarios.Usuario;
@@ -18,18 +18,18 @@ public class Inmueble {
 
 	private String direccion;
 
-	private ArrayList<String> servicios;
+	private List<String> servicios;
 
 	private int capacidad;
 
-	private ArrayList<Foto> fotos;
+	private List<Foto> fotos;
 
 	private int cantVecesEnAlquiler;
 
 	private GestorDeRanking gestor;
 
 	Inmueble(String tipo, Usuario propietario, double superficie, String pais, String ciudad, String direccion,
-			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, GestorDeRanking gestor) {
+			List<String> servicios, int capacidad, List<Foto> fotos, GestorDeRanking gestor) {
 		this.tipoInmueble = tipo;
 		this.propietario = propietario;
 		this.superficie = superficie;
@@ -76,11 +76,11 @@ public class Inmueble {
 		return cantVecesEnAlquiler;
 	}
 
-	public ArrayList<Foto> getFotos() {
+	public List<Foto> getFotos() {
 		return fotos;
 	}
 
-	public ArrayList<String> getServicios() {
+	public List<String> getServicios() {
 		return servicios;
 	}
 

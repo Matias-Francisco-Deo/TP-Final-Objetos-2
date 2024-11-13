@@ -44,7 +44,7 @@ public class RecolectorDeDatos {
 	}
 
 	private List<Alquiler> getAlquileres() {
-		return sitioWeb.getAlquileres();
+		return this.getSitioWeb().getAlquileres();
 	}
 
 	public double getTasaDeOcupación() {

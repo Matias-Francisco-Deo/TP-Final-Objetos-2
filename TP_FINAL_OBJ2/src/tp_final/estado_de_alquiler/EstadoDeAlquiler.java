@@ -7,4 +7,6 @@ public interface EstadoDeAlquiler {
 	public void alquilar(Reserva reserva, Alquiler alquiler);
 
 	public void cancelar(Reserva reserva, Alquiler alquiler);
+
+	public boolean esLibre();
 }

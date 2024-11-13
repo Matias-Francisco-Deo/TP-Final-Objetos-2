@@ -27,9 +27,9 @@ class FiltroFechaSalidaTest {
 	}
 
 	@Test
-	void testFiltroFechaSalidaFiltraPorAlquileresConLaMismaFechaDeEntrada() {
+	void testFiltroFechaSalidaFiltraPorAlquileresConLaMismaFechaDeSalida() {
 		// setup
-		when(alquiler1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 12, 15));
+		when(alquiler1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 12, 15));
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);
@@ -42,7 +42,7 @@ class FiltroFechaSalidaTest {
 	@Test
 	void testFiltroNoDejaPasarSiLaFechaEsDiferente() {
 		// setup
-		when(alquiler1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 30));
+		when(alquiler1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 30));
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);

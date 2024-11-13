@@ -19,8 +19,8 @@ public abstract class PoliticaDeCancelacion {
 	public abstract double calcularCosto(LocalDate checkIn, LocalDate checkOut, double precio);
 
 	public String generarMail(double monto) {
-		return ("Por las politicas de cancelacion aclaradas al momento de hacer la reserva se debera abonar un monto de "
-				+ monto + " $");
+		return "Por las politicas de cancelacion aclaradas al momento de hacer la reserva se debera abonar un monto de "
+				+ monto + " $";
 	}
 
 	public void enviarMail(String texto) {

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tp_final.alquiler.Alquiler;
-import tp_final.búsqueda.FiltroDefault;
+import tp_final.búsqueda.ListaDeFiltrosPredeterminada;
 import tp_final.inmueble.Inmueble;
 import tp_final.usuarios.Usuario;
 
@@ -87,7 +87,7 @@ class SitioWebTest {
 		sitioWeb.registrarUsuario(propietario);
 
 		// filtro de búsqueda
-		FiltroDefault filtro = mock(FiltroDefault.class);
+		ListaDeFiltrosPredeterminada filtro = mock(ListaDeFiltrosPredeterminada.class);
 		when(filtro.filtrar(Arrays.asList(alquiler1, alquiler2))).thenReturn(Arrays.asList(alquiler1));
 		List<Alquiler> alquileresEsperados = Arrays.asList(alquiler1);
 

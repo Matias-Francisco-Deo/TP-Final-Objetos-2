@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 
 import tp_final.alquiler.Alquiler;
 
-class FiltroDefaultTest {
+class ListaDeFiltrosPredeterminadaTest {
 
-	private FiltroDefault filtroDefault;
+	private ListaDeFiltrosPredeterminada filtroDefault;
 	private FiltroCiudad ciudad;
 	private FiltroFechaEntrada fechaEntrada;
 	private FiltroFechaSalida fechaSalida;
@@ -33,7 +33,7 @@ class FiltroDefaultTest {
 		alquiler2 = mock(Alquiler.class);
 		alquiler3 = mock(Alquiler.class);
 		alquileres = Arrays.asList(alquiler1, alquiler2, alquiler3);
-		filtroDefault = new FiltroDefault(ciudad, fechaEntrada, fechaSalida);
+		filtroDefault = new ListaDeFiltrosPredeterminada(ciudad, fechaEntrada, fechaSalida);
 	}
 
 	@Test

@@ -21,7 +21,7 @@ public class FiltroCantidadHuéspedes implements ParámetroDeBúsqueda {
 	@Override
 	public boolean esVálido(Alquiler alquiler) {
 
-		return alquiler.getcantidadHuespedes() >= this.getCantidadMínimaHuéspedes();
+		return alquiler.getCantidadHuespedes() >= this.getCantidadMínimaHuéspedes();
 	}
 
 }

@@ -62,7 +62,7 @@ public class Alquiler {
 	}
 
 	public Usuario getPropietario() {
-		return (inmueble.getPropietario());
+		return inmueble.getPropietario();
 	}
 
 	public LocalDate getFechaCheckIn() {
@@ -93,7 +93,7 @@ public class Alquiler {
 		return this.getInmueble().getCiudad();
 	}
 
-	public int getcantidadHuespedes() {
+	public int getCantidadHuespedes() {
 		return this.inmueble.getCapacidad();
 	}
 
@@ -105,7 +105,7 @@ public class Alquiler {
 		return this.politicaDeCancelacion;
 	}
 
-	public List<Reserva> getcolaDeEspera() {
+	public List<Reserva> getColaDeEspera() {
 		return this.colaDeEspera;
 	}
 
@@ -142,11 +142,15 @@ public class Alquiler {
 
 		this.precioBase = precioNuevo;
 
+		comprobarBajaDePrecio(precioantiguo);
+
+	}
+
+	private void comprobarBajaDePrecio(double precioantiguo) {
 		if (precioBase < precioantiguo) {
 
-			this.notificarSubs(this.mesajeDescuento());
+			this.notificarSubs(this.mensajeDescuento());
 		}
-
 	}
 
 	public void setPoliticaDeCancelacion(PoliticaDeCancelacion politica) {
@@ -174,11 +178,7 @@ public class Alquiler {
 	}
 
 	public boolean esLibre() {
-		return this.estado instanceof Libre;
-	}
-
-	public boolean esAlquilado() {
-		return this.estado instanceof Alquilado;
+		return this.estado.esLibre();
 	}
 
 	public void reservar(Reserva reserva) {
@@ -204,40 +204,40 @@ public class Alquiler {
 	public void notificarSubs(String mensaje) {
 
 		for (Suscriptor sub : subscriptores) {
-			sub.mandarMensaje(mensaje);// implementar en usuario
+			sub.mandarMensaje(mensaje);
 		}
 	}
 
-	public String mesajeDescuento() {
+	private String mensajeDescuento() {
 		return ("No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
 				+ this.getPrecioBase() + "pesos.");
 	}
 
-	public String mesajeCancelacion() {
+	private String mensajeCancelacion() {
 		return ("“No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
 				+ this.getPrecioBase() + "pesos”.");
 	}
 
-	public String getTipoInmueble() {
+	private String getTipoInmueble() {
 		return this.inmueble.getTipoInmueble();
 	}
 
 	public void doCancelarAlquilado(Reserva reserva) {
 
-		List<Reserva> cola = this.getcolaDeEspera();
+		List<Reserva> cola = this.getColaDeEspera();
 		Reserva reservaActual = cola.get(0);
 
-		this.getcolaDeEspera().remove(reserva);
+		this.getColaDeEspera().remove(reserva);
 
 		if (cola.isEmpty()) {
 			this.setEstadoDeAlquiler(new Libre());
 
-			this.notificarSubs(this.mesajeCancelacion());
+			this.notificarSubs(this.mensajeCancelacion());
 
 		} else if (!cola.get(0).equals(reservaActual)) {
 			this.setEstadoDeAlquiler(new Libre());
 
-			this.notificarSubs(this.mesajeCancelacion());
+			this.notificarSubs(this.mensajeCancelacion());
 
 			cola.get(0).desencolar();
 		}
@@ -245,17 +245,15 @@ public class Alquiler {
 	}
 
 	public void doCancelarLibre(Reserva reserva) {
-		List<Reserva> cola = this.getcolaDeEspera();
-
-		// reserva.cancelar()
+		List<Reserva> cola = this.getColaDeEspera();
 
 		if (cola.size() > 1 && cola.get(0).equals(reserva)) {
 
-			this.getcolaDeEspera().remove(0);
+			this.getColaDeEspera().remove(0);
 
 			cola.get(0).desencolar();
 		} else {
-			this.getcolaDeEspera().remove(reserva);
+			this.getColaDeEspera().remove(reserva);
 		}
 
 	}
