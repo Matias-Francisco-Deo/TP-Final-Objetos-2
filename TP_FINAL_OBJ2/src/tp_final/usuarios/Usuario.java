@@ -4,25 +4,37 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import tp_final.alquiler.Alquiler;
+import tp_final.inmueble.Inmueble;
+import tp_final.ranking.GestorDeRanking;
 import tp_final.reserva.Reserva;
-import tp_final.reseña.Reseña;
-import tp_final.reseña.Reseñable;
 
-public class Usuario implements Reseñable {
+public class Usuario {
 	private String nombre;
 	private String email;
 	private String telefono;
-	private List<Reserva> reservas = new ArrayList<Reserva>();
-	private List<Reseña> reseñas = new ArrayList<Reseña>();
+	private GestorDeRanking gestorDeRanking;
 
-	public Usuario(String nombre, String email, String telefono) {
+	// RESERVAS REALIZADAS COMO INQUILINO
+	private List<Reserva> reservas = new ArrayList<Reserva>();
+
+	// ALQUILERES REGISTRADOS COMO PROPIETARIO
+	private List<Alquiler> alquileresRegistrados = new ArrayList<Alquiler>();
+
+	// INMUEBLES REGISTRADOS COMO PROPIETARIO
+	private List<Inmueble> inmueblesRegistrados = new ArrayList<Inmueble>();
+
+	// ------------------------------------------------------------
+
+	public Usuario(String nombre, String email, String telefono, GestorDeRanking gestorDeRanking) {
 		this.setNombre(nombre);
 		this.setEmail(email);
 		this.setTelefono(telefono);
+		this.setGestorDeRanking(gestorDeRanking);
 	}
 
 	// ------------------------------------------------------------
-	// NOMBRE, EMAIL Y TELEFONO
+	// NOMBRE, EMAIL, TELEFONO Y GESTOR DE RANKING
 	// ------------------------------------------------------------
 
 	public String getNombre() {
@@ -37,6 +49,10 @@ public class Usuario implements Reseñable {
 		return this.telefono;
 	}
 
+	public GestorDeRanking getGestorDeRanking() {
+		return this.gestorDeRanking;
+	}
+
 	private void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -49,8 +65,12 @@ public class Usuario implements Reseñable {
 		this.telefono = telefono;
 	}
 
+	private void setGestorDeRanking(GestorDeRanking gestorDeRanking) {
+		this.gestorDeRanking = gestorDeRanking;
+	}
+
 	// ------------------------------------------------------------
-	// ACCIONES DE RESERVA
+	// RESERVAS REALIZADAS COMO INQUILINO
 	// ------------------------------------------------------------
 
 	public List<Reserva> getReservas() {
@@ -75,34 +95,32 @@ public class Usuario implements Reseñable {
 	}
 
 	public List<String> getCiudadesConReserva() {
-		return this.getReservas().stream().map(reserva -> reserva.getCiudad()).toList();
+		return this.getReservas().stream().map(reserva -> reserva.getCiudad()).distinct().toList();
+	}
+
+	public int getCantidadDeReservas() {
+		return this.getReservas().size();
 	}
 
 	// ------------------------------------------------------------
-	// RESEÑAS DE INQUILINO
+	// ALQUILERES E INMUEBLES REGISTRADOS COMO PROPIETARIO
 	// ------------------------------------------------------------
 
-	@Override
-	public List<Reseña> getReseñas() {
-		return this.reseñas;
+	public void registrarAlquiler(Alquiler alquiler) {
+		this.alquileresRegistrados.add(alquiler);
 	}
 
-	public void recibirReseña(Reseña reseña) {
-		this.getReseñas().add(reseña);
+	public void registrarInmueble(Inmueble inmueble) {
+		this.inmueblesRegistrados.add(inmueble);
 	}
 
-	@Override
-	public List<Double> getPuntajes() {
-		return this.getReseñas().stream().map(reseña -> reseña.getPuntaje()).toList();
+	public List<Alquiler> getAlquileres() {
+		return this.alquileresRegistrados;
 	}
 
-	@Override
-	public double getPuntajePromedio() {
-		return this.getPuntajes().stream().mapToDouble(puntaje -> puntaje).average().orElse(0);
+	public List<Inmueble> getInmuebles() {
+		return this.inmueblesRegistrados;
 	}
 
-	@Override
-	public List<String> getComentarios() {
-		return this.getReseñas().stream().map(reseña -> reseña.getComentario()).toList();
-	}
+	// ------------------------------------------------------------
 }

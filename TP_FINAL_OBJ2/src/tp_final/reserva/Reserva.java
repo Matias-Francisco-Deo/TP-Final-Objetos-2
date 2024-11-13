@@ -3,8 +3,8 @@ package tp_final.reserva;
 import java.time.LocalDate;
 
 import tp_final.alquiler.Alquiler;
-import tp_final.reseña.CategoriaDeReseñaDeInmueble;
-import tp_final.reseña.Reseña;
+import tp_final.inmueble.Inmueble;
+import tp_final.ranking.Ranking;
 import tp_final.usuarios.Usuario;
 import tp_final.varios.MedioDePago;
 import tp_final.varios.ServidorDeCorreo;
@@ -15,6 +15,8 @@ public class Reserva {
 	private MedioDePago medioDePago;
 	private EstadoDeReserva estado;
 	private ServidorDeCorreo servidorDeCorreo;
+
+	// ------------------------------------------------------------
 
 	public Reserva(Alquiler alquiler, Usuario inquilino, MedioDePago medioDePago, ServidorDeCorreo servidorDeCorreo) {
 		this.setAlquiler(alquiler);
@@ -61,7 +63,7 @@ public class Reserva {
 	}
 
 	// ------------------------------------------------------------
-	// FECHA DE CHECK-IN, CIUDAD Y PROPIETARIO
+	// FECHA DE CHECK-IN, CIUDAD, PROPIETARIO E INMUEBLE
 	// ------------------------------------------------------------
 
 	public LocalDate getFechaCheckIn() {
@@ -76,8 +78,12 @@ public class Reserva {
 		return this.getAlquiler().getPropietario();
 	}
 
+	public Inmueble getInmueble() {
+		return this.getAlquiler().getInmueble();
+	}
+
 	// ------------------------------------------------------------
-	// ESTADO DE RESERVA
+	// ESTADOS DE RESERVA
 	// ------------------------------------------------------------
 
 	public EstadoDeReserva getEstado() {
@@ -125,36 +131,38 @@ public class Reserva {
 	}
 
 	// ------------------------------------------------------------
-	// RANKEO DE INMUEBLE, INQUILINO Y PROPIETARIO
+	// RANKING DE INMUEBLE, INQUILINO Y PROPIETARIO
 	// ------------------------------------------------------------
 
 	// INMUEBLE
 
-	public void rankearInmueble(CategoriaDeReseñaDeInmueble categoria, Reseña reseña) {
-		this.getEstado().rankearInmueble(this, categoria, reseña);
+	public void rankearInmueble(Ranking ranking) {
+		this.getEstado().rankearInmueble(this, ranking);
 	}
 
-	public void doRankearInmueble(CategoriaDeReseñaDeInmueble categoria, Reseña reseña) {
-		this.getAlquiler().getInmueble().recibirReseña(categoria, reseña);
+	public void doRankearInmueble(Ranking ranking) {
+		this.getInmueble().getGestorDeRanking().recibirRankeo(ranking);
 	}
 
 	// INQUILINO
 
-	public void rankearInquilino(Reseña reseña) {
-		this.getEstado().rankearInquilino(this, reseña);
+	public void rankearInquilino(Ranking ranking) {
+		this.getEstado().rankearInquilino(this, ranking);
 	}
 
-	public void doRankearInquilino(Reseña reseña) {
-		this.getInquilino().recibirReseña(reseña);
+	public void doRankearInquilino(Ranking ranking) {
+		this.getInquilino().getGestorDeRanking().recibirRankeo(ranking);
 	}
 
 	// PROPIETARIO
 
-	public void rankearPropietario(Reseña reseña) {
-		this.getEstado().rankearPropietario(this, reseña);
+	public void rankearPropietario(Ranking ranking) {
+		this.getEstado().rankearPropietario(this, ranking);
 	}
 
-	public void doRankearPropietario(Reseña reseña) {
-		this.getPropietario().recibirReseña(reseña);
+	public void doRankearPropietario(Ranking ranking) {
+		this.getPropietario().getGestorDeRanking().recibirRankeo(ranking);
 	}
+
+	// ------------------------------------------------------------
 }

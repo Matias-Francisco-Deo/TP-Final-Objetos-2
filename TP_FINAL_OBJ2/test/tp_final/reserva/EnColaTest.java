@@ -8,18 +8,28 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import tp_final.ranking.Ranking;
+
 class EnColaTest {
 	private EstadoDeReserva estado;
 	private Reserva reserva;
+	private Ranking ranking;
+
+	// ------------------------------------------------------------
 
 	@BeforeEach
 	void setUp() {
 		// MOCK
 		reserva = mock(Reserva.class);
+		ranking = mock(Ranking.class);
 
 		// SUT
 		estado = new EnCola();
 	}
+
+	// ------------------------------------------------------------
+	// TRANSICION DE ESTADOS
+	// ------------------------------------------------------------
 
 	@Test
 	void UnEstadoEnColaEsAprobadoYLaReservaNoCambiaDeEstado() {
@@ -50,4 +60,28 @@ class EnColaTest {
 		estado.desencolar(reserva);
 		verify(reserva).setEstado(any(PendienteDeAprobacion.class));
 	}
+
+	// ------------------------------------------------------------
+	// RANKING DE INMUEBLES, INQUILINOS Y PROPIETARIOS
+	// ------------------------------------------------------------
+
+	@Test
+	void UnEstadoEnColaNoPuedeRankearInmueble() {
+		estado.rankearInmueble(reserva, ranking);
+		verify(reserva, never()).doRankearInmueble(ranking);
+	}
+
+	@Test
+	void UnEstadoEnColaNoPuedeRankearInquilino() {
+		estado.rankearInquilino(reserva, ranking);
+		verify(reserva, never()).doRankearInquilino(ranking);
+	}
+
+	@Test
+	void UnEstadoEnColaNoPuedeRankearPropietario() {
+		estado.rankearPropietario(reserva, ranking);
+		verify(reserva, never()).doRankearPropietario(ranking);
+	}
+
+	// ------------------------------------------------------------
 }

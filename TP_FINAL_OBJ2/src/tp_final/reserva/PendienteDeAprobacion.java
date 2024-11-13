@@ -1,7 +1,6 @@
 package tp_final.reserva;
 
-import tp_final.reseña.CategoriaDeReseñaDeInmueble;
-import tp_final.reseña.Reseña;
+import tp_final.ranking.Ranking;
 
 public class PendienteDeAprobacion implements EstadoDeReserva {
 	@Override
@@ -32,17 +31,17 @@ public class PendienteDeAprobacion implements EstadoDeReserva {
 	}
 
 	@Override
-	public void rankearInmueble(Reserva reserva, CategoriaDeReseñaDeInmueble categoria, Reseña reseña) {
+	public void rankearInmueble(Reserva reserva, Ranking ranking) {
 		// NOTHING
 	}
 
 	@Override
-	public void rankearInquilino(Reserva reserva, Reseña reseña) {
+	public void rankearInquilino(Reserva reserva, Ranking ranking) {
 		// NOTHING
 	}
 
 	@Override
-	public void rankearPropietario(Reserva reserva, Reseña reseña) {
+	public void rankearPropietario(Reserva reserva, Ranking ranking) {
 		// NOTHING
 	}
 }

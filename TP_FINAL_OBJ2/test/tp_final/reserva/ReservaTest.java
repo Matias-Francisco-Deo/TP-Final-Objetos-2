@@ -1,10 +1,10 @@
 package tp_final.reserva;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import tp_final.alquiler.Alquiler;
 import tp_final.inmueble.Inmueble;
-import tp_final.reseña.CategoriaDeReseñaDeInmueble;
-import tp_final.reseña.Reseña;
+import tp_final.ranking.GestorDeRanking;
+import tp_final.ranking.Ranking;
 import tp_final.usuarios.Usuario;
 import tp_final.varios.MedioDePago;
 import tp_final.varios.ServidorDeCorreo;
@@ -26,8 +26,9 @@ class ReservaTest {
 	private MedioDePago medioDePago;
 	private ServidorDeCorreo servidorDeCorreo;
 	private Inmueble inmueble;
-	private CategoriaDeReseñaDeInmueble categoria;
-	private Reseña reseña;
+	private Ranking ranking;
+	private Usuario propietario;
+	private GestorDeRanking gestorDeRanking;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -36,16 +37,26 @@ class ReservaTest {
 		inquilino = mock(Usuario.class);
 		medioDePago = mock(MedioDePago.class);
 		servidorDeCorreo = mock(ServidorDeCorreo.class);
-		Usuario propietario = mock(Usuario.class);
+
 		inmueble = mock(Inmueble.class);
-		categoria = mock(CategoriaDeReseñaDeInmueble.class);
-		reseña = mock(Reseña.class);
+		propietario = mock(Usuario.class);
+		gestorDeRanking = mock(GestorDeRanking.class);
+		ranking = mock(Ranking.class);
 
 		// STUB
 		when(alquiler.getInmueble()).thenReturn(inmueble);
 		when(alquiler.getPropietario()).thenReturn(propietario);
+
+		when(inmueble.getGestorDeRanking()).thenReturn(gestorDeRanking);
+
 		when(inquilino.getEmail()).thenReturn("inquilino@gmail.com");
+		when(inquilino.getGestorDeRanking()).thenReturn(gestorDeRanking);
+
 		when(propietario.getEmail()).thenReturn("propietario@gmail.com");
+		when(propietario.getGestorDeRanking()).thenReturn(gestorDeRanking);
+
+		when(ranking.getComentario()).thenReturn("Excelente");
+		when(ranking.getPuntaje()).thenReturn(5);
 
 		// SUT
 		reserva = new Reserva(alquiler, inquilino, medioDePago, servidorDeCorreo);
@@ -76,7 +87,7 @@ class ReservaTest {
 	}
 
 	// ------------------------------------------------------------
-	// FECHA DE CHECK-IN, CIUDAD Y PROPIETARIO
+	// FECHA DE CHECK-IN, CIUDAD, PROPIETARIO E INMUEBLE
 	// ------------------------------------------------------------
 
 	@Test
@@ -94,8 +105,13 @@ class ReservaTest {
 		assertEquals(reserva.getPropietario(), alquiler.getPropietario());
 	}
 
+	@Test
+	void getInmuebleTest() {
+		assertEquals(reserva.getInmueble(), alquiler.getInmueble());
+	}
+
 	// ------------------------------------------------------------
-	// METODOS DE CAMBIO DE ESTADO
+	// ESTADOS DE RESERVA
 	// ------------------------------------------------------------
 
 	@Test
@@ -160,7 +176,7 @@ class ReservaTest {
 	}
 
 	// ------------------------------------------------------------
-	// RANKEO DE INMUEBLE, INQUILINO Y PROPIETARIO
+	// RANKING DE INMUEBLE, INQUILINO Y PROPIETARIO
 	// ------------------------------------------------------------
 
 	// INMUEBLE
@@ -169,13 +185,14 @@ class ReservaTest {
 	void rankearUnInmuebleSoloEsPosibleEnEstadoFinalizado() {
 		reserva.aprobar();
 		reserva.realizarCheckOut();
-		reserva.rankearInmueble(categoria, reseña);
-		assertTrue(reserva.getAlquiler().getInmueble().getReseñas().contains(reseña));
+		reserva.rankearInmueble(ranking);
+		verify(gestorDeRanking).recibirRankeo(ranking);
 	}
 
 	@Test
 	void rankearUnInmuebleEnCualquierOtroEstadoNoRealizaNingunaAccion() {
-		reserva.rankearInmueble(categoria, reseña);
+		reserva.rankearInmueble(ranking);
+		verify(gestorDeRanking, never()).recibirRankeo(ranking);
 	}
 
 	// INQUILINO
@@ -184,12 +201,14 @@ class ReservaTest {
 	void rankearUnInquilinoSoloEsPosibleEnEstadoFinalizado() {
 		reserva.aprobar();
 		reserva.realizarCheckOut();
-		reserva.rankearInquilino(reseña);
+		reserva.rankearInquilino(ranking);
+		verify(gestorDeRanking).recibirRankeo(ranking);
 	}
 
 	@Test
 	void rankearUnInquilinoEnCualquierOtroEstadoNoRealizaNingunaAccion() {
-		reserva.rankearInquilino(reseña);
+		reserva.rankearInquilino(ranking);
+		verify(gestorDeRanking, never()).recibirRankeo(ranking);
 	}
 
 	// PROPIETARIO
@@ -198,12 +217,15 @@ class ReservaTest {
 	void rankearUnPropietarioSoloEsPosibleEnEstadoFinalizado() {
 		reserva.aprobar();
 		reserva.realizarCheckOut();
-		reserva.rankearPropietario(reseña);
+		reserva.rankearPropietario(ranking);
+		verify(gestorDeRanking).recibirRankeo(ranking);
 	}
 
 	@Test
 	void rankearUnPropietarioEnCualquierOtroEstadoNoRealizaNingunaAccion() {
-		reserva.rankearPropietario(reseña);
+		reserva.rankearPropietario(ranking);
+		verify(gestorDeRanking, never()).recibirRankeo(ranking);
 	}
 
+	// ------------------------------------------------------------
 }

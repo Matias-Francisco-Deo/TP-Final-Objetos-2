@@ -9,29 +9,36 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import tp_final.alquiler.Alquiler;
+import tp_final.inmueble.Inmueble;
+import tp_final.ranking.GestorDeRanking;
 import tp_final.reserva.Reserva;
-import tp_final.reseña.Reseña;
 
 class UsuarioTest {
 	private Usuario usuario;
 	private Reserva reserva;
-	private Reseña reseña;
-	private Reseña otraReseña;
+
+	private GestorDeRanking gestorDeRanking;
+
+	// ------------------------------------------------------------
 
 	@BeforeEach
 	void setUp() throws Exception {
 		// MOCK
 		reserva = mock(Reserva.class);
-		reseña = mock(Reseña.class);
-		otraReseña = mock(Reseña.class);
+		gestorDeRanking = mock(GestorDeRanking.class);
+		Alquiler alquiler = mock(Alquiler.class);
+		Inmueble inmueble = mock(Inmueble.class);
+
+		// STUB
+		when(alquiler.getInmueble()).thenReturn(inmueble);
 
 		// SUT
-		usuario = new Usuario("Juan Perez", "juan.perez@gmail.com", "555-555-555");
-
+		usuario = new Usuario("Juan Perez", "juan.perez@gmail.com", "555-555-555", gestorDeRanking);
 	}
 
 	// ------------------------------------------------------------
-	// NOMBRE, EMAIL Y TELEFONO
+	// NOMBRE, EMAIL, TELEFONO Y GESTOR DE RANKING
 	// ------------------------------------------------------------
 
 	@Test
@@ -49,9 +56,14 @@ class UsuarioTest {
 		assertEquals(usuario.getTelefono(), "555-555-555");
 	}
 
-	// ------------------------------------------------------------------------------------------
-	// ACCIONES DE RESERVA
-	// ------------------------------------------------------------------------------------------
+	@Test
+	void getGestorDeRankingTest() {
+		assertEquals(usuario.getGestorDeRanking(), gestorDeRanking);
+	}
+
+	// ------------------------------------------------------------
+	// RESERVAS REALIZADAS COMO INQUILINO
+	// ------------------------------------------------------------
 
 	@Test
 	void getReservasTest() {
@@ -97,51 +109,31 @@ class UsuarioTest {
 		assertEquals(usuario.getCiudadesConReserva().get(0), "Buenos Aires");
 	}
 
+	@Test
+	void getCantidadDeReservasTest() {
+		usuario.realizarReserva(reserva);
+		assertEquals(usuario.getCantidadDeReservas(), 1);
+	}
+
 	// ------------------------------------------------------------
-	// RESEÑA COMO INQUILINO Y PROPIETARIO
+	// ALQUILERES E INMUEBLES REGISTRADOS COMO PROPIETARIO
 	// ------------------------------------------------------------
 
 	@Test
-	void getReseñasTest() {
-		assertEquals(usuario.getReseñas().size(), 0);
+	public void registrarYObtenerAlquilerTest() {
+		Alquiler alquiler = mock(Alquiler.class);
+
+		usuario.registrarAlquiler(alquiler);
+		assertEquals(usuario.getAlquileres().size(), 1);
 	}
 
 	@Test
-	void recibirReseñaTest() {
-		usuario.recibirReseña(reseña);
-		assertEquals(usuario.getReseñas().size(), 1);
+	public void registrarYObtenerInmuebleTest() {
+		Inmueble inmueble = mock(Inmueble.class);
+
+		usuario.registrarInmueble(inmueble);
+		assertEquals(usuario.getInmuebles().size(), 1);
 	}
 
-	@Test
-	void getPuntajesTest() {
-		when(reseña.getPuntaje()).thenReturn(5d);
-
-		usuario.recibirReseña(reseña);
-		assertEquals(usuario.getPuntajes().size(), 1);
-		assertEquals(usuario.getPuntajes().get(0), 5d);
-	}
-
-	@Test
-	void getPuntajePromedioTest() {
-		when(reseña.getPuntaje()).thenReturn(6d);
-		when(otraReseña.getPuntaje()).thenReturn(4d);
-
-		usuario.recibirReseña(reseña);
-		usuario.recibirReseña(otraReseña);
-		assertEquals(usuario.getPuntajePromedio(), 5d);
-	}
-
-	@Test
-	void getPuntajePromedioSinReseñasTest() {
-		assertEquals(usuario.getPuntajePromedio(), 0d);
-	}
-
-	@Test
-	void getComentariosTest() {
-		when(reseña.getComentario()).thenReturn("Excelente");
-
-		usuario.recibirReseña(reseña);
-		assertEquals(usuario.getComentarios().size(), 1);
-		assertEquals(usuario.getComentarios().get(0), "Excelente");
-	}
+	// ------------------------------------------------------------
 }

@@ -9,18 +9,28 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import tp_final.ranking.Ranking;
+
 class PendienteDeAprobacionTest {
 	private EstadoDeReserva estado;
 	private Reserva reserva;
+	private Ranking ranking;
+
+	// ------------------------------------------------------------
 
 	@BeforeEach
 	void setUp() {
 		// MOCK
 		reserva = mock(Reserva.class);
+		ranking = mock(Ranking.class);
 
 		// SUT
 		estado = new PendienteDeAprobacion();
 	}
+
+	// ------------------------------------------------------------
+	// TRANSICIONES DE ESTADOS
+	// ------------------------------------------------------------
 
 	@Test
 	void UnEstadoPendienteDeAprobacionEsAprobadoYLaReservaCambiaAVigente() {
@@ -51,4 +61,28 @@ class PendienteDeAprobacionTest {
 		estado.desencolar(reserva);
 		verify(reserva, never()).setEstado(any());
 	}
+
+	// ------------------------------------------------------------
+	// RANKING DE INMUEBLE, INQUILINO Y PROPIETARIO
+	// ------------------------------------------------------------
+
+	@Test
+	void UnEstadoPendienteDeAprobacionNoPuedeRankearInmueble() {
+		estado.rankearInmueble(reserva, ranking);
+		verify(reserva, never()).doRankearInmueble(ranking);
+	}
+
+	@Test
+	void UnEstadoPendienteDeAprobacionNoPuedeRankearInquilino() {
+		estado.rankearInquilino(reserva, ranking);
+		verify(reserva, never()).doRankearInquilino(ranking);
+	}
+
+	@Test
+	void UnEstadoPendienteDeAprobacionNoPuedeRankearPropietario() {
+		estado.rankearPropietario(reserva, ranking);
+		verify(reserva, never()).doRankearPropietario(ranking);
+	}
+
+	// ------------------------------------------------------------
 }

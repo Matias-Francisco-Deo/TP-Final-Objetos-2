@@ -1,7 +1,6 @@
 package tp_final.reserva;
 
-import tp_final.reseña.CategoriaDeReseñaDeInmueble;
-import tp_final.reseña.Reseña;
+import tp_final.ranking.Ranking;
 
 public interface EstadoDeReserva {
 	public void aprobar(Reserva reserva);
@@ -14,9 +13,9 @@ public interface EstadoDeReserva {
 
 	public void desencolar(Reserva reserva);
 
-	public void rankearInmueble(Reserva reserva, CategoriaDeReseñaDeInmueble categoria, Reseña reseña);
+	public void rankearInmueble(Reserva reserva, Ranking ranking);
 
-	public void rankearInquilino(Reserva reserva, Reseña reseña);
+	public void rankearInquilino(Reserva reserva, Ranking ranking);
 
-	public void rankearPropietario(Reserva reserva, Reseña reseña);
+	public void rankearPropietario(Reserva reserva, Ranking ranking);
 }

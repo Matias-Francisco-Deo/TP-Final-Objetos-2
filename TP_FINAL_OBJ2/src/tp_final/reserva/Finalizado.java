@@ -1,7 +1,6 @@
 package tp_final.reserva;
 
-import tp_final.reseña.CategoriaDeReseñaDeInmueble;
-import tp_final.reseña.Reseña;
+import tp_final.ranking.Ranking;
 
 public class Finalizado implements EstadoDeReserva {
 	@Override
@@ -30,17 +29,17 @@ public class Finalizado implements EstadoDeReserva {
 	}
 
 	@Override
-	public void rankearInmueble(Reserva reserva, CategoriaDeReseñaDeInmueble categoria, Reseña reseña) {
-		reserva.doRankearInmueble(categoria, reseña);
+	public void rankearInmueble(Reserva reserva, Ranking ranking) {
+		reserva.doRankearInmueble(ranking);
 	}
 
 	@Override
-	public void rankearInquilino(Reserva reserva, Reseña reseña) {
-		reserva.doRankearInquilino(reseña);
+	public void rankearInquilino(Reserva reserva, Ranking ranking) {
+		reserva.doRankearInquilino(ranking);
 	}
 
 	@Override
-	public void rankearPropietario(Reserva reserva, Reseña reseña) {
-		reserva.rankearPropietario(reseña);
+	public void rankearPropietario(Reserva reserva, Ranking ranking) {
+		reserva.doRankearPropietario(ranking);
 	}
 }
