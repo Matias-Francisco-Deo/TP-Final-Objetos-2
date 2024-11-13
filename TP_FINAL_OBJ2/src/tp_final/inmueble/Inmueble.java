@@ -1,13 +1,14 @@
 package tp_final.inmueble;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import tp_final_extra.Ranking;
+import tp_final.ranking.GestorDeRanking;
+import tp_final.usuarios.Usuario;
 
 public class Inmueble {
 	private String tipoInmueble;// revisar si tipo inmueble es una clase o un string
+
+	private Usuario propietario;
 
 	private double superficie;
 
@@ -25,13 +26,12 @@ public class Inmueble {
 
 	private int cantVecesEnAlquiler;
 
-	private Map<String, Double> promedioPuntajePorCategoria;
+	private GestorDeRanking gestor;
 
-	private Ranking ranking;
-
-	Inmueble(String tipo, double superficie, String pais, String ciudad, String direccion, ArrayList<String> servicios,
-			int capacidad, ArrayList<Foto> fotos) {
+	Inmueble(String tipo, Usuario propietario, double superficie, String pais, String ciudad, String direccion,
+			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, GestorDeRanking gestor) {
 		this.tipoInmueble = tipo;
+		this.propietario = propietario;
 		this.superficie = superficie;
 		this.pais = pais;
 		this.ciudad = ciudad;
@@ -40,12 +40,16 @@ public class Inmueble {
 		this.capacidad = capacidad;
 		this.fotos = fotos;
 		this.cantVecesEnAlquiler = 0;
-		this.promedioPuntajePorCategoria = new HashMap<>();
-		this.ranking = new Ranking();
+		this.gestor = gestor;
+
 	}
 
 	public String getTipoInmueble() {
 		return tipoInmueble;
+	}
+
+	public Usuario getPropietario() {
+		return propietario;
 	}
 
 	public double getSuperficie() {
@@ -72,20 +76,16 @@ public class Inmueble {
 		return cantVecesEnAlquiler;
 	}
 
-	public Map<String, Double> getPuntajesPorCategoria() {
-		return this.promedioPuntajePorCategoria; // revisar metodo
-	}
-
-	public Ranking getRanking() {
-		return ranking;
-	}
-
 	public ArrayList<Foto> getFotos() {
 		return fotos;
 	}
 
 	public ArrayList<String> getServicios() {
 		return servicios;
+	}
+
+	public GestorDeRanking getGestorDeRanking() {
+		return this.gestor;
 	}
 
 	public void setTipoInmueble(String tipoInmueble) {// cambiar string a tipoinmueble?
@@ -120,11 +120,7 @@ public class Inmueble {
 		this.fotos.add(foto);
 	}
 
-	public void addPuntajePorCategoria(String temporada, Double precio) {
-		promedioPuntajePorCategoria.put(temporada, precio);
-	}
-
-	public void sumarCantAlquilado() {
+	public void aumentarCantDeVecesAlquilado() {
 		this.cantVecesEnAlquiler += 1;
 	}
 }

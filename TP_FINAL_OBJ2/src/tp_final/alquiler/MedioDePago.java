@@ -1,7 +1,5 @@
 package tp_final.alquiler;
 
 public enum MedioDePago {
-	EFECTIVO,
-	DEBITO,
-	CREADITO
+	EFECTIVO, TARJETA_DEBITO, TARJETA_CREDITO
 }

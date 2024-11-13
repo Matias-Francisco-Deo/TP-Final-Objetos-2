@@ -1,10 +1,29 @@
 package tp_final.politica_cancelacion;
+
 import java.time.LocalDate;
 
 import tp_final_extra.Reserva;
 
-public interface PoliticaDeCancelacion {
-	public void aplicarPolitica(Reserva reserva,double precio);
-	public double calcularCosto(LocalDate checkIn,LocalDate checkOut,double precio);//cambiar fecha por la reserva
-	public String generarMail(double monto);
+public abstract class PoliticaDeCancelacion {
+
+	public void aplicarPolitica(Reserva reserva, double precio) {
+
+		LocalDate checkIn = reserva.getfechaEntrada();
+		LocalDate checkOut = reserva.getfechaSalida();
+
+		double monto = this.calcularCosto(checkIn, checkOut, precio);
+		String texto = this.generarMail(monto);
+		this.enviarMail(texto);
+	}
+
+	public abstract double calcularCosto(LocalDate checkIn, LocalDate checkOut, double precio);
+
+	public String generarMail(double monto) {
+		return ("Por las politicas de cancelacion aclaradas al momento de hacer la reserva se debera abonar un monto de "
+				+ monto + " $");
+	}
+
+	public void enviarMail(String texto) {
+
+	}
 }

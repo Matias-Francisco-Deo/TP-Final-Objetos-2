@@ -12,12 +12,11 @@ import tp_final.estado_de_alquiler.EstadoDeAlquiler;
 import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
+import tp_final.suscriptores.Suscriptor;
 import tp_final.usuarios.Usuario;
-import tp_final_extra.Reserva;
+import tp_final_extra.Reserva;//reemplazar por el reserva real
 
 public class Alquiler {
-
-	private Usuario propietario;
 
 	private Inmueble inmueble;
 
@@ -41,18 +40,17 @@ public class Alquiler {
 
 	private List<Reserva> colaDeEspera;
 
-	private List<Usuario> subscriptores;
+	private List<Suscriptor> subscriptores;
 
-	Alquiler(Usuario propietario, Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago,
-			double precioBase, PoliticaDeCancelacion politica) {// agregar atributos necesarios
+	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago, double precioBase,
+			PoliticaDeCancelacion politica) {
 		this.inmueble = inmueble;
-		this.propietario = propietario;
 		this.setCheckIn(checkIn);
 		this.setCheckOut(checkOut);
 		this.setMedioDePago(medioDePago);
 		this.precioTemporadas = new HashMap<>();
 		this.colaDeEspera = new ArrayList<>();
-		this.setPrecioBase(precioBase);
+		this.precioBase = precioBase;
 		this.setPoliticaDeCancelacion(politica);
 		this.estado = new Libre();
 		this.colaDeEspera = new ArrayList<>();
@@ -64,7 +62,7 @@ public class Alquiler {
 	}
 
 	public Usuario getPropietario() {
-		return propietario;
+		return (inmueble.getPropietario());
 	}
 
 	public LocalDate getFechaCheckIn() {
@@ -95,20 +93,28 @@ public class Alquiler {
 		return this.getInmueble().getCiudad();
 	}
 
+	public int getcantidadHuespedes() {
+		return this.inmueble.getCapacidad();
+	}
+
 	public EstadoDeAlquiler getEstadoDeAlquiler() {
 		return estado;
+	}
+
+	public PoliticaDeCancelacion getPoliticaDeCancelacion() {
+		return this.politicaDeCancelacion;
 	}
 
 	public List<Reserva> getcolaDeEspera() {
 		return this.colaDeEspera;
 	}
 
-	public List<Usuario> getSubscriptores() {
+	public List<Suscriptor> getSubscriptores() {
 		return subscriptores;
 	}
 
 	public Map<String, Double> getPreciosTemporadas() {
-		return this.precioTemporadas; // revisar metodo
+		return this.precioTemporadas;
 	}
 
 	public void setFechaDeEntrada(LocalDate fechaEntrada) {
@@ -119,11 +125,11 @@ public class Alquiler {
 		this.fechaSalida = fechaSalida;
 	}
 
-	public void setCheckIn(LocalTime checkIn) {
+	private void setCheckIn(LocalTime checkIn) {
 		this.checkIn = checkIn;
 	}
 
-	public void setCheckOut(LocalTime checkOut) {
+	private void setCheckOut(LocalTime checkOut) {
 		this.checkOut = checkOut;
 	}
 
@@ -131,8 +137,16 @@ public class Alquiler {
 		this.medioPago = medioPago;
 	}
 
-	public void setPrecioBase(double precioBase) {
-		this.precioBase = precioBase;
+	public void setPrecioBase(double precioNuevo) {
+		double precioantiguo = precioBase;
+
+		this.precioBase = precioNuevo;
+
+		if (precioBase < precioantiguo) {
+
+			this.notificarSubs(this.mesajeDescuento());
+		}
+
 	}
 
 	public void setPoliticaDeCancelacion(PoliticaDeCancelacion politica) {
@@ -143,7 +157,7 @@ public class Alquiler {
 		this.estado = estado;
 	}
 
-	public void addSubscriptor(Usuario sub) {
+	public void addSubscriptor(Suscriptor sub) {
 		subscriptores.add(sub);
 	}
 
@@ -155,14 +169,20 @@ public class Alquiler {
 		this.colaDeEspera.add(reserva);
 	}
 
-	public void reservar(Reserva reserva) {
-		estado.alquilar(reserva, this);
+	public void deleteSubscriptor(Suscriptor sub) {
+		this.subscriptores.remove(sub);
 	}
 
-	public void cancelarReserva(Reserva reserva) {
-		// reserva.cancelar()?
-		this.estado.cancelar(reserva, this);
-		this.politicaDeCancelacion.aplicarPolitica(reserva, this.getPrecioBase());
+	public boolean esLibre() {
+		return this.estado instanceof Libre;
+	}
+
+	public boolean esAlquilado() {
+		return this.estado instanceof Alquilado;
+	}
+
+	public void reservar(Reserva reserva) {
+		estado.alquilar(reserva, this);
 	}
 
 	public void confirmarReserva(Reserva reserva) {
@@ -172,39 +192,73 @@ public class Alquiler {
 		this.setFechaDeEntrada(reserva.getfechaEntrada());
 		this.setFechaDeSalida(reserva.getfechaSalida());
 
-		this.getInmueble().sumarCantAlquilado();
+		this.getInmueble().aumentarCantDeVecesAlquilado();
 
 	}
 
-	public void notificarSubs() {
+	public void cancelarReserva(Reserva reserva) {
 
-		for (Usuario sub : subscriptores) {
+		this.estado.cancelar(reserva, this);
+		this.politicaDeCancelacion.aplicarPolitica(reserva, this.getPrecioBase());
+	}
 
+	public void notificarSubs(String mensaje) {
+
+		for (Suscriptor sub : subscriptores) {
+			sub.mandarMensaje(mensaje);// implementar en usuario
 		}
 	}
 
-	public boolean esLibre() {
-		// TODO Auto-generated method stub
-		return true;
+	public String mesajeDescuento() {
+		return ("No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
+				+ this.getPrecioBase() + "pesos.");
 	}
 
-	public int getCantidadHuéspedes() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String mesajeCancelacion() {
+		return ("“No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
+				+ this.getPrecioBase() + "pesos”.");
 	}
 
-	public LocalDate getFechaSalida() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getTipoInmueble() {
+		return this.inmueble.getTipoInmueble();
 	}
 
-	public double getPrecio() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void doCancelarAlquilado(Reserva reserva) {
+
+		List<Reserva> cola = this.getcolaDeEspera();
+		Reserva reservaActual = cola.get(0);
+
+		this.getcolaDeEspera().remove(reserva);
+
+		if (cola.isEmpty()) {
+			this.setEstadoDeAlquiler(new Libre());
+
+			this.notificarSubs(this.mesajeCancelacion());
+
+		} else if (!cola.get(0).equals(reservaActual)) {
+			this.setEstadoDeAlquiler(new Libre());
+
+			this.notificarSubs(this.mesajeCancelacion());
+
+			cola.get(0).desencolar();
+		}
+
 	}
 
-	public LocalDate getFechaEntrada() {
-		// TODO Auto-generated method stub
-		return null;
+	public void doCancelarLibre(Reserva reserva) {
+		List<Reserva> cola = this.getcolaDeEspera();
+
+		// reserva.cancelar()
+
+		if (cola.size() > 1 && cola.get(0).equals(reserva)) {
+
+			this.getcolaDeEspera().remove(0);
+
+			cola.get(0).desencolar();
+		} else {
+			this.getcolaDeEspera().remove(reserva);
+		}
+
 	}
+
 }
