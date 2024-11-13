@@ -111,6 +111,14 @@ class AlquilerTest {
 	}
 
 	@Test
+	void gettercantHuespedesTest() {
+
+		when(inmueble.getCapacidad()).thenReturn(5);
+
+		assertEquals(alquiler.getcantidadHuespedes(), 5);
+	}
+
+	@Test
 	void getterEstadoTest() {
 
 		assertTrue(alquiler.getEstadoDeAlquiler() instanceof Libre);
@@ -155,6 +163,20 @@ class AlquilerTest {
 		alquiler.setPoliticaDeCancelacion(cancelacion2);
 
 		assertEquals(alquiler.getPoliticaDeCancelacion(), cancelacion2);
+	}
+
+	@Test
+	void getterCheckInTest() {
+
+		assertEquals(LocalTime.of(10, 0), alquiler.getCheckIn());
+
+	}
+
+	@Test
+	void getterCheckOutTest() {
+
+		assertEquals(LocalTime.of(14, 30), alquiler.getCheckOut());
+
 	}
 
 	@Test

@@ -73,11 +73,11 @@ public class Alquiler {
 		return fechaSalida;
 	}
 
-	private LocalTime getCheckIn() {
+	public LocalTime getCheckIn() {
 		return checkIn;
 	}
 
-	private LocalTime getCheckOut() {
+	public LocalTime getCheckOut() {
 		return checkOut;
 	}
 
@@ -91,6 +91,10 @@ public class Alquiler {
 
 	public String getCiudad() {
 		return this.getInmueble().getCiudad();
+	}
+
+	public int getcantidadHuespedes() {
+		return this.inmueble.getCapacidad();
 	}
 
 	public EstadoDeAlquiler getEstadoDeAlquiler() {
