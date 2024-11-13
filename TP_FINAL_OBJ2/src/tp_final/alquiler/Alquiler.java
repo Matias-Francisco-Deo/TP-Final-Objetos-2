@@ -189,8 +189,8 @@ public class Alquiler {
 
 		this.setEstadoDeAlquiler(new Alquilado());
 
-		this.setFechaDeEntrada(reserva.getfechaEntrada());
-		this.setFechaDeSalida(reserva.getfechaSalida());
+		this.setFechaDeEntrada(reserva.getfechaCheckIn());
+		this.setFechaDeSalida(reserva.getfechaCheckOut());
 
 		this.getInmueble().aumentarCantDeVecesAlquilado();
 
