@@ -2,14 +2,14 @@ package tp_final.politica_cancelacion;
 
 import java.time.LocalDate;
 
-import tp_final_extra.Reserva;
+import tp_final.reserva.Reserva;
 
 public abstract class PoliticaDeCancelacion {
 
 	public void aplicarPolitica(Reserva reserva, double precio) {
 
-		LocalDate checkIn = reserva.getfechaEntrada();
-		LocalDate checkOut = reserva.getfechaSalida();
+		LocalDate checkIn = reserva.getfechaCheckIn();
+		LocalDate checkOut = reserva.getfechaCheckOut();
 
 		double monto = this.calcularCosto(checkIn, checkOut, precio);
 		String texto = this.generarMail(monto);
