@@ -2,6 +2,7 @@ package tp_final.usuarios;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import tp_final.alquiler.Alquiler;

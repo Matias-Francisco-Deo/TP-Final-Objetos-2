@@ -11,39 +11,37 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tp_final.AlquilerPlaceholder;
-import tp_final.InmueblePlaceholder;
-import tp_final.InquilinoPlaceholder;
-import tp_final.sitioweb.RecolectorDeDatos;
-import tp_final.sitioweb.SitioWeb;
+import tp_final.alquiler.Alquiler;
+import tp_final.inmueble.Inmueble;
+import tp_final.usuarios.Usuario;
 
 class RecolectorDeDatosTest {
 
 	private SitioWeb sitioWeb;
 	private RecolectorDeDatos recolectorDeDatos;
-	private AlquilerPlaceholder alquiler;
+	private Alquiler alquiler;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		sitioWeb = mock(SitioWeb.class);
 		recolectorDeDatos = new RecolectorDeDatos(sitioWeb);
-		alquiler = mock(AlquilerPlaceholder.class);
+		alquiler = mock(Alquiler.class);
 	}
 
 	@Test
 	void testRealizarTopTenDevuelveLos10InquilinosQueMásHanAlquilado() {
 		// setup
-		InquilinoPlaceholder inquilino1 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino2 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino3 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino4 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino5 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino6 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino7 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino8 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino9 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino10 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino11 = mock(InquilinoPlaceholder.class);
+		Usuario inquilino1 = mock(Usuario.class);
+		Usuario inquilino2 = mock(Usuario.class);
+		Usuario inquilino3 = mock(Usuario.class);
+		Usuario inquilino4 = mock(Usuario.class);
+		Usuario inquilino5 = mock(Usuario.class);
+		Usuario inquilino6 = mock(Usuario.class);
+		Usuario inquilino7 = mock(Usuario.class);
+		Usuario inquilino8 = mock(Usuario.class);
+		Usuario inquilino9 = mock(Usuario.class);
+		Usuario inquilino10 = mock(Usuario.class);
+		Usuario inquilino11 = mock(Usuario.class);
 
 		when(inquilino1.contarInmueblesAlquilados()).thenReturn(1);
 		when(inquilino2.contarInmueblesAlquilados()).thenReturn(2);
@@ -57,15 +55,15 @@ class RecolectorDeDatosTest {
 		when(inquilino10.contarInmueblesAlquilados()).thenReturn(10);
 		when(inquilino11.contarInmueblesAlquilados()).thenReturn(11);
 
-		when(sitioWeb.getInquilinos()).thenReturn(Arrays.asList(inquilino1, inquilino2, inquilino3, inquilino4,
+		when(sitioWeb.getUsuarios()).thenReturn(Arrays.asList(inquilino1, inquilino2, inquilino3, inquilino4,
 				inquilino5, inquilino6, inquilino7, inquilino8, inquilino9, inquilino10, inquilino11));
 
 		// exercise
-		List<InquilinoPlaceholder> informe = recolectorDeDatos.getTopTenInquilinos();
+		List<Usuario> informe = recolectorDeDatos.getTopTenInquilinos();
 
 		// verify
-		List<InquilinoPlaceholder> inquilinosEsperados = Arrays.asList(inquilino11, inquilino10, inquilino9, inquilino8,
-				inquilino7, inquilino6, inquilino5, inquilino4, inquilino3, inquilino2);
+		List<Usuario> inquilinosEsperados = Arrays.asList(inquilino11, inquilino10, inquilino9, inquilino8, inquilino7,
+				inquilino6, inquilino5, inquilino4, inquilino3, inquilino2);
 
 		assertEquals(inquilinosEsperados, informe); // todos menos inquilino1
 	}
@@ -73,23 +71,23 @@ class RecolectorDeDatosTest {
 	@Test
 	void testRealizarTopTenDevuelveLosÚnicosQueHayCuandoNoSeLlegaA10EnOrdenAscendente() {
 		// setup
-		InquilinoPlaceholder inquilino1 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino2 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino3 = mock(InquilinoPlaceholder.class);
-		InquilinoPlaceholder inquilino4 = mock(InquilinoPlaceholder.class);
+		Usuario inquilino1 = mock(Usuario.class);
+		Usuario inquilino2 = mock(Usuario.class);
+		Usuario inquilino3 = mock(Usuario.class);
+		Usuario inquilino4 = mock(Usuario.class);
 
 		when(inquilino1.contarInmueblesAlquilados()).thenReturn(1);
 		when(inquilino2.contarInmueblesAlquilados()).thenReturn(2);
 		when(inquilino3.contarInmueblesAlquilados()).thenReturn(3);
 		when(inquilino4.contarInmueblesAlquilados()).thenReturn(4);
 
-		when(sitioWeb.getInquilinos()).thenReturn(Arrays.asList(inquilino1, inquilino2, inquilino3, inquilino4));
+		when(sitioWeb.getUsuarios()).thenReturn(Arrays.asList(inquilino1, inquilino2, inquilino3, inquilino4));
 
 		// exercise
-		List<InquilinoPlaceholder> informe = recolectorDeDatos.getTopTenInquilinos();
+		List<Usuario> informe = recolectorDeDatos.getTopTenInquilinos();
 
 		// verify
-		List<InquilinoPlaceholder> inquilinosEsperados = Arrays.asList(inquilino4, inquilino3, inquilino2, inquilino1);
+		List<Usuario> inquilinosEsperados = Arrays.asList(inquilino4, inquilino3, inquilino2, inquilino1);
 
 		assertEquals(inquilinosEsperados, informe); // todos menos inquilino1
 	}
@@ -97,10 +95,10 @@ class RecolectorDeDatosTest {
 	@Test
 	void testRealizarTopTenDevuelveVacíoSiNoHayInquilinos() {
 		// setup
-		when(sitioWeb.getInquilinos()).thenReturn(Arrays.asList());
+		when(sitioWeb.getUsuarios()).thenReturn(Arrays.asList());
 
 		// exercise
-		List<InquilinoPlaceholder> informe = recolectorDeDatos.getTopTenInquilinos();
+		List<Usuario> informe = recolectorDeDatos.getTopTenInquilinos();
 
 		// verify
 		assertTrue(informe.isEmpty());
@@ -114,7 +112,7 @@ class RecolectorDeDatosTest {
 																								// libres, 1 no
 
 		// exercise
-		List<InmueblePlaceholder> informe = recolectorDeDatos.getInmueblesLibres();
+		List<Inmueble> informe = recolectorDeDatos.getInmueblesLibres();
 
 		// verify
 		assertEquals(2, informe.size());
@@ -127,7 +125,7 @@ class RecolectorDeDatosTest {
 																	// libres, 1 no
 
 		// exercise
-		List<InmueblePlaceholder> informe = recolectorDeDatos.getInmueblesLibres();
+		List<Inmueble> informe = recolectorDeDatos.getInmueblesLibres();
 
 		// verify
 		assertTrue(informe.isEmpty());
@@ -141,7 +139,7 @@ class RecolectorDeDatosTest {
 																								// libres, 1 no
 
 		// exercise
-		List<InmueblePlaceholder> informe = recolectorDeDatos.getInmueblesLibres();
+		List<Inmueble> informe = recolectorDeDatos.getInmueblesLibres();
 
 		// verify
 		assertTrue(informe.isEmpty());
@@ -155,7 +153,7 @@ class RecolectorDeDatosTest {
 																								// libres, 1 no
 
 		// exercise
-		List<InmueblePlaceholder> informe = recolectorDeDatos.getInmueblesLibres();
+		List<Inmueble> informe = recolectorDeDatos.getInmueblesLibres();
 
 		// verify
 		assertEquals(3, informe.size());
@@ -164,7 +162,7 @@ class RecolectorDeDatosTest {
 	@Test
 	void testRealizarListadoDeTasaDeOcupaciónEsInmueblesAlquiladosSobreTotalDeInmuebles() {
 		// setup
-		InmueblePlaceholder inmueble = mock(InmueblePlaceholder.class);
+		Inmueble inmueble = mock(Inmueble.class);
 		when(alquiler.esLibre()).thenReturn(true).thenReturn(false).thenReturn(false);
 		when(sitioWeb.getAlquileres()).thenReturn(Arrays.asList(alquiler, alquiler, alquiler)); // 2
 																								// alquileres
@@ -181,7 +179,7 @@ class RecolectorDeDatosTest {
 	@Test
 	void testRealizarListadoDeTasaDeOcupaciónEs0SiNingúnInmuebleFueAlquilado() {
 		// setup
-		InmueblePlaceholder inmueble = mock(InmueblePlaceholder.class);
+		Inmueble inmueble = mock(Inmueble.class);
 		when(alquiler.esLibre()).thenReturn(true).thenReturn(true).thenReturn(true);
 		when(sitioWeb.getAlquileres()).thenReturn(Arrays.asList(alquiler, alquiler, alquiler)); // 3 alquileres ocupados
 		when(sitioWeb.getInmuebles()).thenReturn(Arrays.asList(inmueble, inmueble, inmueble, inmueble)); // 4 inmuebles
