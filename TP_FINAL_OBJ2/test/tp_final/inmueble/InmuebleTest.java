@@ -1,5 +1,6 @@
 package tp_final.inmueble;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -10,7 +11,6 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tp_final.FotoEjemplo;
 import tp_final.usuarios.Usuario;
 import tp_final_extra.Ranking;
 
@@ -22,6 +22,7 @@ public class InmuebleTest {
 	private Inmueble inmueble;
 	private String casa;
 	private Usuario propietario;
+	private Foto foto;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -29,8 +30,10 @@ public class InmuebleTest {
 
 		propietario = mock(Usuario.class);
 
+		foto = mock(Foto.class);
+
 		misServicios = new ArrayList<>(Arrays.asList("Agua", "Luz"));
-		misFotos = new ArrayList<>(Arrays.asList(new FotoEjemplo()));
+		misFotos = new ArrayList<>(Arrays.asList());
 
 		casa = new String();
 
@@ -39,7 +42,7 @@ public class InmuebleTest {
 	}
 
 	@Test
-	void getterYSetterTipoInmuebleTest() {// revisar si tipo inmueble es una clase o un string
+	void getterYSetterTipoInmuebleTest() {
 		String departamento = new String();
 		assertEquals(inmueble.getTipoInmueble(), casa);
 		inmueble.setTipoInmueble(departamento);
@@ -98,9 +101,12 @@ public class InmuebleTest {
 	@Test
 	void getterYAgregarFotoTest() {
 		assertEquals(inmueble.getFotos(), misFotos);
-		inmueble.addFoto(new FotoEjemplo());
-		misFotos.add(new FotoEjemplo());
-		assertEquals(inmueble.getFotos(), misFotos);
+
+		assertTrue(inmueble.getFotos().isEmpty());
+
+		inmueble.addFoto(foto);
+
+		assertEquals(inmueble.getFotos().size(), 1);
 	}
 
 	@Test
