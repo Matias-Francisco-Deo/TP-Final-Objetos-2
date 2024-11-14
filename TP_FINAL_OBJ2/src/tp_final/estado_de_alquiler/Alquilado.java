@@ -7,13 +7,11 @@ public class Alquilado implements EstadoDeAlquiler {
 
 	@Override
 	public void alquilar(Reserva reserva, Alquiler alquiler) {
-		alquiler.addReserva(reserva);
-		reserva.encolar();
+		alquiler.doAlquilarAlquilado(reserva);
 	}
 
 	@Override
 	public void cancelar(Reserva reserva, Alquiler alquiler) {
-
 		alquiler.doCancelarAlquilado(reserva);
 
 	}

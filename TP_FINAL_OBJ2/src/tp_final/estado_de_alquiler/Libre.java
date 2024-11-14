@@ -7,19 +7,12 @@ public class Libre implements EstadoDeAlquiler {
 
 	@Override
 	public void alquilar(Reserva reserva, Alquiler alquiler) {
-		if (alquiler.getColaDeEspera().isEmpty()) {
-
-			alquiler.addReserva(reserva);
-		} else {
-			alquiler.addReserva(reserva);
-			reserva.encolar();
-		}
+		alquiler.doAlquilarLibre(reserva);
 
 	}
 
 	@Override
 	public void cancelar(Reserva reserva, Alquiler alquiler) {
-
 		alquiler.doCancelarLibre(reserva);
 
 	}

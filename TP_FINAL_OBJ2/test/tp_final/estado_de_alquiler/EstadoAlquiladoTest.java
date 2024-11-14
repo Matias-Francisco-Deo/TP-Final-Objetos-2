@@ -1,10 +1,9 @@
 package tp_final.estado_de_alquiler;
 
-import static org.mockito.Mockito.doNothing;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,58 +43,29 @@ public class EstadoAlquiladoTest {
 
 	@Test
 	void alquiladoAlquilarTest() {
-		when(alquiler.getColaDeEspera()).thenReturn(new java.util.ArrayList<>());
 
 		alquilado.alquilar(reserva1, alquiler);
 
-		verify(alquiler).addReserva(reserva1);
-
-		// verify(reserva1).encolarReserva();
+		verify(alquiler).doAlquilarAlquilado(reserva1);
 
 	}
 
 	@Test
 	void cancelarTest() {
 
-		colaReservas.add(reserva1);
-
-		doNothing().when(alquiler).doCancelarAlquilado(reserva1);
-
-		alquilado.cancelar(reserva1, alquiler);// error en alquilado con notificarsubs
+		alquilado.cancelar(reserva1, alquiler);
 
 		verify(alquiler, times(1)).doCancelarAlquilado(reserva1);
 
 	}
-	/*
-	 * @Test void AlquiladoCancelarConMasDeUnaReservaYNoLaPrimeraTest() {
-	 *
-	 * List<Reserva> colaReservas = new ArrayList<>();
-	 *
-	 * when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
-	 *
-	 * colaReservas.add(reserva1); colaReservas.add(reserva2);
-	 *
-	 * alquilado.cancelar(reserva2, alquiler);// error en alquilado con
-	 * notificarsubs verify(reserva2, never()).desencolar();
-	 *
-	 * }
-	 *
-	 * @Test void alquiladoCancelarConUnaSolaReservaTest() {
-	 *
-	 * verify(alquiler).setEstadoDeAlquiler(any(Alquilado.class));
-	 *
-	 * colaReservas.add(reserva1);
-	 *
-	 * when(alquiler.getcolaDeEspera()).thenReturn(colaReservas);
-	 *
-	 * alquilado.cancelar(reserva1, alquiler);
-	 *
-	 * assertTrue(colaReservas.isEmpty());
-	 *
-	 * verify(alquiler).notificarSubs();
-	 *
-	 * verify(alquiler).setEstadoDeAlquiler(any(Libre.class));
-	 *
-	 * }
-	 */
+
+	@Test
+	void esLibreAlquiladoTest() {
+
+		alquilado.cancelar(reserva1, alquiler);
+
+		assertFalse(alquilado.esLibre());
+
+	}
+
 }

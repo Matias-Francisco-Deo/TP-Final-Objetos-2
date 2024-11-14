@@ -1,14 +1,9 @@
 package tp_final.estado_de_alquiler;
 
-import static org.mockito.Mockito.doNothing;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,37 +34,27 @@ public class EstadoLibreTest {
 
 	@Test
 	void libreAlquilarTest() {
-		List<Reserva> colaReservas = new ArrayList<>();
-
-		when(alquiler.getColaDeEspera()).thenReturn(new java.util.ArrayList<>());
 
 		libre.alquilar(reserva1, alquiler);
 
-		verify(alquiler).addReserva(reserva1);
-
-		reset(alquiler);
-
-		colaReservas.add(reserva1);
-
-		when(alquiler.getColaDeEspera()).thenReturn(colaReservas);
-
-		libre.alquilar(reserva2, alquiler);
-
-		verify(alquiler).addReserva(reserva2);
+		verify(alquiler).doAlquilarLibre(reserva1);
 	}
 
 	@Test
 	void cancelarTest() {
 
-		List<Reserva> colaReservas = new ArrayList<>();
-
-		colaReservas.add(reserva1);
-
-		doNothing().when(alquiler).doCancelarAlquilado(reserva1);
-
 		libre.cancelar(reserva1, alquiler);
 
 		verify(alquiler, times(1)).doCancelarLibre(reserva1);
+
+	}
+
+	@Test
+	void esLibreAlquiladoTest() {
+
+		libre.cancelar(reserva1, alquiler);
+
+		assertTrue(libre.esLibre());
 
 	}
 }
