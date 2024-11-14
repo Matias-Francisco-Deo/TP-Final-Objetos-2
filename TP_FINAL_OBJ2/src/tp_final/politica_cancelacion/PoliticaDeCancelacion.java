@@ -13,7 +13,7 @@ public abstract class PoliticaDeCancelacion {
 		this.servidorDeCorreo = sistemaDeCorreo;
 	}
 
-	public void aplicarPolitica(Reserva reserva, double precio) {
+	final public void aplicarPolitica(Reserva reserva, double precio) {
 
 		LocalDate checkIn = reserva.getFechaCheckIn();
 		LocalDate checkOut = reserva.getFechaCheckOut();
@@ -25,12 +25,12 @@ public abstract class PoliticaDeCancelacion {
 
 	public abstract double calcularCosto(LocalDate checkIn, LocalDate checkOut, double precio);
 
-	public String generarMail(double monto) {
+	final public String generarMail(double monto) {
 		return "Por las politicas de cancelacion aclaradas al momento de hacer la reserva se debera abonar un monto de "
 				+ monto + " $";
 	}
 
-	public void enviarMail(String texto, Reserva reserva) {
+	final public void enviarMail(String texto, Reserva reserva) {
 		String destinatario = reserva.getEmailInquilino();
 		this.servidorDeCorreo.enviar(destinatario, "Factura por la cancelacion de su reserva", texto);
 	}
