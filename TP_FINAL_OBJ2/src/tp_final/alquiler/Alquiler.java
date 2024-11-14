@@ -97,10 +97,6 @@ public class Alquiler {
 		return this.inmueble.getCapacidad();
 	}
 
-	public EstadoDeAlquiler getEstadoDeAlquiler() {
-		return estado;
-	}
-
 	public PoliticaDeCancelacion getPoliticaDeCancelacion() {
 		return this.politicaDeCancelacion;
 	}
@@ -115,6 +111,10 @@ public class Alquiler {
 
 	public Map<String, Double> getPreciosTemporadas() {
 		return this.precioTemporadas;
+	}
+
+	public double getPrecioEnTemporada(String temporada) {
+		return this.getPreciosTemporadas().get(temporada);
 	}
 
 	public void setFechaDeEntrada(LocalDate fechaEntrada) {
@@ -209,52 +209,65 @@ public class Alquiler {
 	}
 
 	private String mensajeDescuento() {
-		return ("No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
-				+ this.getPrecioBase() + "pesos.");
+		return ("No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + " a tan sólo "
+				+ this.getPrecioBase() + " pesos.");
 	}
 
 	private String mensajeCancelacion() {
-		return ("“No te pierdas\r\n esta oferta: Un inmueble " + this.getTipoInmueble() + "a tan sólo "
-				+ this.getPrecioBase() + "pesos”.");
+		return ("El/la " + this.getTipoInmueble() + " que te interesa se ha liberado! Corre a reservarlo");
 	}
 
 	private String getTipoInmueble() {
 		return this.inmueble.getTipoInmueble();
 	}
 
-	public void doCancelarAlquilado(Reserva reserva) {
+	public void doCancelarAlquilado(Reserva reservaACancelar) {
 
 		List<Reserva> cola = this.getColaDeEspera();
-		Reserva reservaActual = cola.get(0);
+		Reserva primeraReserva = cola.get(0);
+		this.getColaDeEspera().remove(reservaACancelar);
 
-		this.getColaDeEspera().remove(reserva);
+		boolean laReservaQueSeCancelaEraLaPrimera = primeraReserva.equals(reservaACancelar);
 
+		// si no queda nadie más
 		if (cola.isEmpty()) {
 			this.setEstadoDeAlquiler(new Libre());
-
 			this.notificarSubs(this.mensajeCancelacion());
 
-		} else if (!cola.get(0).equals(reservaActual)) {
+		} else if (laReservaQueSeCancelaEraLaPrimera) {
+			// en caso que sea la primera, significa que hay reservas delante y desencolo la
+			// siguiente
+			Reserva reservaSiguiente = cola.get(0);
 			this.setEstadoDeAlquiler(new Libre());
-
+			reservaSiguiente.desencolar();
 			this.notificarSubs(this.mensajeCancelacion());
-
-			cola.get(0).desencolar();
 		}
+		// si era una reserva de cualquier otra posición (la segunda, tercera, cuarta)
+		// no hace falta desencolar y además no hace falta notificar cancelación
 
 	}
 
-	public void doCancelarLibre(Reserva reserva) {
+	public void doCancelarLibre(Reserva reservaACancelar) {
 		List<Reserva> cola = this.getColaDeEspera();
+		Reserva primeraReserva = cola.get(0);
+		boolean laReservaQueSeCancelaEraLaPrimera = primeraReserva.equals(reservaACancelar);
 
-		if (cola.size() > 1 && cola.get(0).equals(reserva)) {
+		if (cola.size() > 1 && laReservaQueSeCancelaEraLaPrimera) {
 
 			this.getColaDeEspera().remove(0);
 
+			// desencola siguiente
 			cola.get(0).desencolar();
-		} else {
-			this.getColaDeEspera().remove(reserva);
-		}
 
+		} else if (cola.size() >= 1) {
+			// si no era el primero, simplemente quita al actual
+			this.getColaDeEspera().remove(reservaACancelar);
+		}
+		// si size es 0, entonces no hace nada
+
+	}
+
+	public EstadoDeAlquiler getEstadoDeAlquiler() {
+		return this.estado;
 	}
 }

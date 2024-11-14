@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import tp_final.alquiler.Alquiler;
 import tp_final.reserva.Reserva;
 
-public class estadoLibreTest {
+public class EstadoLibreTest {
 
 	Alquiler alquiler;
 

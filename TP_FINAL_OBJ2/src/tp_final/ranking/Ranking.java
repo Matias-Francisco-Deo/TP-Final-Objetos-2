@@ -46,13 +46,18 @@ public class Ranking {
 	}
 
 	private void setPuntaje(int puntaje) {
+		puntaje = comprobarPuntaje(puntaje);
+		this.puntaje = puntaje;
+	}
+
+	private int comprobarPuntaje(int puntaje) {
+		// evita puntajes erróneos
 		if (puntaje < 1) {
 			puntaje = 1;
 		} else if (puntaje > 5) {
 			puntaje = 5;
 		}
-
-		this.puntaje = puntaje;
+		return puntaje;
 	}
 
 	private void setComentario(String comentario) {

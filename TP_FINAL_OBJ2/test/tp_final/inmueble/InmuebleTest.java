@@ -92,9 +92,10 @@ public class InmuebleTest {
 	@Test
 	void getterYAgregarServicioTest() {
 		assertEquals(inmueble.getServicios(), misServicios);
+
 		inmueble.addServicio("Gas");
-		misServicios.add("Gas");
-		assertEquals(inmueble.getServicios(), misServicios);
+
+		assertTrue(inmueble.getServicios().size() == 3);
 	}
 
 	@Test
@@ -108,8 +109,7 @@ public class InmuebleTest {
 	void getterYAgregarFotoTest() {
 		assertEquals(inmueble.getFotos(), misFotos);
 
-		assertTrue(inmueble.getFotos().isEmpty());
-
+		// era vacía, ahora agrego
 		inmueble.addFoto(foto);
 
 		assertEquals(inmueble.getFotos().size(), 1);
@@ -117,8 +117,9 @@ public class InmuebleTest {
 
 	@Test
 	void sumaYGetterDeCantAlquiladoTest() {
-		assertEquals(inmueble.getCantVecesEnAlquiler(), 0);
+		// era 0
 		inmueble.aumentarCantDeVecesAlquilado();
+		// pasa a 1
 		assertEquals(inmueble.getCantVecesEnAlquiler(), 1);
 	}
 

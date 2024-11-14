@@ -1,8 +1,8 @@
 package tp_final.politica_cancelacion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -12,32 +12,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tp_final.reserva.Reserva;
+import tp_final.varios.ServidorDeCorreo;
 
 public class PoliticasDeCancelacionesTest {
 
 	private Reserva reserva1;
 
-	private CancelacionGratuita politicaCancelacion;
-	private CancelacionGratuita cancelacionMock;
+	private CancelacionGratuita cancelacionGratuita;
 
 	private SinCancelacion sinCancelacion;
-	private SinCancelacion sincancelacionMock;
 
 	private CancelacionIntermedia cancelacionIntermedia;
-	private CancelacionIntermedia intermediaMock;
 
 	@BeforeEach
 	void setUp() throws Exception {
 
 		reserva1 = mock(Reserva.class);
+		ServidorDeCorreo servidorDeCorreo = mock(ServidorDeCorreo.class);
 
-		politicaCancelacion = new CancelacionGratuita();
-		sinCancelacion = new SinCancelacion();
-		cancelacionIntermedia = new CancelacionIntermedia();
-
-		cancelacionMock = mock(CancelacionGratuita.class);
-		sincancelacionMock = mock(SinCancelacion.class);
-		intermediaMock = mock(CancelacionIntermedia.class);
+		cancelacionGratuita = new CancelacionGratuita(servidorDeCorreo);
+		sinCancelacion = new SinCancelacion(servidorDeCorreo);
+		cancelacionIntermedia = new CancelacionIntermedia(servidorDeCorreo);
 
 	}
 
@@ -49,24 +44,22 @@ public class PoliticasDeCancelacionesTest {
 		LocalDate fechaEntrada = LocalDate.now().plusDays(15);
 		LocalDate fechaSalida = fechaEntrada.plusDays(5);
 
+		CancelacionGratuita spy = spy(cancelacionGratuita);
+
 		when(reserva1.getFechaCheckIn()).thenReturn(fechaEntrada);
 		when(reserva1.getFechaCheckOut()).thenReturn(fechaSalida);
 
-		politicaCancelacion.aplicarPolitica(reserva1, 10000);
+		spy.aplicarPolitica(reserva1, 10000);
 
 		// dentro del metodo ocurre lo siguiente y se testea
 
-		double costo = politicaCancelacion.calcularCosto(fechaEntrada, fechaSalida, 10000);
+		double costo = cancelacionGratuita.calcularCosto(fechaEntrada, fechaSalida, 10000);
 
-		String textoGenerado = politicaCancelacion.generarMail(costo);
+		String textoGenerado = cancelacionGratuita.generarMail(costo);
 
 		assertEquals(0, costo);
 		assertEquals(textoEsperado, textoGenerado);
-
-		doNothing().when(cancelacionMock).enviarMail(textoGenerado); // No hace nada, pero verifica la llamada
-		cancelacionMock.enviarMail(textoGenerado);
-
-		verify(cancelacionMock).enviarMail(textoGenerado);
+		verify(spy).enviarMail(textoGenerado, reserva1);
 	}
 
 	@Test
@@ -77,19 +70,22 @@ public class PoliticasDeCancelacionesTest {
 		LocalDate fechaEntrada = LocalDate.now().plusDays(5);
 		LocalDate fechaSalida = fechaEntrada.plusDays(5);
 
+		CancelacionGratuita spy = spy(cancelacionGratuita);
+
 		when(reserva1.getFechaCheckIn()).thenReturn(fechaEntrada);
 		when(reserva1.getFechaCheckOut()).thenReturn(fechaSalida);
 
-		politicaCancelacion.aplicarPolitica(reserva1, 10000);
+		spy.aplicarPolitica(reserva1, 10000);
 
 		// dentro del metodo ocurre lo siguiente y se testea
 
-		double costo = politicaCancelacion.calcularCosto(fechaEntrada, fechaSalida, 10000);
+		double costo = cancelacionGratuita.calcularCosto(fechaEntrada, fechaSalida, 10000);
 
-		String textoGenerado = politicaCancelacion.generarMail(costo);
+		String textoGenerado = cancelacionGratuita.generarMail(costo);
 
 		assertEquals(20000, costo);
 		assertEquals(textoEsperado, textoGenerado);
+		verify(spy).enviarMail(textoGenerado, reserva1);
 	}
 
 	@Test
@@ -100,10 +96,12 @@ public class PoliticasDeCancelacionesTest {
 		LocalDate fechaEntrada = LocalDate.now().plusDays(15);
 		LocalDate fechaSalida = fechaEntrada.plusDays(5);
 
+		SinCancelacion spy = spy(sinCancelacion);
+
 		when(reserva1.getFechaCheckIn()).thenReturn(fechaEntrada);
 		when(reserva1.getFechaCheckOut()).thenReturn(fechaSalida);
 
-		sinCancelacion.aplicarPolitica(reserva1, 10000);
+		spy.aplicarPolitica(reserva1, 10000);
 
 		// dentro del metodo ocurre lo siguiente y se testea
 
@@ -113,11 +111,7 @@ public class PoliticasDeCancelacionesTest {
 
 		assertEquals(50000, costo);
 		assertEquals(textoEsperado, textoGenerado);
-
-		doNothing().when(sincancelacionMock).enviarMail(textoGenerado); // No hace nada, pero verifica la llamada
-		sincancelacionMock.enviarMail(textoGenerado);
-
-		verify(sincancelacionMock).enviarMail(textoGenerado);
+		verify(spy).enviarMail(textoGenerado, reserva1);
 	}
 
 	@Test
@@ -128,10 +122,12 @@ public class PoliticasDeCancelacionesTest {
 		LocalDate fechaEntrada = LocalDate.now().plusDays(25);
 		LocalDate fechaSalida = fechaEntrada.plusDays(5);
 
+		CancelacionIntermedia spy = spy(cancelacionIntermedia);
+
 		when(reserva1.getFechaCheckIn()).thenReturn(fechaEntrada);
 		when(reserva1.getFechaCheckOut()).thenReturn(fechaSalida);
 
-		cancelacionIntermedia.aplicarPolitica(reserva1, 10000);
+		spy.aplicarPolitica(reserva1, 10000);
 
 		// dentro del metodo ocurre lo siguiente y se testea
 
@@ -141,11 +137,7 @@ public class PoliticasDeCancelacionesTest {
 
 		assertEquals(0, costo);
 		assertEquals(textoEsperado, textoGenerado);
-
-		doNothing().when(intermediaMock).enviarMail(textoGenerado); // No hace nada, pero verifica la llamada
-		intermediaMock.enviarMail(textoGenerado);
-
-		verify(intermediaMock).enviarMail(textoGenerado);
+		verify(spy).enviarMail(textoGenerado, reserva1);
 	}
 
 	@Test
@@ -156,10 +148,12 @@ public class PoliticasDeCancelacionesTest {
 		LocalDate fechaEntrada = LocalDate.now().plusDays(15);
 		LocalDate fechaSalida = fechaEntrada.plusDays(5);
 
+		CancelacionIntermedia spy = spy(cancelacionIntermedia);
+
 		when(reserva1.getFechaCheckIn()).thenReturn(fechaEntrada);
 		when(reserva1.getFechaCheckOut()).thenReturn(fechaSalida);
 
-		cancelacionIntermedia.aplicarPolitica(reserva1, 10000);
+		spy.aplicarPolitica(reserva1, 10000);
 
 		// dentro del metodo ocurre lo siguiente y se testea
 
@@ -169,6 +163,7 @@ public class PoliticasDeCancelacionesTest {
 
 		assertEquals(25000, costo);
 		assertEquals(textoEsperado, textoGenerado);
+		verify(spy).enviarMail(textoGenerado, reserva1);
 	}
 
 	@Test
@@ -179,10 +174,12 @@ public class PoliticasDeCancelacionesTest {
 		LocalDate fechaEntrada = LocalDate.now().plusDays(7);
 		LocalDate fechaSalida = fechaEntrada.plusDays(5);
 
+		CancelacionIntermedia spy = spy(cancelacionIntermedia);
+
 		when(reserva1.getFechaCheckIn()).thenReturn(fechaEntrada);
 		when(reserva1.getFechaCheckOut()).thenReturn(fechaSalida);
 
-		cancelacionIntermedia.aplicarPolitica(reserva1, 10000);
+		spy.aplicarPolitica(reserva1, 10000);
 
 		// dentro del metodo ocurre lo siguiente y se testea
 
@@ -192,6 +189,7 @@ public class PoliticasDeCancelacionesTest {
 
 		assertEquals(50000, costo);
 		assertEquals(textoEsperado, textoGenerado);
+		verify(spy).enviarMail(textoGenerado, reserva1);
 	}
 
 }

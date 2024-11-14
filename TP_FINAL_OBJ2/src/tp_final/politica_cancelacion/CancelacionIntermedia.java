@@ -3,7 +3,13 @@ package tp_final.politica_cancelacion;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import tp_final.varios.ServidorDeCorreo;
+
 public class CancelacionIntermedia extends PoliticaDeCancelacion {
+
+	public CancelacionIntermedia(ServidorDeCorreo sistemaDeCorreo) {
+		super(sistemaDeCorreo);
+	}
 
 	@Override
 	public double calcularCosto(LocalDate checkIn, LocalDate checkOut, double precio) {

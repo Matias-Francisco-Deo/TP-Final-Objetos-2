@@ -23,7 +23,7 @@ public class Reserva {
 		this.setInquilino(inquilino);
 		this.setMedioDePago(medioDePago);
 		this.setServidorDeCorreo(servidorDeCorreo);
-		this.setEstado(new PendienteDeAprobacion());
+		this.setEstado(new PendienteDeAprobacion()); // estado por defecto
 	}
 
 	// ------------------------------------------------------------
@@ -42,7 +42,7 @@ public class Reserva {
 		return this.medioDePago;
 	}
 
-	public ServidorDeCorreo getServidorDeCorreo() {
+	private ServidorDeCorreo getServidorDeCorreo() {
 		return this.servidorDeCorreo;
 	}
 
@@ -176,6 +176,10 @@ public class Reserva {
 
 	public void doRankearPropietario(Ranking ranking) {
 		this.getPropietario().getGestorDeRanking().recibirRankeo(ranking);
+	}
+
+	public String getEmailInquilino() {
+		return this.getInquilino().getEmail();
 	}
 
 	// ------------------------------------------------------------

@@ -3,8 +3,15 @@ package tp_final.politica_cancelacion;
 import java.time.LocalDate;
 
 import tp_final.reserva.Reserva;
+import tp_final.varios.ServidorDeCorreo;
 
 public abstract class PoliticaDeCancelacion {
+
+	private ServidorDeCorreo servidorDeCorreo;
+
+	public PoliticaDeCancelacion(ServidorDeCorreo sistemaDeCorreo) {
+		this.servidorDeCorreo = sistemaDeCorreo;
+	}
 
 	public void aplicarPolitica(Reserva reserva, double precio) {
 
@@ -13,7 +20,7 @@ public abstract class PoliticaDeCancelacion {
 
 		double monto = this.calcularCosto(checkIn, checkOut, precio);
 		String texto = this.generarMail(monto);
-		this.enviarMail(texto);
+		this.enviarMail(texto, reserva);
 	}
 
 	public abstract double calcularCosto(LocalDate checkIn, LocalDate checkOut, double precio);
@@ -23,7 +30,8 @@ public abstract class PoliticaDeCancelacion {
 				+ monto + " $";
 	}
 
-	public void enviarMail(String texto) {
-
+	public void enviarMail(String texto, Reserva reserva) {
+		String destinatario = reserva.getEmailInquilino();
+		this.servidorDeCorreo.enviar(destinatario, "Factura por la cancelacion de su reserva", texto);
 	}
 }

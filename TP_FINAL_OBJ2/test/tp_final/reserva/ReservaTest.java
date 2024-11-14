@@ -84,11 +84,6 @@ class ReservaTest {
 		assertEquals(reserva.getMedioDePago(), medioDePago);
 	}
 
-	@Test
-	void getServidorDeCorreoTest() {
-		assertEquals(reserva.getServidorDeCorreo(), servidorDeCorreo);
-	}
-
 	// ------------------------------------------------------------
 	// CHECK-IN, CHECK-OUT, CIUDAD, PROPIETARIO E INMUEBLE
 	// ------------------------------------------------------------
