@@ -270,4 +270,21 @@ public class Alquiler {
 	public EstadoDeAlquiler getEstadoDeAlquiler() {
 		return this.estado;
 	}
+
+	public void doAlquilarLibre(Reserva reserva) {
+		if (this.getColaDeEspera().isEmpty()) {
+
+			this.addReserva(reserva);
+		} else {
+			this.addReserva(reserva);
+			reserva.encolar();
+
+		}
+	}
+
+	public void doAlquilarAlquilado(Reserva reserva) {
+		this.addReserva(reserva);
+		reserva.encolar();
+
+	}
 }
