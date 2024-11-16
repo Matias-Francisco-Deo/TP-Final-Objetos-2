@@ -3,7 +3,6 @@ package tp_final.alquiler;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import tp_final.reserva.Reserva;
 
@@ -60,7 +59,7 @@ public class ManagerDeAlquiler {
 	}
 
 	private boolean verificarSiElRangoEstaOcupado(List<Reserva> lista, LocalDate checkIn, LocalDate checkOut) {
-		return colaDeVigentes.stream().anyMatch(r -> verificarSiReservaOcupadaRango(r, checkIn, checkOut));
+		return lista.stream().anyMatch(r -> verificarSiReservaOcupadaRango(r, checkIn, checkOut));
 	}
 
 	private boolean verificarSiReservaOcupadaRango(Reserva reserva, LocalDate checkIn, LocalDate checkOut) {
@@ -77,22 +76,27 @@ public class ManagerDeAlquiler {
 		return fecha.isBefore(checkOut.plusDays(1)) && fecha.isAfter(checkIn.minusDays(1));
 	}
 
-	private void moverReservasAhoraValidas() {// testear
-		List<Reserva> reservasPorMover = chequearReservasEnColaParaReservar();
+	private void moverReservasAhoraValidas() {
 
-		reservasPorMover.forEach(this::addReservaEnVigencia);
+		for (int i = 0; i < colaDeEspera.size(); i++) {
+			Reserva reservaEnEspera = colaDeEspera.get(i);
+			LocalDate checkIn = reservaEnEspera.getFechaCheckIn();
+			LocalDate checkOut = reservaEnEspera.getFechaCheckOut();
 
-		this.colaDeEspera.removeAll(reservasPorMover);
+			boolean ocupado = verificarSiElRangoEstaOcupado(colaDeVigentes, checkIn, checkOut);
+
+			if (!ocupado) {
+
+				addReservaEnVigencia(reservaEnEspera);
+
+				colaDeEspera.remove(i);
+
+				i--;
+			}
+		}
 	}
 
-	private List<Reserva> chequearReservasEnColaParaReservar() {// testear
-		return colaDeEspera.stream()
-				.filter(reservaEnEspera -> !verificarSiElRangoEstaOcupado(colaDeVigentes,
-						reservaEnEspera.getFechaCheckIn(), reservaEnEspera.getFechaCheckOut()))
-				.collect(Collectors.toList());
-	}
-
-	// necesario el confirmar??
+	// necesario el metodo confirmar??
 
 	public void cancelarReserva(Reserva reservaACancelar) {// testear
 
