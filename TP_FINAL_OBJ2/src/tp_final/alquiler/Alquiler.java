@@ -55,6 +55,7 @@ public class Alquiler {
 		this.estado = new Libre();
 		this.colaDeEspera = new ArrayList<>();
 		this.subscriptores = new ArrayList<>();
+		new ManagerDeAlquiler(this);
 	}
 
 	public Inmueble getInmueble() {
@@ -157,7 +158,7 @@ public class Alquiler {
 		this.politicaDeCancelacion = politica;
 	}
 
-	public void setEstadoDeAlquiler(EstadoDeAlquiler estado) {
+	public void setEstadoDeAlquiler(EstadoDeAlquiler estado) {// borrar metodo
 		this.estado = estado;
 	}
 
@@ -177,7 +178,7 @@ public class Alquiler {
 		this.subscriptores.remove(sub);
 	}
 
-	public boolean esLibre() {
+	public boolean esLibre() {// borrar metodo
 		return this.estado.esLibre();
 	}
 
@@ -187,12 +188,12 @@ public class Alquiler {
 
 	public void confirmarReserva(Reserva reserva) {
 
-		this.setEstadoDeAlquiler(new Alquilado());
+		this.setEstadoDeAlquiler(new Alquilado());// borrar
 
-		this.setFechaDeEntrada(reserva.getFechaCheckIn());
-		this.setFechaDeSalida(reserva.getFechaCheckOut());
+		this.setFechaDeEntrada(reserva.getFechaCheckIn());// borrar
+		this.setFechaDeSalida(reserva.getFechaCheckOut());// borrar
 
-		this.getInmueble().aumentarCantDeVecesAlquilado();
+		this.getInmueble().aumentarCantDeVecesAlquilado();// se cambia??
 	}
 
 	public void cancelarReserva(Reserva reserva) {
