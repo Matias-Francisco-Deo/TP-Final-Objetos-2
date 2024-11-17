@@ -56,6 +56,8 @@ public class ManagerAlquilerTest {
 
 		assertEquals(manager.getColaDeEspera().size(), 2);
 		assertEquals(manager.getColaReservados().size(), 1);
+
+		verify(reserva2).encolar();
 	}
 
 	@Test

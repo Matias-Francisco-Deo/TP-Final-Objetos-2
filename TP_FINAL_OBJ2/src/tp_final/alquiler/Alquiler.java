@@ -35,8 +35,10 @@ public class Alquiler {
 
 	private List<Suscriptor> subscriptores;
 
+	private ManagerDeAlquiler manager;
+
 	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, LocalDate fechaEntrada, LocalDate fechaSalida,
-			MedioDePago medioDePago, double precioBase, PoliticaDeCancelacion politica) {
+			MedioDePago medioDePago, double precioBase, PoliticaDeCancelacion politica, ManagerDeAlquiler manager) {
 		this.inmueble = inmueble;
 		this.setCheckIn(checkIn);
 		this.setCheckOut(checkOut);
@@ -47,7 +49,11 @@ public class Alquiler {
 		this.precioBase = precioBase;
 		this.setPoliticaDeCancelacion(politica);
 		this.subscriptores = new ArrayList<>();
-		new ManagerDeAlquiler(this);
+		this.manager = manager;
+	}
+
+	private ManagerDeAlquiler getManager() {
+		return manager;
 	}
 
 	public Inmueble getInmueble() {
@@ -184,6 +190,10 @@ public class Alquiler {
 
 	private String getTipoInmueble() {
 		return this.inmueble.getTipoInmueble();
+	}
+
+	public boolean esLibre(LocalDate fechaCheckIn, LocalDate fechaCheckOut) {
+		return manager.verificarSiElRangoEstaOcupadoPorAlgunaReserva(fechaCheckIn, fechaCheckOut);
 	}
 
 }

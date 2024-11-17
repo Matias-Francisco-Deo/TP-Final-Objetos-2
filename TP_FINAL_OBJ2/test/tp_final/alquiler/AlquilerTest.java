@@ -29,6 +29,8 @@ class AlquilerTest {
 	private Usuario propietario;
 	private Suscriptor sub;
 
+	private ManagerDeAlquiler manager;
+
 	private MedioDePago medioPago;
 
 	@BeforeEach
@@ -38,6 +40,8 @@ class AlquilerTest {
 		propietario = mock(Usuario.class);
 
 		sub = mock(Suscriptor.class);
+
+		manager = mock(ManagerDeAlquiler.class);
 
 		reserva1 = mock(Reserva.class);
 		reserva2 = mock(Reserva.class);
@@ -52,7 +56,8 @@ class AlquilerTest {
 
 		cancelacion = mock(PoliticaDeCancelacion.class);
 
-		alquiler = new Alquiler(inmueble, checkIn, checkOut, FechaEntrada, FechaSalida, medioPago, 200d, cancelacion);
+		alquiler = new Alquiler(inmueble, checkIn, checkOut, FechaEntrada, FechaSalida, medioPago, 200d, cancelacion,
+				manager);
 	}
 
 	@Test
@@ -232,6 +237,17 @@ class AlquilerTest {
 		alquiler.notificarCancelacion();
 
 		verify(sub).mandarMensaje(alquiler.mensajeCancelacion());// ver como cambiarlo
+	}
+
+	@Test
+	void esLibreTest() {
+
+		LocalDate FechaEntrada = LocalDate.of(2024, 11, 1);
+		LocalDate FechaSalida = LocalDate.of(2024, 12, 1);
+
+		alquiler.esLibre(FechaEntrada, FechaSalida);
+
+		verify(manager).verificarSiElRangoEstaOcupadoPorAlgunaReserva(FechaEntrada, FechaSalida);
 	}
 
 }

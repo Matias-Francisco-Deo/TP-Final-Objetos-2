@@ -9,12 +9,10 @@ public class ListaDeFiltrosPredeterminada {
 
 	private List<ParámetroDeBúsqueda> filtros;
 
-	public ListaDeFiltrosPredeterminada(FiltroCiudad ciudad, FiltroFechaEntrada fechaEntrada,
-			FiltroFechaSalida fechaSalida) {
+	public ListaDeFiltrosPredeterminada(FiltroCiudad ciudad, FiltroFechaEntradaYSalida fechaEntradaYSalida) {
 		this.setFiltros(new ArrayList<ParámetroDeBúsqueda>());
 		this.añadirFiltro(ciudad);
-		this.añadirFiltro(fechaEntrada);
-		this.añadirFiltro(fechaSalida);
+		this.añadirFiltro(fechaEntradaYSalida);
 	}
 
 	public void añadirFiltro(ParámetroDeBúsqueda filtro) {
