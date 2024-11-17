@@ -10,24 +10,25 @@ import org.junit.jupiter.api.Test;
 
 import tp_final.alquiler.Alquiler;
 
-class FiltroPrecioMáximoTest {
+class FiltroPrecioMáximoYMinimoTest {
 
-	private FiltroPrecioMáximo filtro;
+	private FiltroPrecioMáximoYMinimo filtro;
 	private Alquiler alquiler1;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		// setup
 		double precioMáximo = 5000d;
-		filtro = new FiltroPrecioMáximo(precioMáximo);
+		double precioMinimo = 2000d;
+		filtro = new FiltroPrecioMáximoYMinimo(precioMáximo, precioMinimo);
 		alquiler1 = mock(Alquiler.class);
 
 	}
 
 	@Test
-	void testFiltroPrecioMáximoFiltraPorPrecioDejandoLosAlquileresQueTenganPrecioMenorQueSuPrecioMáximo() {
+	void testFiltroPrecioMáximoYMinimoFiltraPorPrecioDejandoLosAlquileresQueTenganPrecioDentroDelRangoDado() {
 		// setup
-		when(alquiler1.getPrecioBase()).thenReturn(2000d);
+		when(alquiler1.getPrecioBase()).thenReturn(3000d);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);
@@ -38,9 +39,22 @@ class FiltroPrecioMáximoTest {
 	}
 
 	@Test
-	void testFiltroPrecioMáximoFiltraPorPrecioDejandoLosAlquileresQueIgualenSuPrecioMáximo() {
+	void testFiltroPrecioMáximoYMinimoFiltraPorPrecioDejandoLosAlquileresQueIgualenSuPrecioMáximo() {
 		// setup
 		when(alquiler1.getPrecioBase()).thenReturn(5000d);
+
+		// exercise
+		boolean filtrado = filtro.esVálido(alquiler1);
+
+		// verify
+		assertTrue(filtrado);
+
+	}
+
+	@Test
+	void testFiltroPrecioMáximoYMinimoFiltraPorPrecioDejandoLosAlquileresQueIgualenSuPrecioMinimo() {
+		// setup
+		when(alquiler1.getPrecioBase()).thenReturn(2000d);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);
@@ -54,6 +68,19 @@ class FiltroPrecioMáximoTest {
 	void testFiltroNoDejaPasarSiEsMayorElPrecioQueSuPrecioMáximo() {
 		// setup
 		when(alquiler1.getPrecioBase()).thenReturn(20000d);
+
+		// exercise
+		boolean filtrado = filtro.esVálido(alquiler1);
+
+		// verify
+		assertFalse(filtrado);
+
+	}
+
+	@Test
+	void testFiltroNoDejaPasarSiEsMenorElPrecioQueSuPrecioMinimo() {
+		// setup
+		when(alquiler1.getPrecioBase()).thenReturn(1000d);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);

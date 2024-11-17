@@ -16,8 +16,7 @@ class ListaDeFiltrosPredeterminadaTest {
 
 	private ListaDeFiltrosPredeterminada filtroDefault;
 	private FiltroCiudad ciudad;
-	private FiltroFechaEntrada fechaEntrada;
-	private FiltroFechaSalida fechaSalida;
+	private FiltroFechaEntradaYSalida fechaEntradaYSalida;
 	private List<Alquiler> alquileres;
 	private Alquiler alquiler1;
 	private Alquiler alquiler2;
@@ -27,13 +26,12 @@ class ListaDeFiltrosPredeterminadaTest {
 	void setUp() throws Exception {
 		// setup
 		ciudad = mock(FiltroCiudad.class);
-		fechaEntrada = mock(FiltroFechaEntrada.class);
-		fechaSalida = mock(FiltroFechaSalida.class);
+		fechaEntradaYSalida = mock(FiltroFechaEntradaYSalida.class);
 		alquiler1 = mock(Alquiler.class);
 		alquiler2 = mock(Alquiler.class);
 		alquiler3 = mock(Alquiler.class);
 		alquileres = Arrays.asList(alquiler1, alquiler2, alquiler3);
-		filtroDefault = new ListaDeFiltrosPredeterminada(ciudad, fechaEntrada, fechaSalida);
+		filtroDefault = new ListaDeFiltrosPredeterminada(ciudad, fechaEntradaYSalida);
 	}
 
 	@Test
@@ -41,17 +39,14 @@ class ListaDeFiltrosPredeterminadaTest {
 		// setup
 
 		when(ciudad.esVálido(alquiler1)).thenReturn(false);
-		when(fechaEntrada.esVálido(alquiler1)).thenReturn(true);
-		when(fechaSalida.esVálido(alquiler1)).thenReturn(true);
+		when(fechaEntradaYSalida.esVálido(alquiler1)).thenReturn(true);
 
 		// dejan pasar alquiler2
 		when(ciudad.esVálido(alquiler2)).thenReturn(true);
-		when(fechaEntrada.esVálido(alquiler2)).thenReturn(true);
-		when(fechaSalida.esVálido(alquiler2)).thenReturn(true);
+		when(fechaEntradaYSalida.esVálido(alquiler2)).thenReturn(true);
 
 		when(ciudad.esVálido(alquiler3)).thenReturn(true);
-		when(fechaEntrada.esVálido(alquiler3)).thenReturn(false);
-		when(fechaSalida.esVálido(alquiler3)).thenReturn(true);
+		when(fechaEntradaYSalida.esVálido(alquiler3)).thenReturn(false);
 
 		List<Alquiler> alquileresEsperados = Arrays.asList(alquiler2);
 
@@ -66,16 +61,13 @@ class ListaDeFiltrosPredeterminadaTest {
 	void testFiltroDefaultPermiteAplicarVariosFiltrosDondeSiNoHayUnAlquilerEnComúnDevuelveVacío() {
 		// setup
 		when(ciudad.esVálido(alquiler1)).thenReturn(false);
-		when(fechaEntrada.esVálido(alquiler1)).thenReturn(false);
-		when(fechaSalida.esVálido(alquiler1)).thenReturn(true);
+		when(fechaEntradaYSalida.esVálido(alquiler1)).thenReturn(false);
 
 		when(ciudad.esVálido(alquiler2)).thenReturn(true);
-		when(fechaEntrada.esVálido(alquiler2)).thenReturn(false);
-		when(fechaSalida.esVálido(alquiler2)).thenReturn(true);
+		when(fechaEntradaYSalida.esVálido(alquiler2)).thenReturn(false);
 
 		when(ciudad.esVálido(alquiler3)).thenReturn(true);
-		when(fechaEntrada.esVálido(alquiler3)).thenReturn(true);
-		when(fechaSalida.esVálido(alquiler3)).thenReturn(false);
+		when(fechaEntradaYSalida.esVálido(alquiler3)).thenReturn(false);
 
 		List<Alquiler> alquileresEsperados = Arrays.asList();
 
@@ -91,16 +83,13 @@ class ListaDeFiltrosPredeterminadaTest {
 		// setup
 
 		when(ciudad.esVálido(alquiler1)).thenReturn(true);
-		when(fechaEntrada.esVálido(alquiler1)).thenReturn(true);
-		when(fechaSalida.esVálido(alquiler1)).thenReturn(true);
+		when(fechaEntradaYSalida.esVálido(alquiler1)).thenReturn(true);
 
 		when(ciudad.esVálido(alquiler2)).thenReturn(true);
-		when(fechaEntrada.esVálido(alquiler2)).thenReturn(true);
-		when(fechaSalida.esVálido(alquiler2)).thenReturn(true);
+		when(fechaEntradaYSalida.esVálido(alquiler2)).thenReturn(true);
 
 		when(ciudad.esVálido(alquiler3)).thenReturn(true);
-		when(fechaEntrada.esVálido(alquiler3)).thenReturn(true);
-		when(fechaSalida.esVálido(alquiler3)).thenReturn(true);
+		when(fechaEntradaYSalida.esVálido(alquiler3)).thenReturn(true);
 
 		FiltroCantidadHuéspedes filtroCantidadHuéspedes = mock(FiltroCantidadHuéspedes.class);
 		when(filtroCantidadHuéspedes.esVálido(alquiler1)).thenReturn(true);

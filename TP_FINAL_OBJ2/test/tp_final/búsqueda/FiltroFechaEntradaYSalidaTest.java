@@ -12,24 +12,29 @@ import org.junit.jupiter.api.Test;
 
 import tp_final.alquiler.Alquiler;
 
-class FiltroFechaSalidaTest {
+class FiltroFechaEntradaYSalidaTest {
 
-	private FiltroFechaSalida filtro;
+	private FiltroFechaEntradaYSalida filtro;
 	private Alquiler alquiler1;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		// setup
+		LocalDate fechaEntrada = LocalDate.of(2024, 12, 15);
 		LocalDate fechaSalida = LocalDate.of(2024, 12, 15);
-		filtro = new FiltroFechaSalida(fechaSalida);
+
+		filtro = new FiltroFechaEntradaYSalida(fechaEntrada, fechaSalida);
 		alquiler1 = mock(Alquiler.class);
 
 	}
 
 	@Test
-	void testFiltroFechaSalidaFiltraPorAlquileresConLaMismaFechaDeSalida() {
+	void testFiltroFechaEntradaFiltraPorAlquileresConLaMismaFechaDeEntrada() {
 		// setup
-		when(alquiler1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 12, 15));
+		LocalDate fechaEntrada = filtro.getFechaEntrada();
+		LocalDate fechaSalida = filtro.getFechaSalida();
+
+		when(alquiler1.estaLibreEnRango(fechaEntrada, fechaSalida)).thenReturn(true);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);
@@ -41,8 +46,10 @@ class FiltroFechaSalidaTest {
 
 	@Test
 	void testFiltroNoDejaPasarSiLaFechaEsDiferente() {
+		LocalDate fechaEntrada = filtro.getFechaEntrada();
+		LocalDate fechaSalida = filtro.getFechaSalida();
 		// setup
-		when(alquiler1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 30));
+		when(alquiler1.estaLibreEnRango(fechaEntrada, fechaSalida)).thenReturn(false);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);

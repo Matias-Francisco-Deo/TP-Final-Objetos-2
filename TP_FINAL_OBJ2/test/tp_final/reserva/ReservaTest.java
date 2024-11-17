@@ -1,7 +1,6 @@
 package tp_final.reserva;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -32,6 +31,8 @@ class ReservaTest {
 	private Ranking ranking;
 	private Usuario propietario;
 	private GestorDeRanking gestorDeRanking;
+	LocalDate FechaEntrada;
+	LocalDate FechaSalida;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -45,6 +46,8 @@ class ReservaTest {
 		propietario = mock(Usuario.class);
 		gestorDeRanking = mock(GestorDeRanking.class);
 		ranking = mock(Ranking.class);
+		FechaEntrada = LocalDate.of(2024, 11, 1);
+		FechaSalida = LocalDate.of(2024, 12, 1);
 
 		// STUB
 		when(alquiler.getInmueble()).thenReturn(inmueble);
@@ -62,7 +65,7 @@ class ReservaTest {
 		when(ranking.getPuntaje()).thenReturn(5);
 
 		// SUT
-		reserva = new Reserva(alquiler, inquilino, medioDePago, servidorDeCorreo);
+		reserva = new Reserva(alquiler, inquilino, FechaEntrada, FechaSalida, medioDePago, servidorDeCorreo);
 	}
 
 	// ------------------------------------------------------------
@@ -90,13 +93,11 @@ class ReservaTest {
 
 	@Test
 	void getFechaCheckInTest() {
-		when(alquiler.getFechaCheckIn()).thenReturn(LocalDate.of(2021, 12, 31));
-		assertTrue(reserva.getFechaCheckIn().isEqual(alquiler.getFechaCheckIn()));
+		assertEquals(reserva.getFechaCheckIn(), FechaEntrada);
 	}
 
 	void getFechaCheckOutTest() {
-		when(alquiler.getFechaCheckOut()).thenReturn(LocalDate.of(2021, 12, 31));
-		assertTrue(reserva.getFechaCheckOut().isEqual(alquiler.getFechaCheckOut()));
+		assertEquals(reserva.getFechaCheckOut(), FechaSalida);
 	}
 
 	@Test

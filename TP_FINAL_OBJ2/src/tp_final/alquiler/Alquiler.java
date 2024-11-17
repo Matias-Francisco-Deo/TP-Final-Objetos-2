@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tp_final.estado_de_alquiler.Alquilado;
-import tp_final.estado_de_alquiler.EstadoDeAlquiler;
-import tp_final.estado_de_alquiler.Libre;
 import tp_final.inmueble.Inmueble;
 import tp_final.politica_cancelacion.PoliticaDeCancelacion;
 import tp_final.reserva.Reserva;
@@ -36,25 +33,27 @@ public class Alquiler {
 
 	private PoliticaDeCancelacion politicaDeCancelacion;
 
-	private EstadoDeAlquiler estado;
-
-	private List<Reserva> colaDeEspera;
-
 	private List<Suscriptor> subscriptores;
 
-	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, MedioDePago medioDePago, double precioBase,
-			PoliticaDeCancelacion politica) {
+	private ManagerDeAlquiler manager;
+
+	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, LocalDate fechaEntrada, LocalDate fechaSalida,
+			MedioDePago medioDePago, double precioBase, PoliticaDeCancelacion politica, ManagerDeAlquiler manager) {
 		this.inmueble = inmueble;
 		this.setCheckIn(checkIn);
 		this.setCheckOut(checkOut);
+		this.setFechaDeEntrada(fechaEntrada);
+		this.setFechaDeSalida(fechaSalida);
 		this.setMedioDePago(medioDePago);
 		this.precioTemporadas = new HashMap<>();
-		this.colaDeEspera = new ArrayList<>();
 		this.precioBase = precioBase;
 		this.setPoliticaDeCancelacion(politica);
-		this.estado = new Libre();
-		this.colaDeEspera = new ArrayList<>();
 		this.subscriptores = new ArrayList<>();
+		this.manager = manager;
+	}
+
+	private ManagerDeAlquiler getManager() {
+		return manager;
 	}
 
 	public Inmueble getInmueble() {
@@ -99,10 +98,6 @@ public class Alquiler {
 
 	public PoliticaDeCancelacion getPoliticaDeCancelacion() {
 		return this.politicaDeCancelacion;
-	}
-
-	public List<Reserva> getColaDeEspera() {
-		return this.colaDeEspera;
 	}
 
 	public List<Suscriptor> getSubscriptores() {
@@ -157,10 +152,6 @@ public class Alquiler {
 		this.politicaDeCancelacion = politica;
 	}
 
-	public void setEstadoDeAlquiler(EstadoDeAlquiler estado) {
-		this.estado = estado;
-	}
-
 	public void addSubscriptor(Suscriptor sub) {
 		subscriptores.add(sub);
 	}
@@ -169,43 +160,23 @@ public class Alquiler {
 		precioTemporadas.put(temporada, precio);
 	}
 
-	public void addReserva(Reserva reserva) {
-		this.colaDeEspera.add(reserva);
-	}
-
 	public void deleteSubscriptor(Suscriptor sub) {
 		this.subscriptores.remove(sub);
 	}
 
-	public boolean esLibre() {
-		return this.estado.esLibre();
-	}
-
-	public void reservar(Reserva reserva) {
-		estado.alquilar(reserva, this);
-	}
-
-	public void confirmarReserva(Reserva reserva) {
-
-		this.setEstadoDeAlquiler(new Alquilado());
-
-		this.setFechaDeEntrada(reserva.getFechaCheckIn());
-		this.setFechaDeSalida(reserva.getFechaCheckOut());
-
-		this.getInmueble().aumentarCantDeVecesAlquilado();
-	}
-
-	public void cancelarReserva(Reserva reserva) {
-
-		this.estado.cancelar(reserva, this);
+	public void aplicarPoliticaDeCancelacion(Reserva reserva) {
 		this.politicaDeCancelacion.aplicarPolitica(reserva, this.getPrecioBase());
 	}
 
-	public void notificarSubs(String mensaje) {
+	private void notificarSubs(String mensaje) {
 
 		for (Suscriptor sub : subscriptores) {
 			sub.mandarMensaje(mensaje);
 		}
+	}
+
+	public void notificarCancelacion() {
+		this.notificarSubs(this.mensajeCancelacion());
 	}
 
 	private String mensajeDescuento() {
@@ -213,7 +184,7 @@ public class Alquiler {
 				+ this.getPrecioBase() + " pesos.");
 	}
 
-	private String mensajeCancelacion() {
+	public String mensajeCancelacion() {
 		return ("El/la " + this.getTipoInmueble() + " que te interesa se ha liberado! Corre a reservarlo");
 	}
 
@@ -221,70 +192,13 @@ public class Alquiler {
 		return this.inmueble.getTipoInmueble();
 	}
 
-	public void doCancelarAlquilado(Reserva reservaACancelar) {
-
-		List<Reserva> cola = this.getColaDeEspera();
-		Reserva primeraReserva = cola.get(0);
-		this.getColaDeEspera().remove(reservaACancelar);
-
-		boolean laReservaQueSeCancelaEraLaPrimera = primeraReserva.equals(reservaACancelar);
-
-		// si no queda nadie más
-		if (cola.isEmpty()) {
-			this.setEstadoDeAlquiler(new Libre());
-			this.notificarSubs(this.mensajeCancelacion());
-
-		} else if (laReservaQueSeCancelaEraLaPrimera) {
-			// en caso que sea la primera, significa que hay reservas delante y desencolo la
-			// siguiente
-			Reserva reservaSiguiente = cola.get(0);
-			this.setEstadoDeAlquiler(new Libre());
-			reservaSiguiente.desencolar();
-			this.notificarSubs(this.mensajeCancelacion());
-		}
-		// si era una reserva de cualquier otra posición (la segunda, tercera, cuarta)
-		// no hace falta desencolar y además no hace falta notificar cancelación
-
+	public boolean estaLibreEnRango(LocalDate fechaCheckIn, LocalDate fechaCheckOut) {
+		return manager.elRangoEstaOcupadoPorAlgunaReserva(fechaCheckIn, fechaCheckOut);
 	}
 
-	public void doCancelarLibre(Reserva reservaACancelar) {
-		List<Reserva> cola = this.getColaDeEspera();
-		Reserva primeraReserva = cola.get(0);
-		boolean laReservaQueSeCancelaEraLaPrimera = primeraReserva.equals(reservaACancelar);
+	public boolean esLibre() {
 
-		if (cola.size() > 1 && laReservaQueSeCancelaEraLaPrimera) {
-
-			this.getColaDeEspera().remove(0);
-
-			// desencola siguiente
-			cola.get(0).desencolar();
-
-		} else if (cola.size() >= 1) {
-			// si no era el primero, simplemente quita al actual
-			this.getColaDeEspera().remove(reservaACancelar);
-		}
-		// si size es 0, entonces no hace nada
-
+		return manager.getColaReservados().isEmpty();
 	}
 
-	public EstadoDeAlquiler getEstadoDeAlquiler() {
-		return this.estado;
-	}
-
-	public void doAlquilarLibre(Reserva reserva) {
-		if (this.getColaDeEspera().isEmpty()) {
-
-			this.addReserva(reserva);
-		} else {
-			this.addReserva(reserva);
-			reserva.encolar();
-
-		}
-	}
-
-	public void doAlquilarAlquilado(Reserva reserva) {
-		this.addReserva(reserva);
-		reserva.encolar();
-
-	}
 }
