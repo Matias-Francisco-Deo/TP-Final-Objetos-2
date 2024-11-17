@@ -2,6 +2,7 @@ package tp_final.alquiler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -81,6 +82,42 @@ public class ManagerAlquilerTest {
 
 	@Test
 	void cancelarReservaVigenteHabilitandoRangoDeOtraReservaTest() {
+		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 10, 1));
+		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 10, 5));
+
+		when(reserva2.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 10, 6));
+		when(reserva2.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 10, 10));
+
+		when(reserva3.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 10, 2));
+		when(reserva3.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 12, 7));
+
+		when(reserva4.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 10, 2));
+		when(reserva4.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 10, 5));
+
+		manager.reservar(reserva1);
+		manager.reservar(reserva2);
+		manager.reservar(reserva3);
+		manager.reservar(reserva4);
+
+		assertEquals(manager.getColaDeEspera().size(), 2);
+		assertEquals(manager.getColaReservados().size(), 2);
+
+		manager.cancelarReserva(reserva1);
+
+		verify(alquiler).aplicarPoliticaDeCancelacion(reserva1);
+
+		verify(alquiler).notificarCancelacion();
+
+		assertEquals(manager.getColaDeEspera().size(), 1);// reserva3 no se deberia mover porque no tiene rango
+															// disponible
+		assertEquals(manager.getColaReservados().size(), 2);// por lo que se mueve la 4 que si tiene lugar
+
+		verify(reserva4).desencolar();
+
+	}
+
+	@Test
+	void cancelarReservaVigenteHabilitandoRangoDeDosReservaConRangosSimilaresTest() {
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
 
@@ -88,7 +125,7 @@ public class ManagerAlquilerTest {
 		when(reserva2.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 10));
 
 		when(reserva3.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 2));
-		when(reserva3.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 12, 1));
+		when(reserva3.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
 
 		when(reserva4.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 2));
 		when(reserva4.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
@@ -103,9 +140,17 @@ public class ManagerAlquilerTest {
 
 		manager.cancelarReserva(reserva1);
 
-		assertEquals(manager.getColaReservados().size(), 2);// reserva4 no se deberia mover porque la reserva 3 se mueve
-															// antes, ocupando el lugar libre
-		assertEquals(manager.getColaDeEspera().size(), 1);
+		verify(alquiler).aplicarPoliticaDeCancelacion(reserva1);
+
+		verify(alquiler).notificarCancelacion();
+
+		assertEquals(manager.getColaDeEspera().size(), 1);// reserva4 no se muebe ya que la reserva 3 se movio primero,
+															// ocupando el lugar libre
+		assertEquals(manager.getColaReservados().size(), 2);
+
+		assertEquals(manager.getColaDeEspera().get(0), reserva4);
+
+		verify(reserva3).desencolar();
 
 	}
 
@@ -132,6 +177,8 @@ public class ManagerAlquilerTest {
 		assertEquals(manager.getColaReservados().size(), 2);
 
 		manager.cancelarReserva(reserva1);
+
+		verify(alquiler).notificarCancelacion();
 
 		assertEquals(manager.getColaDeEspera().size(), 2);
 		assertEquals(manager.getColaReservados().size(), 1);
@@ -162,8 +209,8 @@ public class ManagerAlquilerTest {
 
 		manager.cancelarReserva(reserva3);
 
-		assertEquals(manager.getColaReservados().size(), 2);
 		assertEquals(manager.getColaDeEspera().size(), 1);
+		assertEquals(manager.getColaReservados().size(), 2);
 
 	}
 

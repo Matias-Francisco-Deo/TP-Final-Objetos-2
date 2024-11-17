@@ -50,30 +50,39 @@ public class ManagerDeAlquiler {
 		LocalDate checkIn = reserva.getFechaCheckIn();
 		LocalDate checkOut = reserva.getFechaCheckOut();
 
-		boolean ocupado = verificarSiElRangoEstaOcupado(this.colaDeVigentes, checkIn, checkOut);
+		boolean ocupado = verificarSiElRangoEstaOcupadoPorAlgunaReserva(this.colaDeVigentes, checkIn, checkOut);
 		if (ocupado) {
 			this.addReservaEnCola(reserva);
 		} else {
+			reserva.desencolar();
 			this.addReservaEnVigencia(reserva);
 		}
 	}
 
-	private boolean verificarSiElRangoEstaOcupado(List<Reserva> lista, LocalDate checkIn, LocalDate checkOut) {
-		return lista.stream().anyMatch(r -> verificarSiReservaOcupadaRango(r, checkIn, checkOut));
+	private boolean verificarSiElRangoEstaOcupadoPorAlgunaReserva(List<Reserva> lista, LocalDate checkIn,
+			LocalDate checkOut) {
+		return lista.stream().anyMatch(r -> verificarSiReservaOcupaRangoPedido(r, checkIn, checkOut));
 	}
 
-	private boolean verificarSiReservaOcupadaRango(Reserva reserva, LocalDate checkIn, LocalDate checkOut) {
+	private boolean verificarSiReservaOcupaRangoPedido(Reserva reserva, LocalDate checkIn, LocalDate checkOut) {
 		LocalDate entrada = reserva.getFechaCheckIn();
 		LocalDate salida = reserva.getFechaCheckOut();
 
-		return (verificarRangoEstaOcupado(entrada, salida, checkIn)
-				|| verificarRangoEstaOcupado(entrada, salida, checkOut));
+		return (verificarSiRangoOcupadoEstaDentroDeRangoDeReserva(entrada, salida, checkIn, checkOut)
+				|| verificarSiFechaDentroDelRangoOcupado(entrada, salida, checkIn)
+				|| verificarSiFechaDentroDelRangoOcupado(entrada, salida, checkOut));
 
 	}
 
-	private boolean verificarRangoEstaOcupado(LocalDate checkIn, LocalDate checkOut, LocalDate fecha) {
+	private boolean verificarSiRangoOcupadoEstaDentroDeRangoDeReserva(LocalDate entrada, LocalDate salida,
+			LocalDate checkIn, LocalDate checkOut) {
 
-		return fecha.isBefore(checkOut.plusDays(1)) && fecha.isAfter(checkIn.minusDays(1));
+		return checkIn.isBefore(entrada.plusDays(1)) && checkOut.isAfter(salida.minusDays(1));
+	}
+
+	private boolean verificarSiFechaDentroDelRangoOcupado(LocalDate entrada, LocalDate salida, LocalDate fecha) {
+
+		return fecha.isBefore(salida.plusDays(1)) && fecha.isAfter(entrada.minusDays(1));
 	}
 
 	private void moverReservasAhoraValidas() {
@@ -83,13 +92,15 @@ public class ManagerDeAlquiler {
 			LocalDate checkIn = reservaEnEspera.getFechaCheckIn();
 			LocalDate checkOut = reservaEnEspera.getFechaCheckOut();
 
-			boolean ocupado = verificarSiElRangoEstaOcupado(colaDeVigentes, checkIn, checkOut);
+			boolean ocupado = verificarSiElRangoEstaOcupadoPorAlgunaReserva(colaDeVigentes, checkIn, checkOut);
 
 			if (!ocupado) {
 
 				addReservaEnVigencia(reservaEnEspera);
 
-				colaDeEspera.remove(i);
+				reservaEnEspera.desencolar();
+
+				deleteReservaDe(this.getColaDeEspera(), reservaEnEspera);
 
 				i--;
 			}
@@ -97,14 +108,19 @@ public class ManagerDeAlquiler {
 	}
 
 	// necesario el metodo confirmar??
+	// this.getInmueble().aumentarCantDeVecesAlquilado();// se agrega o pasa al
+	// check out de reserva??
 
 	public void cancelarReserva(Reserva reservaACancelar) {// testear
+
+		alquiler.aplicarPoliticaDeCancelacion(reservaACancelar);// mover mas abajo?
 
 		if (this.getColaDeEspera().contains(reservaACancelar)) {
 			deleteReservaDe(this.getColaDeEspera(), reservaACancelar);
 		} else {
 			deleteReservaDe(this.getColaReservados(), reservaACancelar);
 			this.moverReservasAhoraValidas();
+			alquiler.notificarCancelacion();
 		}
 
 	}

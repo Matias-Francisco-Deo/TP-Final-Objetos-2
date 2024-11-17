@@ -15,12 +15,17 @@ public class Reserva {
 	private MedioDePago medioDePago;
 	private EstadoDeReserva estado;
 	private ServidorDeCorreo servidorDeCorreo;
+	private LocalDate FechaCheckIn;
+	private LocalDate FechaCheckOut;
 
 	// ------------------------------------------------------------
 
-	public Reserva(Alquiler alquiler, Usuario inquilino, MedioDePago medioDePago, ServidorDeCorreo servidorDeCorreo) {
+	public Reserva(Alquiler alquiler, Usuario inquilino, LocalDate FechaCheckIn, LocalDate FechaCheckOut,
+			MedioDePago medioDePago, ServidorDeCorreo servidorDeCorreo) {
 		this.setAlquiler(alquiler);
 		this.setInquilino(inquilino);
+		this.setFechaCheckIn(FechaCheckIn);
+		this.setFechaCheckOut(FechaCheckOut);
 		this.setMedioDePago(medioDePago);
 		this.setServidorDeCorreo(servidorDeCorreo);
 		this.setEstado(new PendienteDeAprobacion()); // estado por defecto
@@ -67,11 +72,11 @@ public class Reserva {
 	// ------------------------------------------------------------
 
 	public LocalDate getFechaCheckIn() {
-		return this.getAlquiler().getFechaCheckIn();
+		return this.FechaCheckIn;
 	}
 
 	public LocalDate getFechaCheckOut() {
-		return this.getAlquiler().getFechaCheckOut();
+		return this.FechaCheckOut;
 	}
 
 	public String getCiudad() {
@@ -84,6 +89,14 @@ public class Reserva {
 
 	public Inmueble getInmueble() {
 		return this.getAlquiler().getInmueble();
+	}
+
+	private void setFechaCheckIn(LocalDate FechaCheckIn) {
+		this.FechaCheckIn = FechaCheckIn;
+	}
+
+	private void setFechaCheckOut(LocalDate FechaCheckOut) {
+		this.FechaCheckOut = FechaCheckOut;
 	}
 
 	// ------------------------------------------------------------
@@ -135,7 +148,7 @@ public class Reserva {
 	}
 
 	private void enviarCorreoDeAprobacion() {
-		String destinatario = this.getInquilino().getEmail();
+		String destinatario = this.getEmailInquilino();
 		this.enviarCorreo(destinatario, "Reserva aprobada", this);
 	}
 
