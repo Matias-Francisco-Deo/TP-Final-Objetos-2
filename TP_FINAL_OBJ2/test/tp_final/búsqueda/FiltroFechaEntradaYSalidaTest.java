@@ -34,7 +34,7 @@ class FiltroFechaEntradaYSalidaTest {
 		LocalDate fechaEntrada = filtro.getFechaEntrada();
 		LocalDate fechaSalida = filtro.getFechaSalida();
 
-		when(alquiler1.esLibre(fechaEntrada, fechaSalida)).thenReturn(true);
+		when(alquiler1.estaLibreEnRango(fechaEntrada, fechaSalida)).thenReturn(true);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);
@@ -49,7 +49,7 @@ class FiltroFechaEntradaYSalidaTest {
 		LocalDate fechaEntrada = filtro.getFechaEntrada();
 		LocalDate fechaSalida = filtro.getFechaSalida();
 		// setup
-		when(alquiler1.esLibre(fechaEntrada, fechaSalida)).thenReturn(false);
+		when(alquiler1.estaLibreEnRango(fechaEntrada, fechaSalida)).thenReturn(false);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);

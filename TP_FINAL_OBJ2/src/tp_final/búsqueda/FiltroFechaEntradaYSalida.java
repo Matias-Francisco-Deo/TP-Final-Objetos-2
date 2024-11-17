@@ -32,8 +32,8 @@ public class FiltroFechaEntradaYSalida implements ParámetroDeBúsqueda {
 
 	@Override
 	public boolean esVálido(Alquiler alquiler) {
-		// TODO Auto-generated method stub
-		return alquiler.esLibre(fechaEntrada, fechaSalida);// corroborar con mati
+
+		return alquiler.estaLibreEnRango(fechaEntrada, fechaSalida);
 	}
 
 }

@@ -50,7 +50,7 @@ public class ManagerDeAlquiler {
 		LocalDate checkIn = reserva.getFechaCheckIn();
 		LocalDate checkOut = reserva.getFechaCheckOut();
 
-		boolean ocupado = verificarSiElRangoEstaOcupadoPorAlgunaReserva(checkIn, checkOut);
+		boolean ocupado = elRangoEstaOcupadoPorAlgunaReserva(checkIn, checkOut);
 		if (ocupado) {
 			this.addReservaEnCola(reserva);
 
@@ -62,7 +62,7 @@ public class ManagerDeAlquiler {
 		}
 	}
 
-	public boolean verificarSiElRangoEstaOcupadoPorAlgunaReserva(LocalDate checkIn, LocalDate checkOut) {
+	public boolean elRangoEstaOcupadoPorAlgunaReserva(LocalDate checkIn, LocalDate checkOut) {
 		return this.colaDeVigentes.stream().anyMatch(r -> verificarSiReservaOcupaRangoPedido(r, checkIn, checkOut));
 	}
 
@@ -87,14 +87,14 @@ public class ManagerDeAlquiler {
 		return fecha.isBefore(salida.plusDays(1)) && fecha.isAfter(entrada.minusDays(1));
 	}
 
-	private void moverReservasAhoraValidas() {
+	private void comprobarYMoverReservasEncoladas() {
 
 		for (int i = 0; i < colaDeEspera.size(); i++) {
 			Reserva reservaEnEspera = colaDeEspera.get(i);
 			LocalDate checkIn = reservaEnEspera.getFechaCheckIn();
 			LocalDate checkOut = reservaEnEspera.getFechaCheckOut();
 
-			boolean ocupado = verificarSiElRangoEstaOcupadoPorAlgunaReserva(checkIn, checkOut);
+			boolean ocupado = elRangoEstaOcupadoPorAlgunaReserva(checkIn, checkOut);
 
 			if (!ocupado) {
 
@@ -109,21 +109,17 @@ public class ManagerDeAlquiler {
 		}
 	}
 
-	// necesario el metodo confirmar??
-	// this.getInmueble().aumentarCantDeVecesAlquilado();// se agrega o pasa al
-	// check out de reserva??
-
-	public void cancelarReserva(Reserva reservaACancelar) {// testear
-
-		alquiler.aplicarPoliticaDeCancelacion(reservaACancelar);// mover mas abajo?
+	public void cancelarReserva(Reserva reservaACancelar) {
 
 		if (this.getColaDeEspera().contains(reservaACancelar)) {
 			deleteReservaDe(this.getColaDeEspera(), reservaACancelar);
 		} else {
 			deleteReservaDe(this.getColaReservados(), reservaACancelar);
-			this.moverReservasAhoraValidas();
+			this.comprobarYMoverReservasEncoladas();
 			alquiler.notificarCancelacion();
 		}
+
+		alquiler.aplicarPoliticaDeCancelacion(reservaACancelar);
 
 	}
 

@@ -30,7 +30,7 @@ public class FiltroPrecioMáximoYMinimo implements ParámetroDeBúsqueda {
 
 	@Override
 	public boolean esVálido(Alquiler alquiler) {
-		// TODO Auto-generated method stub
+
 		return alquiler.getPrecioBase() >= this.getPrecioMínimo() && alquiler.getPrecioBase() <= this.getPrecioMáximo();
 	}
 

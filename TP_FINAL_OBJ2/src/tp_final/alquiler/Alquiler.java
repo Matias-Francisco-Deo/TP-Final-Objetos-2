@@ -166,7 +166,7 @@ public class Alquiler {
 
 	public void aplicarPoliticaDeCancelacion(Reserva reserva) {
 		this.politicaDeCancelacion.aplicarPolitica(reserva, this.getPrecioBase());
-	}// se queda aca o pasa a manager?
+	}
 
 	private void notificarSubs(String mensaje) {
 
@@ -192,8 +192,13 @@ public class Alquiler {
 		return this.inmueble.getTipoInmueble();
 	}
 
-	public boolean esLibre(LocalDate fechaCheckIn, LocalDate fechaCheckOut) {
-		return manager.verificarSiElRangoEstaOcupadoPorAlgunaReserva(fechaCheckIn, fechaCheckOut);
+	public boolean estaLibreEnRango(LocalDate fechaCheckIn, LocalDate fechaCheckOut) {
+		return manager.elRangoEstaOcupadoPorAlgunaReserva(fechaCheckIn, fechaCheckOut);
+	}
+
+	public boolean esLibre() {
+
+		return manager.getColaReservados().isEmpty();
 	}
 
 }

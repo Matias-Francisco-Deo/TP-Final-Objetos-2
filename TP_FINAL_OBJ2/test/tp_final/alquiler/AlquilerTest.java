@@ -236,18 +236,25 @@ class AlquilerTest {
 
 		alquiler.notificarCancelacion();
 
-		verify(sub).mandarMensaje(alquiler.mensajeCancelacion());// ver como cambiarlo
+		verify(sub).mandarMensaje(alquiler.mensajeCancelacion());
+	}
+
+	@Test
+	void esLibreEnRangoTest() {
+
+		LocalDate FechaEntrada = LocalDate.of(2024, 11, 1);
+		LocalDate FechaSalida = LocalDate.of(2024, 12, 1);
+
+		alquiler.estaLibreEnRango(FechaEntrada, FechaSalida);
+
+		verify(manager).elRangoEstaOcupadoPorAlgunaReserva(FechaEntrada, FechaSalida);
 	}
 
 	@Test
 	void esLibreTest() {
 
-		LocalDate FechaEntrada = LocalDate.of(2024, 11, 1);
-		LocalDate FechaSalida = LocalDate.of(2024, 12, 1);
+		assertTrue(alquiler.esLibre());
 
-		alquiler.esLibre(FechaEntrada, FechaSalida);
-
-		verify(manager).verificarSiElRangoEstaOcupadoPorAlgunaReserva(FechaEntrada, FechaSalida);
 	}
 
 }
