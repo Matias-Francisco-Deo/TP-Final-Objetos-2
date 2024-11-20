@@ -88,7 +88,7 @@ public class Inmueble {
 		return this.gestor;
 	}
 
-	public void setTipoInmueble(String tipoInmueble) {// cambiar string a tipoinmueble?
+	public void setTipoInmueble(String tipoInmueble) {
 		this.tipoInmueble = tipoInmueble;
 	}
 

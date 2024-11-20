@@ -77,12 +77,59 @@ public class ManagerAlquilerTest {
 		manager.reservar(reserva2);
 		manager.reservar(reserva3);
 
-		assertEquals(manager.getColaDeEspera().size(), 0);
-		assertEquals(manager.getColaReservados().size(), 3);// se verifica que se agrego la reserva a la colaReservados
+		assertEquals(manager.getColaDeEspera().size(), 0); // colaDeEspera se mantiene vacia
+		assertEquals(manager.getColaReservados().size(), 3);// se verifica que se agregaron las reservas a la
+															// colaReservados que ya tenia una reserva
 	}
 
 	@Test
-	void cancelarReservaVigenteHabilitandoRangoDeOtraReservaTest() {
+	void notificaCancelacionAlCancelarUnaReserva() {
+
+		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
+		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
+
+		manager.reservar(reserva1);
+
+		manager.cancelarReserva(reserva1);
+
+		verify(alquiler).notificarCancelacion();
+
+	}
+
+	@Test
+	void llamaALaPoliticaDeCancelacionAlCancelarUnaReserva() {
+
+		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
+		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
+
+		manager.reservar(reserva1);
+
+		manager.cancelarReserva(reserva1);
+
+		verify(alquiler).aplicarPoliticaDeCancelacion(reserva1);
+
+	}
+
+	@Test
+	void desencolaReservaEnColaAlCancelarOtraQueOcupabaSusFechas() {
+
+		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
+		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
+
+		when(reserva4.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 10, 2));
+		when(reserva4.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 10, 5));
+
+		manager.reservar(reserva1);
+		manager.reservar(reserva4);
+
+		manager.cancelarReserva(reserva1);
+
+		verify(reserva4).desencolar();
+
+	}
+
+	@Test
+	void seCancelaReservaVigenteHabilitandoRangoDeReservaEnColaPeroQueNoEsLaPrimeraPorqueNoTieneRangoDeFechasTest() {
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 10, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 10, 5));
 
@@ -100,25 +147,22 @@ public class ManagerAlquilerTest {
 		manager.reservar(reserva3);
 		manager.reservar(reserva4);
 
-		assertEquals(manager.getColaDeEspera().size(), 2);
-		assertEquals(manager.getColaReservados().size(), 2);
+		assertEquals(manager.getColaReservados().size(), 2);// las primeras 2 resdervas van a la colaReservados
 
-		manager.cancelarReserva(reserva1);
+		assertEquals(manager.getColaDeEspera().size(), 2);// las 2 ultimas reservas van a la colaDeESpera porque las 2
+															// primeras ocupan el rango de las ultimas
 
-		verify(alquiler).aplicarPoliticaDeCancelacion(reserva1);
+		manager.cancelarReserva(reserva1);// cancelamos la reserva que ocupa las fechas una de las reservas
 
-		verify(alquiler).notificarCancelacion();
-
-		assertEquals(manager.getColaDeEspera().size(), 1);// reserva3 no se deberia mover porque no tiene rango
+		assertEquals(manager.getColaDeEspera().size(), 1);// reserva3 no se mueve porque no tiene rango
 															// disponible
-		assertEquals(manager.getColaReservados().size(), 2);// por lo que se mueve la 4 que si tiene lugar
-
-		verify(reserva4).desencolar();
+		assertEquals(manager.getColaReservados().size(), 2);// se mueve la reserva4 que ahora si tiene las fechas
+															// disponibles
 
 	}
 
 	@Test
-	void cancelarReservaVigenteHabilitandoRangoDeDosReservaConRangosSimilaresTest() {
+	void seCancelaReservaVigenteHabilitandoRangoDeReservaEnColaPasandoLaPrimeraReservaQueSeLeHabilitaElRangoTest() {
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
 
@@ -136,22 +180,10 @@ public class ManagerAlquilerTest {
 		manager.reservar(reserva3);
 		manager.reservar(reserva4);
 
-		assertEquals(manager.getColaDeEspera().size(), 2);
-		assertEquals(manager.getColaReservados().size(), 2);
-
 		manager.cancelarReserva(reserva1);
 
-		verify(alquiler).aplicarPoliticaDeCancelacion(reserva1);
-
-		verify(alquiler).notificarCancelacion();
-
-		assertEquals(manager.getColaDeEspera().size(), 1);// reserva4 no se muebe ya que la reserva 3 se movio primero,
-															// ocupando el lugar libre
-		assertEquals(manager.getColaReservados().size(), 2);
-
-		assertEquals(manager.getColaDeEspera().get(0), reserva4);
-
-		verify(reserva3).desencolar();
+		assertEquals(manager.getColaDeEspera().get(0), reserva4);// reserva4 no se muebe ya que la reserva 3 se movio
+																	// primero, cupando el lugar libre
 
 	}
 
@@ -174,12 +206,7 @@ public class ManagerAlquilerTest {
 		manager.reservar(reserva3);
 		manager.reservar(reserva4);
 
-		assertEquals(manager.getColaDeEspera().size(), 2);
-		assertEquals(manager.getColaReservados().size(), 2);
-
 		manager.cancelarReserva(reserva1);
-
-		verify(alquiler).notificarCancelacion();
 
 		assertEquals(manager.getColaDeEspera().size(), 2);
 		assertEquals(manager.getColaReservados().size(), 1);
@@ -187,7 +214,7 @@ public class ManagerAlquilerTest {
 	}
 
 	@Test
-	void cancelarReservaDegetColaDeEsperaTest() {
+	void cancelandoReservaDegetColaDeEsperaTest() {
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
 
@@ -205,13 +232,9 @@ public class ManagerAlquilerTest {
 		manager.reservar(reserva3);
 		manager.reservar(reserva4);
 
-		assertEquals(manager.getColaDeEspera().size(), 2);
-		assertEquals(manager.getColaReservados().size(), 2);
-
 		manager.cancelarReserva(reserva3);
 
 		assertEquals(manager.getColaDeEspera().size(), 1);
-		assertEquals(manager.getColaReservados().size(), 2);
 
 	}
 

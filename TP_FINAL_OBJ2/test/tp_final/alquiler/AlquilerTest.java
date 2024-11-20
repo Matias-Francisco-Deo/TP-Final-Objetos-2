@@ -186,7 +186,7 @@ class AlquilerTest {
 	@Test
 	void deleteSubscriptoresTest() {
 
-		alquiler.addSubscriptor(sub);
+		alquiler.addSubscriptor(sub); // se añade un subscriptor para despues borrarlo
 
 		alquiler.deleteSubscriptor(sub);
 

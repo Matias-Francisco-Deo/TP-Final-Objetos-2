@@ -195,7 +195,7 @@ public class Alquiler {
 	}
 
 	public boolean estaLibreEnRango(LocalDate fechaCheckIn, LocalDate fechaCheckOut) {
-		return this.getManager().elRangoEstaOcupadoPorAlgunaReserva(fechaCheckIn, fechaCheckOut);
+		return !this.getManager().elRangoEstaOcupadoPorAlgunaReserva(fechaCheckIn, fechaCheckOut);
 	}
 
 	public boolean esLibre() {
