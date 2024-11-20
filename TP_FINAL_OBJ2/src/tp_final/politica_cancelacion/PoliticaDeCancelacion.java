@@ -9,8 +9,16 @@ public abstract class PoliticaDeCancelacion {
 
 	private ServidorDeCorreo servidorDeCorreo;
 
+	private void setServidorDeCorreo(ServidorDeCorreo servidor) {
+		this.servidorDeCorreo = servidor;
+	}
+
+	private ServidorDeCorreo getServidorDeCorreo() {
+		return this.servidorDeCorreo;
+	}
+
 	public PoliticaDeCancelacion(ServidorDeCorreo sistemaDeCorreo) {
-		this.servidorDeCorreo = sistemaDeCorreo;
+		this.setServidorDeCorreo(sistemaDeCorreo);
 	}
 
 	final public void aplicarPolitica(Reserva reserva, double precio) {
@@ -32,6 +40,6 @@ public abstract class PoliticaDeCancelacion {
 
 	final public void enviarMail(String texto, Reserva reserva) {
 		String destinatario = reserva.getEmailInquilino();
-		this.servidorDeCorreo.enviar(destinatario, "Factura por la cancelacion de su reserva", texto);
+		this.getServidorDeCorreo().enviar(destinatario, "Factura por la cancelacion de su reserva", texto);
 	}
 }

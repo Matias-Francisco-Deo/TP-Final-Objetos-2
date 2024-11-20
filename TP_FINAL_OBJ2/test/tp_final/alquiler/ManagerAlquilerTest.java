@@ -37,7 +37,7 @@ public class ManagerAlquilerTest {
 	}
 
 	@Test
-	void addReservaFechaOcupadaTest() {
+	void agregaUnaReservaEnUnaFechaOcupadaTest() {
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
 
@@ -47,21 +47,20 @@ public class ManagerAlquilerTest {
 		when(reserva3.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 2));
 		when(reserva3.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 12, 3));
 
-		manager.reservar(reserva1);
-
-		assertEquals(manager.getColaReservados().size(), 1);
+		manager.reservar(reserva1); // colaReservados tiene un elemento
 
 		manager.reservar(reserva2);
 		manager.reservar(reserva3);
 
-		assertEquals(manager.getColaDeEspera().size(), 2);
-		assertEquals(manager.getColaReservados().size(), 1);
+		assertEquals(manager.getColaDeEspera().size(), 2); // colaDeEspera ahora tiene 2 reservas esperando
+		assertEquals(manager.getColaReservados().size(), 1); // la colaReservados se mantiene igual
 
-		verify(reserva2).encolar();
+		verify(reserva2).encolar(); // se verifica que se encolo la reserva
+
 	}
 
 	@Test
-	void addReservaFechalibreTest() {
+	void agregaUnaReservaEnUnaFechaLibreTest() {
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
 
@@ -73,13 +72,13 @@ public class ManagerAlquilerTest {
 
 		manager.reservar(reserva1);
 
-		assertEquals(manager.getColaReservados().size(), 1);
+		assertEquals(manager.getColaReservados().size(), 1); // se verifica que se agrego la reserva a la colaReservados
 
 		manager.reservar(reserva2);
 		manager.reservar(reserva3);
 
 		assertEquals(manager.getColaDeEspera().size(), 0);
-		assertEquals(manager.getColaReservados().size(), 3);
+		assertEquals(manager.getColaReservados().size(), 3);// se verifica que se agrego la reserva a la colaReservados
 	}
 
 	@Test

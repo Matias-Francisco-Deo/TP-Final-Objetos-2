@@ -6,7 +6,7 @@ import tp_final.ranking.GestorDeRanking;
 import tp_final.usuarios.Usuario;
 
 public class Inmueble {
-	private String tipoInmueble;// revisar si tipo inmueble es una clase o un string
+	private String tipoInmueble;
 
 	private Usuario propietario;
 
@@ -30,17 +30,17 @@ public class Inmueble {
 
 	Inmueble(String tipo, Usuario propietario, double superficie, String pais, String ciudad, String direccion,
 			List<String> servicios, int capacidad, List<Foto> fotos, GestorDeRanking gestor) {
-		this.tipoInmueble = tipo;
-		this.propietario = propietario;
-		this.superficie = superficie;
-		this.pais = pais;
-		this.ciudad = ciudad;
-		this.direccion = direccion;
-		this.servicios = servicios;
-		this.capacidad = capacidad;
-		this.fotos = fotos;
-		this.cantVecesEnAlquiler = 0;
-		this.gestor = gestor;
+		this.setTipoInmueble(tipo);
+		this.setPropietario(propietario);
+		this.setSuperficie(superficie);
+		this.setPais(pais);
+		this.setCiudad(ciudad);
+		this.setDireccion(direccion);
+		this.setServicios(servicios);
+		this.setCapacidad(capacidad);
+		this.setFotos(fotos);
+		this.setCantVecesEnAlquiler(0);
+		this.setGestor(gestor);
 
 	}
 
@@ -112,6 +112,26 @@ public class Inmueble {
 		this.capacidad = capacidad;
 	}
 
+	private void setPropietario(Usuario propietario) {
+		this.propietario = propietario;
+	}
+
+	private void setCantVecesEnAlquiler(int cantVecesEnAlquiler) {
+		this.cantVecesEnAlquiler = cantVecesEnAlquiler;
+	}
+
+	private void setGestor(GestorDeRanking gestor) {
+		this.gestor = gestor;
+	}
+
+	private void setFotos(List<Foto> fotos) {
+		this.fotos = fotos;
+	}
+
+	private void setServicios(List<String> servicios) {
+		this.servicios = servicios;
+	}
+
 	public void addServicio(String servicio) {
 		this.servicios.add(servicio);
 	}
@@ -121,6 +141,7 @@ public class Inmueble {
 	}
 
 	public void aumentarCantDeVecesAlquilado() {
-		this.cantVecesEnAlquiler += 1;
+		this.setCantVecesEnAlquiler(this.getCantVecesEnAlquiler() + 1);
 	}
+
 }

@@ -22,10 +22,6 @@ public class ManagerDeAlquiler {
 
 	}
 
-	private Alquiler getAlquiler() {
-		return this.alquiler;
-	}
-
 	public List<Reserva> getColaDeEspera() {
 		return this.colaDeEspera;
 	}
@@ -34,16 +30,16 @@ public class ManagerDeAlquiler {
 		return this.colaDeVigentes;
 	}
 
-	private Alquiler setAlquiler(Alquiler alquiler) {
-		return this.alquiler = alquiler;
+	private void setAlquiler(Alquiler alquiler) {
+		this.alquiler = alquiler;
 	}
 
 	public void addReservaEnCola(Reserva reserva) {
-		this.colaDeEspera.add(reserva);
+		this.getColaDeEspera().add(reserva);
 	}
 
 	public void addReservaEnVigencia(Reserva reserva) {
-		this.colaDeVigentes.add(reserva);
+		this.getColaReservados().add(reserva);
 	}
 
 	public void reservar(Reserva reserva) {
@@ -63,7 +59,8 @@ public class ManagerDeAlquiler {
 	}
 
 	public boolean elRangoEstaOcupadoPorAlgunaReserva(LocalDate checkIn, LocalDate checkOut) {
-		return this.colaDeVigentes.stream().anyMatch(r -> verificarSiReservaOcupaRangoPedido(r, checkIn, checkOut));
+		return this.getColaReservados().stream()
+				.anyMatch(r -> verificarSiReservaOcupaRangoPedido(r, checkIn, checkOut));
 	}
 
 	private boolean verificarSiReservaOcupaRangoPedido(Reserva reserva, LocalDate checkIn, LocalDate checkOut) {
@@ -89,8 +86,8 @@ public class ManagerDeAlquiler {
 
 	private void comprobarYMoverReservasEncoladas() {
 
-		for (int i = 0; i < colaDeEspera.size(); i++) {
-			Reserva reservaEnEspera = colaDeEspera.get(i);
+		for (int i = 0; i < this.getColaDeEspera().size(); i++) {
+			Reserva reservaEnEspera = this.getColaDeEspera().get(i);
 			LocalDate checkIn = reservaEnEspera.getFechaCheckIn();
 			LocalDate checkOut = reservaEnEspera.getFechaCheckOut();
 

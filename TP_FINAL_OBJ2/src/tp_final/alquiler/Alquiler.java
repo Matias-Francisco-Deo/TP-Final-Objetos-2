@@ -29,7 +29,7 @@ public class Alquiler {
 
 	private Map<String, Double> precioTemporadas;
 
-	private double precioBase;
+	private double precioBase = 0;
 
 	private PoliticaDeCancelacion politicaDeCancelacion;
 
@@ -38,7 +38,7 @@ public class Alquiler {
 	private ManagerDeAlquiler manager;
 
 	Alquiler(Inmueble inmueble, LocalTime checkIn, LocalTime checkOut, LocalDate fechaEntrada, LocalDate fechaSalida,
-			MedioDePago medioDePago, double precioBase, PoliticaDeCancelacion politica, ManagerDeAlquiler manager) {
+			MedioDePago medioDePago, double precioBase, PoliticaDeCancelacion politica) {
 		this.inmueble = inmueble;
 		this.setCheckIn(checkIn);
 		this.setCheckOut(checkOut);
@@ -46,42 +46,42 @@ public class Alquiler {
 		this.setFechaDeSalida(fechaSalida);
 		this.setMedioDePago(medioDePago);
 		this.precioTemporadas = new HashMap<>();
-		this.precioBase = precioBase;
+		this.cambiarPrecioBase(precioBase);
 		this.setPoliticaDeCancelacion(politica);
 		this.subscriptores = new ArrayList<>();
-		this.manager = manager;
+		this.manager = new ManagerDeAlquiler(this);
 	}
 
 	private ManagerDeAlquiler getManager() {
-		return manager;
+		return this.manager;
 	}
 
 	public Inmueble getInmueble() {
-		return inmueble;
+		return this.inmueble;
 	}
 
 	public Usuario getPropietario() {
-		return inmueble.getPropietario();
+		return this.inmueble.getPropietario();
 	}
 
 	public LocalDate getFechaCheckIn() {
-		return fechaEntrada;
+		return this.fechaEntrada;
 	}
 
 	public LocalDate getFechaCheckOut() {
-		return fechaSalida;
+		return this.fechaSalida;
 	}
 
 	public LocalTime getCheckIn() {
-		return checkIn;
+		return this.checkIn;
 	}
 
 	public LocalTime getCheckOut() {
-		return checkOut;
+		return this.checkOut;
 	}
 
 	public MedioDePago getMedioDePago() {
-		return medioPago;
+		return this.medioPago;
 	}
 
 	public double getPrecioBase() {
@@ -132,17 +132,21 @@ public class Alquiler {
 		this.medioPago = medioPago;
 	}
 
-	public void setPrecioBase(double precioNuevo) {
+	private void setPrecioBase(double precioNuevo) {
+		this.precioBase = precioNuevo;
+	}
+
+	public void cambiarPrecioBase(double precioNuevo) {
 		double precioantiguo = precioBase;
 
-		this.precioBase = precioNuevo;
+		this.setPrecioBase(precioNuevo);
 
-		comprobarBajaDePrecio(precioantiguo);
+		this.comprobarBajaDePrecio(precioantiguo);
 
 	}
 
 	private void comprobarBajaDePrecio(double precioantiguo) {
-		if (precioBase < precioantiguo) {
+		if (this.getPrecioBase() < precioantiguo) {
 
 			this.notificarSubs(this.mensajeDescuento());
 		}
@@ -153,26 +157,24 @@ public class Alquiler {
 	}
 
 	public void addSubscriptor(Suscriptor sub) {
-		subscriptores.add(sub);
+		this.getSubscriptores().add(sub);
 	}
 
 	public void addPrecioTemporada(String temporada, Double precio) {
-		precioTemporadas.put(temporada, precio);
+		this.getPreciosTemporadas().put(temporada, precio);
 	}
 
 	public void deleteSubscriptor(Suscriptor sub) {
-		this.subscriptores.remove(sub);
+		this.getSubscriptores().remove(sub);
 	}
 
 	public void aplicarPoliticaDeCancelacion(Reserva reserva) {
-		this.politicaDeCancelacion.aplicarPolitica(reserva, this.getPrecioBase());
+		this.getPoliticaDeCancelacion().aplicarPolitica(reserva, this.getPrecioBase());
 	}
 
 	private void notificarSubs(String mensaje) {
 
-		for (Suscriptor sub : subscriptores) {
-			sub.mandarMensaje(mensaje);
-		}
+		this.getSubscriptores().forEach(sub -> sub.mandarMensaje(mensaje));
 	}
 
 	public void notificarCancelacion() {
@@ -189,16 +191,16 @@ public class Alquiler {
 	}
 
 	private String getTipoInmueble() {
-		return this.inmueble.getTipoInmueble();
+		return this.getInmueble().getTipoInmueble();
 	}
 
 	public boolean estaLibreEnRango(LocalDate fechaCheckIn, LocalDate fechaCheckOut) {
-		return manager.elRangoEstaOcupadoPorAlgunaReserva(fechaCheckIn, fechaCheckOut);
+		return this.getManager().elRangoEstaOcupadoPorAlgunaReserva(fechaCheckIn, fechaCheckOut);
 	}
 
 	public boolean esLibre() {
 
-		return manager.getColaReservados().isEmpty();
+		return this.getManager().getColaReservados().isEmpty();
 	}
 
 }

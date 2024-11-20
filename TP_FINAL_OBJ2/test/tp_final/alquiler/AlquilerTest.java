@@ -23,13 +23,10 @@ class AlquilerTest {
 	Alquiler alquiler;
 	private Inmueble inmueble;
 	private Reserva reserva1;
-	private Reserva reserva2;
 	private PoliticaDeCancelacion cancelacion;
 
 	private Usuario propietario;
 	private Suscriptor sub;
-
-	private ManagerDeAlquiler manager;
 
 	private MedioDePago medioPago;
 
@@ -41,10 +38,7 @@ class AlquilerTest {
 
 		sub = mock(Suscriptor.class);
 
-		manager = mock(ManagerDeAlquiler.class);
-
 		reserva1 = mock(Reserva.class);
-		reserva2 = mock(Reserva.class);
 
 		medioPago = MedioDePago.EFECTIVO;
 
@@ -56,8 +50,7 @@ class AlquilerTest {
 
 		cancelacion = mock(PoliticaDeCancelacion.class);
 
-		alquiler = new Alquiler(inmueble, checkIn, checkOut, FechaEntrada, FechaSalida, medioPago, 200d, cancelacion,
-				manager);
+		alquiler = new Alquiler(inmueble, checkIn, checkOut, FechaEntrada, FechaSalida, medioPago, 200d, cancelacion);
 	}
 
 	@Test
@@ -70,7 +63,7 @@ class AlquilerTest {
 	@Test
 	void setterPrecioBaseTest() {
 
-		alquiler.setPrecioBase(500);
+		alquiler.cambiarPrecioBase(500);
 		assertEquals(alquiler.getPrecioBase(), 500d);
 
 	}
@@ -81,7 +74,7 @@ class AlquilerTest {
 
 		alquiler.addSubscriptor(sub);
 
-		alquiler.setPrecioBase(100);
+		alquiler.cambiarPrecioBase(100);
 		assertEquals(alquiler.getPrecioBase(), 100d);
 
 		String mensaje = "No te pierdas\r\n esta oferta: Un inmueble Departamento a tan sólo 100.0 pesos.";
@@ -240,14 +233,13 @@ class AlquilerTest {
 	}
 
 	@Test
-	void esLibreEnRangoTest() {
+	void estaLibreDentroDeUnRangoQueEstaDentroDeSusFechasTest() {
 
-		LocalDate FechaEntrada = LocalDate.of(2024, 11, 1);
-		LocalDate FechaSalida = LocalDate.of(2024, 12, 1);
+		LocalDate FechaEntrada = LocalDate.of(2024, 11, 2);
+		LocalDate FechaSalida = LocalDate.of(2024, 11, 15);
 
-		alquiler.estaLibreEnRango(FechaEntrada, FechaSalida);
+		assertTrue(alquiler.estaLibreEnRango(FechaEntrada, FechaSalida));
 
-		verify(manager).elRangoEstaOcupadoPorAlgunaReserva(FechaEntrada, FechaSalida);
 	}
 
 	@Test
