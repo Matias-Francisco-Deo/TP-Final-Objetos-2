@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tp_final.alquiler.Alquiler;
+import tp_final.alquiler.ManagerDeAlquiler;
 import tp_final.inmueble.Inmueble;
 import tp_final.usuarios.Usuario;
 
@@ -107,7 +108,9 @@ class RecolectorDeDatosTest {
 	@Test
 	void testRealizarListadoDeInmueblesLibresDevuelveSólamenteAquellosInmueblesCuyoAlquilerEsLibre() {
 		// setup
-		when(alquiler.esLibre()).thenReturn(true).thenReturn(true).thenReturn(false);
+		ManagerDeAlquiler manager = mock(ManagerDeAlquiler.class);
+		when(alquiler.getManager()).thenReturn(manager);
+		when(manager.estaLibreElAlquiler()).thenReturn(true).thenReturn(true).thenReturn(false);
 		when(sitioWeb.getAlquileres()).thenReturn(Arrays.asList(alquiler, alquiler, alquiler)); // 3 alquileres, 2
 																								// libres, 1 no
 
@@ -134,7 +137,9 @@ class RecolectorDeDatosTest {
 	@Test
 	void testRealizarListadoDeInmueblesLibresNoDevuelveNadaSiNoHayAlquileresLibres() {
 		// setup
-		when(alquiler.esLibre()).thenReturn(false).thenReturn(false).thenReturn(false);
+		ManagerDeAlquiler manager = mock(ManagerDeAlquiler.class);
+		when(alquiler.getManager()).thenReturn(manager);
+		when(manager.estaLibreElAlquiler()).thenReturn(false).thenReturn(false).thenReturn(false);
 		when(sitioWeb.getAlquileres()).thenReturn(Arrays.asList(alquiler, alquiler, alquiler)); // 3 alquileres, 2
 																								// libres, 1 no
 
@@ -148,7 +153,9 @@ class RecolectorDeDatosTest {
 	@Test
 	void testRealizarListadoDeInmueblesLibresDevuelveTodosSiTodosSonLibres() {
 		// setup
-		when(alquiler.esLibre()).thenReturn(true).thenReturn(true).thenReturn(true);
+		ManagerDeAlquiler manager = mock(ManagerDeAlquiler.class);
+		when(alquiler.getManager()).thenReturn(manager);
+		when(manager.estaLibreElAlquiler()).thenReturn(true).thenReturn(true).thenReturn(true);
 		when(sitioWeb.getAlquileres()).thenReturn(Arrays.asList(alquiler, alquiler, alquiler)); // 3 alquileres, 2
 																								// libres, 1 no
 
@@ -163,7 +170,10 @@ class RecolectorDeDatosTest {
 	void testRealizarListadoDeTasaDeOcupaciónEsInmueblesAlquiladosSobreTotalDeInmuebles() {
 		// setup
 		Inmueble inmueble = mock(Inmueble.class);
-		when(alquiler.esLibre()).thenReturn(true).thenReturn(false).thenReturn(false);
+
+		ManagerDeAlquiler manager = mock(ManagerDeAlquiler.class);
+		when(alquiler.getManager()).thenReturn(manager);
+		when(manager.estaLibreElAlquiler()).thenReturn(true).thenReturn(false).thenReturn(false);
 		when(sitioWeb.getAlquileres()).thenReturn(Arrays.asList(alquiler, alquiler, alquiler)); // 2
 																								// alquileres
 																								// ocupados
@@ -180,7 +190,9 @@ class RecolectorDeDatosTest {
 	void testRealizarListadoDeTasaDeOcupaciónEs0SiNingúnInmuebleFueAlquilado() {
 		// setup
 		Inmueble inmueble = mock(Inmueble.class);
-		when(alquiler.esLibre()).thenReturn(true).thenReturn(true).thenReturn(true);
+		ManagerDeAlquiler manager = mock(ManagerDeAlquiler.class);
+		when(alquiler.getManager()).thenReturn(manager);
+		when(manager.estaLibreElAlquiler()).thenReturn(true).thenReturn(true).thenReturn(true);
 		when(sitioWeb.getAlquileres()).thenReturn(Arrays.asList(alquiler, alquiler, alquiler)); // 3 alquileres ocupados
 		when(sitioWeb.getInmuebles()).thenReturn(Arrays.asList(inmueble, inmueble, inmueble, inmueble)); // 4 inmuebles
 
