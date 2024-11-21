@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tp_final.alquiler.Alquiler;
+import tp_final.alquiler.ManagerDeAlquiler;
 import tp_final.inmueble.Inmueble;
 import tp_final.ranking.GestorDeRanking;
 import tp_final.ranking.Ranking;
@@ -33,6 +34,7 @@ class ReservaTest {
 	private GestorDeRanking gestorDeRanking;
 	LocalDate fechaEntrada;
 	LocalDate fechaSalida;
+	private ManagerDeAlquiler manager;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -41,6 +43,7 @@ class ReservaTest {
 		inquilino = mock(Usuario.class);
 		medioDePago = mock(MedioDePago.class);
 		servidorDeCorreo = mock(ServidorDeCorreo.class);
+		manager = mock(ManagerDeAlquiler.class);
 
 		inmueble = mock(Inmueble.class);
 		propietario = mock(Usuario.class);
@@ -149,6 +152,8 @@ class ReservaTest {
 
 	@Test
 	void unaReservaPendienteDeAprobacionEsCanceladaYCambiaSuEstadoACancelado() {
+		when(alquiler.getManager()).thenReturn(manager);
+
 		reserva.cancelar();
 		assertEquals(reserva.getEstado().getClass(), Cancelado.class);
 	}
@@ -163,6 +168,8 @@ class ReservaTest {
 
 	@Test
 	void unaReservaVigenteEsCanceladaYCambiaSuEstadoACancelado() {
+		when(alquiler.getManager()).thenReturn(manager);
+
 		reserva.aprobar();
 		reserva.cancelar();
 		assertEquals(reserva.getEstado().getClass(), Cancelado.class);
@@ -170,12 +177,16 @@ class ReservaTest {
 
 	@Test
 	void unaReservaEnviaUnCorreoDeCancelacion() {
+		when(alquiler.getManager()).thenReturn(manager);
+
 		reserva.doCancelar();
 		verify(servidorDeCorreo).enviar(anyString(), anyString(), any());
 	}
 
 	@Test
 	void unaReservaVigenteRealizaElCheckOutYCambiaSuEstadoAFinalizado() {
+		when(alquiler.getManager()).thenReturn(manager);
+
 		reserva.aprobar();
 		reserva.realizarCheckOut();
 		assertEquals(reserva.getEstado().getClass(), Finalizado.class);
@@ -204,6 +215,8 @@ class ReservaTest {
 
 	@Test
 	void rankearUnInmuebleSoloEsPosibleEnEstadoFinalizado() {
+		when(alquiler.getManager()).thenReturn(manager);
+
 		reserva.aprobar();
 		reserva.realizarCheckOut();
 		reserva.rankearInmueble(ranking);
@@ -220,6 +233,8 @@ class ReservaTest {
 
 	@Test
 	void rankearUnInquilinoSoloEsPosibleEnEstadoFinalizado() {
+		when(alquiler.getManager()).thenReturn(manager);
+
 		reserva.aprobar();
 		reserva.realizarCheckOut();
 		reserva.rankearInquilino(ranking);
@@ -236,6 +251,8 @@ class ReservaTest {
 
 	@Test
 	void rankearUnPropietarioSoloEsPosibleEnEstadoFinalizado() {
+		when(alquiler.getManager()).thenReturn(manager);
+
 		reserva.aprobar();
 		reserva.realizarCheckOut();
 		reserva.rankearPropietario(ranking);

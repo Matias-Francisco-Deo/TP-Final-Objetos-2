@@ -124,7 +124,12 @@ public class Reserva {
 	}
 
 	public void doCancelar() {
+		this.getAlquiler().getManager().cancelarReserva(this);
 		this.enviarCorreoDeCancelacion();
+	}
+
+	public void doFinalizar() {
+		this.getAlquiler().getManager().finalizarReserva(this);
 	}
 
 	public void realizarCheckOut() {

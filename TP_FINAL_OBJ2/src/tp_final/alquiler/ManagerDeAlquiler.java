@@ -128,4 +128,11 @@ public class ManagerDeAlquiler {
 		return this.getColaReservados().isEmpty();
 	}
 
+	public void finalizarReserva(Reserva reservaFinalizada) {
+
+		deleteReservaDe(this.getColaReservados(), reservaFinalizada);
+		this.comprobarYMoverReservasEncoladas();
+
+	}
+
 }

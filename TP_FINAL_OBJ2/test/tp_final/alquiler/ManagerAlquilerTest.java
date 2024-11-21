@@ -245,4 +245,13 @@ public class ManagerAlquilerTest {
 		assertTrue(manager.estaLibreElAlquiler());
 	}
 
+	@Test
+	void seFinalizaUnaReservaTest() {
+		manager.reservar(reserva1);
+
+		manager.finalizarReserva(reserva1);
+
+		assertEquals(manager.getColaReservados().size(), 0);// la reserva finalizada se quito de la liste de reservados
+	}
+
 }

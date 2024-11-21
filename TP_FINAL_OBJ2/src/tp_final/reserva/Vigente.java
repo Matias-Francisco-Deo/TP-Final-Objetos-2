@@ -17,6 +17,7 @@ public class Vigente implements EstadoDeReserva {
 	@Override
 	public void finalizar(Reserva reserva) {
 		reserva.setEstado(new Finalizado());
+		reserva.doFinalizar();
 	}
 
 	@Override
