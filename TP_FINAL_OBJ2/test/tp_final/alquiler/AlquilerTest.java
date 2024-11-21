@@ -231,4 +231,10 @@ class AlquilerTest {
 
 		verify(sub).mandarMensaje(alquiler.mensajeCancelacion());
 	}
+
+	@Test
+	void getManagerTest() {
+
+		assertTrue(alquiler.getManager() instanceof ManagerDeAlquiler);
+	}
 }

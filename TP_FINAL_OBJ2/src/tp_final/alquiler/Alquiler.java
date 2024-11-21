@@ -194,8 +194,4 @@ public class Alquiler {
 		return this.getInmueble().getTipoInmueble();
 	}
 
-//	public boolean esLibre() {
-//		return this.getManager().getColaReservados().isEmpty();
-//	}
-
 }
