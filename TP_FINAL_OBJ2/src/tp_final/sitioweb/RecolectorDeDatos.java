@@ -37,8 +37,9 @@ public class RecolectorDeDatos {
 	}
 
 	public List<Inmueble> getInmueblesLibres() {
-		List<Inmueble> inmueblesLibres = getAlquileres().stream().filter(alquiler -> alquiler.esLibre())
-				.map(alquiler -> alquiler.getInmueble()).toList();
+		List<Inmueble> inmueblesLibres = getAlquileres().stream()
+				.filter(alquiler -> alquiler.getManager().estaLibreElAlquiler()).map(alquiler -> alquiler.getInmueble())
+				.toList();
 
 		return inmueblesLibres;
 	}
@@ -49,7 +50,8 @@ public class RecolectorDeDatos {
 
 	public double getTasaDeOcupación() {
 
-		double inmueblesAlquilados = sitioWeb.getAlquileres().stream().filter(alquiler -> !alquiler.esLibre()).count();
+		double inmueblesAlquilados = sitioWeb.getAlquileres().stream()
+				.filter(alquiler -> !alquiler.getManager().estaLibreElAlquiler()).count();
 		double inmueblesTotales = sitioWeb.getInmuebles().stream().count();
 
 		return inmueblesAlquilados / inmueblesTotales;

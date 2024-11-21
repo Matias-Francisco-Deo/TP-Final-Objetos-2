@@ -33,7 +33,7 @@ public class FiltroFechaEntradaYSalida implements ParámetroDeBúsqueda {
 	@Override
 	public boolean esVálido(Alquiler alquiler) {
 
-		return alquiler.estaLibreEnRango(fechaEntrada, fechaSalida);
+		return alquiler.getManager().elRangoEstaOcupadoPorAlgunaReserva(fechaEntrada, fechaSalida);
 	}
 
 }

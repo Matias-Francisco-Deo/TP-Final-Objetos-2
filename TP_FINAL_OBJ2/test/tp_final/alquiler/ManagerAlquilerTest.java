@@ -1,5 +1,6 @@
 package tp_final.alquiler;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -237,6 +238,11 @@ public class ManagerAlquilerTest {
 
 		assertEquals(manager.getColaDeEspera().size(), 1);
 
+	}
+
+	@Test
+	void esLibreTest() {
+		assertTrue(manager.estaLibreElAlquiler());
 	}
 
 }

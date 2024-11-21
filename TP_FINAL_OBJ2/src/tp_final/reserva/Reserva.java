@@ -15,20 +15,20 @@ public class Reserva {
 	private MedioDePago medioDePago;
 	private EstadoDeReserva estado;
 	private ServidorDeCorreo servidorDeCorreo;
-	private LocalDate FechaCheckIn;
-	private LocalDate FechaCheckOut;
+	private LocalDate fechaCheckIn;
+	private LocalDate fechaCheckOut;
 
 	// ------------------------------------------------------------
 
-	public Reserva(Alquiler alquiler, Usuario inquilino, LocalDate FechaCheckIn, LocalDate FechaCheckOut,
+	public Reserva(Alquiler alquiler, Usuario inquilino, LocalDate fechaCheckIn, LocalDate fechaCheckOut,
 			MedioDePago medioDePago, ServidorDeCorreo servidorDeCorreo) {
 		this.setAlquiler(alquiler);
 		this.setInquilino(inquilino);
-		this.setFechaCheckIn(FechaCheckIn);
-		this.setFechaCheckOut(FechaCheckOut);
+		this.setFechaCheckIn(fechaCheckIn);
+		this.setFechaCheckOut(fechaCheckOut);
 		this.setMedioDePago(medioDePago);
 		this.setServidorDeCorreo(servidorDeCorreo);
-		this.setEstado(new PendienteDeAprobacion()); // estado por defecto
+		this.setEstado(new PendienteDeAprobacion()); // ESTADO INICIAL
 	}
 
 	// ------------------------------------------------------------
@@ -72,11 +72,19 @@ public class Reserva {
 	// ------------------------------------------------------------
 
 	public LocalDate getFechaCheckIn() {
-		return this.FechaCheckIn;
+		return this.fechaCheckIn;
 	}
 
 	public LocalDate getFechaCheckOut() {
-		return this.FechaCheckOut;
+		return this.fechaCheckOut;
+	}
+
+	private void setFechaCheckIn(LocalDate fechaCheckIn) {
+		this.fechaCheckIn = fechaCheckIn;
+	}
+
+	private void setFechaCheckOut(LocalDate fechaCheckOut) {
+		this.fechaCheckOut = fechaCheckOut;
 	}
 
 	public String getCiudad() {
@@ -89,14 +97,6 @@ public class Reserva {
 
 	public Inmueble getInmueble() {
 		return this.getAlquiler().getInmueble();
-	}
-
-	private void setFechaCheckIn(LocalDate FechaCheckIn) {
-		this.FechaCheckIn = FechaCheckIn;
-	}
-
-	private void setFechaCheckOut(LocalDate FechaCheckOut) {
-		this.FechaCheckOut = FechaCheckOut;
 	}
 
 	// ------------------------------------------------------------
@@ -153,8 +153,16 @@ public class Reserva {
 	}
 
 	private void enviarCorreoDeCancelacion() {
-		String destinatario = this.getInquilino().getEmail();
+		String destinatario = this.getEmailPropietario();
 		this.enviarCorreo(destinatario, "Reserva cancelada", this);
+	}
+
+	public String getEmailInquilino() {
+		return this.getInquilino().getEmail();
+	}
+
+	private String getEmailPropietario() {
+		return this.getPropietario().getEmail();
 	}
 
 	// ------------------------------------------------------------
@@ -189,10 +197,6 @@ public class Reserva {
 
 	public void doRankearPropietario(Ranking ranking) {
 		this.getPropietario().getGestorDeRanking().recibirRankeo(ranking);
-	}
-
-	public String getEmailInquilino() {
-		return this.getInquilino().getEmail();
 	}
 
 	// ------------------------------------------------------------

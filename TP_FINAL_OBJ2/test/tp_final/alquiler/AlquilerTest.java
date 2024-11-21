@@ -231,22 +231,4 @@ class AlquilerTest {
 
 		verify(sub).mandarMensaje(alquiler.mensajeCancelacion());
 	}
-
-	@Test
-	void estaLibreDentroDeUnRangoQueEstaDentroDeSusFechasTest() {
-
-		LocalDate FechaEntrada = LocalDate.of(2024, 11, 2);
-		LocalDate FechaSalida = LocalDate.of(2024, 11, 15);
-
-		assertTrue(alquiler.estaLibreEnRango(FechaEntrada, FechaSalida));
-
-	}
-
-	@Test
-	void esLibreTest() {
-
-		assertTrue(alquiler.esLibre());
-
-	}
-
 }

@@ -52,7 +52,7 @@ public class Alquiler {
 		this.manager = new ManagerDeAlquiler(this);
 	}
 
-	private ManagerDeAlquiler getManager() {
+	public ManagerDeAlquiler getManager() {
 		return this.manager;
 	}
 
@@ -194,13 +194,8 @@ public class Alquiler {
 		return this.getInmueble().getTipoInmueble();
 	}
 
-	public boolean estaLibreEnRango(LocalDate fechaCheckIn, LocalDate fechaCheckOut) {
-		return !this.getManager().elRangoEstaOcupadoPorAlgunaReserva(fechaCheckIn, fechaCheckOut);
-	}
-
-	public boolean esLibre() {
-
-		return this.getManager().getColaReservados().isEmpty();
-	}
+//	public boolean esLibre() {
+//		return this.getManager().getColaReservados().isEmpty();
+//	}
 
 }

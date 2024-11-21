@@ -124,4 +124,8 @@ public class ManagerDeAlquiler {
 		lista.remove(reserva);
 	}
 
+	public boolean estaLibreElAlquiler() {
+		return this.getColaReservados().isEmpty();
+	}
+
 }

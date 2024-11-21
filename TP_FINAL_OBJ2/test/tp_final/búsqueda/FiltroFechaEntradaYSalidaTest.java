@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import tp_final.alquiler.Alquiler;
+import tp_final.alquiler.ManagerDeAlquiler;
 
 class FiltroFechaEntradaYSalidaTest {
 
@@ -34,7 +35,9 @@ class FiltroFechaEntradaYSalidaTest {
 		LocalDate fechaEntrada = filtro.getFechaEntrada();
 		LocalDate fechaSalida = filtro.getFechaSalida();
 
-		when(alquiler1.estaLibreEnRango(fechaEntrada, fechaSalida)).thenReturn(true);
+		ManagerDeAlquiler manager = mock(ManagerDeAlquiler.class);
+		when(alquiler1.getManager()).thenReturn(manager);
+		when(manager.elRangoEstaOcupadoPorAlgunaReserva(fechaEntrada, fechaSalida)).thenReturn(true);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);
@@ -46,10 +49,13 @@ class FiltroFechaEntradaYSalidaTest {
 
 	@Test
 	void testFiltroNoDejaPasarSiLaFechaEsDiferente() {
+		// setup
 		LocalDate fechaEntrada = filtro.getFechaEntrada();
 		LocalDate fechaSalida = filtro.getFechaSalida();
-		// setup
-		when(alquiler1.estaLibreEnRango(fechaEntrada, fechaSalida)).thenReturn(false);
+
+		ManagerDeAlquiler manager = mock(ManagerDeAlquiler.class);
+		when(alquiler1.getManager()).thenReturn(manager);
+		when(manager.elRangoEstaOcupadoPorAlgunaReserva(fechaEntrada, fechaSalida)).thenReturn(false);
 
 		// exercise
 		boolean filtrado = filtro.esVálido(alquiler1);

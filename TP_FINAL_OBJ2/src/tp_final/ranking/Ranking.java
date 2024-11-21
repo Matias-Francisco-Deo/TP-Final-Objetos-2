@@ -51,7 +51,7 @@ public class Ranking {
 	}
 
 	private int comprobarPuntaje(int puntaje) {
-		// evita puntajes erróneos
+		// EVITA PUNTAJES MENORES A 1 Y MAYORES A 5
 		if (puntaje < 1) {
 			puntaje = 1;
 		} else if (puntaje > 5) {
