@@ -31,7 +31,7 @@ public class CanceclacionGratuita {
 	}
 
 	@Test
-	void cancelacionGratuitaConMasDe10DiasTest() {
+	void cancelacionGratuitaConMasDe10DiasNoPagaNadaTest() {
 
 		String textoEsperado = "Por las politicas de cancelacion aclaradas al momento de hacer la reserva se debera abonar un monto de 0.0 $";
 
@@ -57,7 +57,7 @@ public class CanceclacionGratuita {
 	}
 
 	@Test
-	void cancelacionGratuitaConMenosDe10DiasTest() {
+	void cancelacionGratuitaConMenosDe10DiasPaga2DiasDelAlquilerTest() {
 
 		String textoEsperado = "Por las politicas de cancelacion aclaradas al momento de hacer la reserva se debera abonar un monto de 20000.0 $";
 

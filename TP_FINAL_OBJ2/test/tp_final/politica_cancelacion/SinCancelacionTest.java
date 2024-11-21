@@ -31,7 +31,7 @@ public class SinCancelacionTest {
 	}
 
 	@Test
-	void sinCancelacionTest() {
+	void sinCancelacioPagaLoReservadoTest() {
 
 		String textoEsperado = "Por las politicas de cancelacion aclaradas al momento de hacer la reserva se debera abonar un monto de 50000.0 $";
 

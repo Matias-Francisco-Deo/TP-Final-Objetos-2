@@ -31,7 +31,7 @@ public class CancelacionIntermediaTest {
 	}
 
 	@Test
-	void cancelacionIntermediaConMasDe20DiasTest() {
+	void cancelacionIntermediaConMasDe20DiasNoPagaNadaTest() {
 
 		String textoEsperado = "Por las politicas de cancelacion aclaradas al momento de hacer la reserva se debera abonar un monto de 0.0 $";
 
@@ -57,7 +57,7 @@ public class CancelacionIntermediaTest {
 	}
 
 	@Test
-	void CancelacionIntermediaConMenosDe20YMasDe10DiasTest() {
+	void cancelacionIntermediaConMenosDe20YMasDe10DiasPagaLaMitadTest() {
 
 		String textoEsperado = "Por las politicas de cancelacion aclaradas al momento de hacer la reserva se debera abonar un monto de 25000.0 $";
 
@@ -83,7 +83,7 @@ public class CancelacionIntermediaTest {
 	}
 
 	@Test
-	void CancelacionIntermediaConMenos10DiasTest() {
+	void cancelacionIntermediaConMenos10DiasPagaLoReservadoTest() {
 
 		String textoEsperado = "Por las politicas de cancelacion aclaradas al momento de hacer la reserva se debera abonar un monto de 50000.0 $";
 

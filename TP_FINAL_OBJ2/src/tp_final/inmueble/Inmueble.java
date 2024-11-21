@@ -1,5 +1,6 @@
 package tp_final.inmueble;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tp_final.ranking.GestorDeRanking;
@@ -29,16 +30,16 @@ public class Inmueble {
 	private GestorDeRanking gestor;
 
 	Inmueble(String tipo, Usuario propietario, double superficie, String pais, String ciudad, String direccion,
-			List<String> servicios, int capacidad, List<Foto> fotos, GestorDeRanking gestor) {
+			int capacidad, GestorDeRanking gestor) {
 		this.setTipoInmueble(tipo);
 		this.setPropietario(propietario);
 		this.setSuperficie(superficie);
 		this.setPais(pais);
 		this.setCiudad(ciudad);
 		this.setDireccion(direccion);
-		this.setServicios(servicios);
+		this.setServicios(new ArrayList<String>());
 		this.setCapacidad(capacidad);
-		this.setFotos(fotos);
+		this.setFotos(new ArrayList<Foto>());
 		this.setCantVecesEnAlquiler(0);
 		this.setGestor(gestor);
 

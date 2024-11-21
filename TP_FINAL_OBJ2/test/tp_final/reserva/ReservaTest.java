@@ -96,6 +96,7 @@ class ReservaTest {
 		assertEquals(reserva.getFechaCheckIn(), fechaEntrada);
 	}
 
+	@Test
 	void getFechaCheckOutTest() {
 		assertEquals(reserva.getFechaCheckOut(), fechaSalida);
 	}

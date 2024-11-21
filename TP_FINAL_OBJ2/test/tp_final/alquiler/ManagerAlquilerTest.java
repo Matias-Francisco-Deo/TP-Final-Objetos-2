@@ -83,7 +83,7 @@ public class ManagerAlquilerTest {
 	}
 
 	@Test
-	void notificaCancelacionAlCancelarUnaReserva() {
+	void notificarCancelacionAlCancelarUnaReservaTest() {
 
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
@@ -97,7 +97,7 @@ public class ManagerAlquilerTest {
 	}
 
 	@Test
-	void llamaALaPoliticaDeCancelacionAlCancelarUnaReserva() {
+	void llamaALaPoliticaDeCancelacionAlCancelarUnaReservaTest() {
 
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
@@ -111,7 +111,7 @@ public class ManagerAlquilerTest {
 	}
 
 	@Test
-	void desencolaReservaEnColaAlCancelarOtraQueOcupabaSusFechas() {
+	void desencolaReservaEnColaAlCancelarOtraQueOcupabaSusFechasTest() {
 
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
@@ -129,7 +129,8 @@ public class ManagerAlquilerTest {
 	}
 
 	@Test
-	void seCancelaReservaVigenteHabilitandoRangoDeReservaEnColaPeroQueNoEsLaPrimeraPorqueNoTieneRangoDeFechasTest() {
+	void cancelarReservaVigentePermiteLaEntradaDeLaSegundaReservaEnColaQueEsLaQueEntraDentroDeSuRangoTest() {
+
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 10, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 10, 5));
 
@@ -182,7 +183,7 @@ public class ManagerAlquilerTest {
 
 		manager.cancelarReserva(reserva1);
 
-		assertEquals(manager.getColaDeEspera().get(0), reserva4);// reserva4 no se muebe ya que la reserva 3 se movio
+		assertEquals(manager.getColaDeEspera().get(0), reserva4);// reserva4 no se mueve ya que la reserva 3 se movio
 																	// primero, cupando el lugar libre
 
 	}
@@ -214,7 +215,7 @@ public class ManagerAlquilerTest {
 	}
 
 	@Test
-	void cancelandoReservaDegetColaDeEsperaTest() {
+	void cancelarReservaDeColaDeEsperaTest() {
 		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 1));
 		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
 

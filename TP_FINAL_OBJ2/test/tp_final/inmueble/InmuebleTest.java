@@ -1,11 +1,7 @@
 package tp_final.inmueble;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,10 +11,8 @@ import tp_final.usuarios.Usuario;
 
 public class InmuebleTest {
 
-	private ArrayList<Foto> misFotos;
-	private ArrayList<String> misServicios;
 	private Inmueble inmueble;
-	private String casa;
+	private String tipoInmueble;
 	private Usuario propietario;
 	private Foto foto;
 	private GestorDeRanking gestor;
@@ -32,19 +26,15 @@ public class InmuebleTest {
 
 		gestor = mock(GestorDeRanking.class);
 
-		misServicios = new ArrayList<>(Arrays.asList("Agua", "Luz"));
-		misFotos = new ArrayList<>(Arrays.asList());
+		tipoInmueble = "Duplex";
 
-		casa = new String();
-
-		inmueble = new Inmueble(casa, propietario, 20, "Argentina", "Quilmes", "mi direccion", misServicios, 4,
-				misFotos, gestor);
+		inmueble = new Inmueble(tipoInmueble, propietario, 20, "Argentina", "Quilmes", "mi direccion", 4, gestor);
 	}
 
 	@Test
 	void getterYSetterTipoInmuebleTest() {
 		String departamento = new String();
-		assertEquals(inmueble.getTipoInmueble(), casa);
+		assertEquals(inmueble.getTipoInmueble(), tipoInmueble);
 		inmueble.setTipoInmueble(departamento);
 		assertEquals(inmueble.getTipoInmueble(), departamento);
 	}
@@ -91,11 +81,10 @@ public class InmuebleTest {
 
 	@Test
 	void getterYAgregarServicioTest() {
-		assertEquals(inmueble.getServicios(), misServicios);
-
+		// antes habían 0 servicios
 		inmueble.addServicio("Gas");
 
-		assertTrue(inmueble.getServicios().size() == 3);
+		assertEquals(inmueble.getServicios().size(), 1);
 	}
 
 	@Test
@@ -107,7 +96,6 @@ public class InmuebleTest {
 
 	@Test
 	void getterYAgregarFotoTest() {
-		assertEquals(inmueble.getFotos(), misFotos);
 
 		// era vacía, ahora agrego
 		inmueble.addFoto(foto);
