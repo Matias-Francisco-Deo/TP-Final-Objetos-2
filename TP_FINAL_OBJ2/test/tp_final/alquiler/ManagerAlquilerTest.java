@@ -35,6 +35,20 @@ public class ManagerAlquilerTest {
 		reserva4 = mock(Reserva.class);
 
 		manager = new ManagerDeAlquiler(alquiler);
+
+		when(alquiler.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 10, 1));
+		when(alquiler.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 12, 7));
+	}
+
+	@Test
+	void reservaNoSeAgregaANingunaListaPorqueEnSusFechasNoAlquilaElAlquiler() {
+		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 9, 1));
+		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 5));
+
+		manager.reservar(reserva1);
+
+		assertTrue(manager.getColaDeEspera().isEmpty());
+		assertTrue(manager.getColaReservados().isEmpty());
 	}
 
 	@Test
@@ -247,6 +261,9 @@ public class ManagerAlquilerTest {
 
 	@Test
 	void seFinalizaUnaReservaTest() {
+		when(reserva1.getFechaCheckIn()).thenReturn(LocalDate.of(2024, 11, 17));
+		when(reserva1.getFechaCheckOut()).thenReturn(LocalDate.of(2024, 11, 30));
+
 		manager.reservar(reserva1);
 
 		manager.finalizarReserva(reserva1);

@@ -46,6 +46,19 @@ public class ManagerDeAlquiler {
 		LocalDate checkIn = reserva.getFechaCheckIn();
 		LocalDate checkOut = reserva.getFechaCheckOut();
 
+		LocalDate fechaInicioAlquilado = alquiler.getFechaCheckIn();
+		LocalDate fechaFinAlquilado = alquiler.getFechaCheckOut();
+
+		if (this.verificarSiAmbasFechasEstanDentroDeUnRango(fechaInicioAlquilado, fechaFinAlquilado, checkIn,
+				checkOut)) {
+			this.realizarReserva(reserva);
+		}
+	}
+
+	private void realizarReserva(Reserva reserva) {
+		LocalDate checkIn = reserva.getFechaCheckIn();
+		LocalDate checkOut = reserva.getFechaCheckOut();
+
 		boolean ocupado = elRangoEstaOcupadoPorAlgunaReserva(checkIn, checkOut);
 		if (ocupado) {
 			this.addReservaEnCola(reserva);
@@ -68,8 +81,8 @@ public class ManagerDeAlquiler {
 		LocalDate salida = reserva.getFechaCheckOut();
 
 		return (verificarSiRangoOcupadoEstaDentroDeRangoDeReserva(entrada, salida, checkIn, checkOut)
-				|| verificarSiFechaDentroDelRangoOcupado(entrada, salida, checkIn)
-				|| verificarSiFechaDentroDelRangoOcupado(entrada, salida, checkOut));
+				|| verificarSiFechaDentroDelRango(entrada, salida, checkIn)
+				|| verificarSiFechaDentroDelRango(entrada, salida, checkOut));
 
 	}
 
@@ -79,7 +92,13 @@ public class ManagerDeAlquiler {
 		return checkIn.isBefore(entrada.plusDays(1)) && checkOut.isAfter(salida.minusDays(1));
 	}
 
-	private boolean verificarSiFechaDentroDelRangoOcupado(LocalDate entrada, LocalDate salida, LocalDate fecha) {
+	private boolean verificarSiAmbasFechasEstanDentroDeUnRango(LocalDate entrada, LocalDate salida, LocalDate checkIn,
+			LocalDate checkOut) {
+		return (verificarSiFechaDentroDelRango(entrada, salida, checkIn)
+				&& verificarSiFechaDentroDelRango(entrada, salida, checkOut));
+	}
+
+	private boolean verificarSiFechaDentroDelRango(LocalDate entrada, LocalDate salida, LocalDate fecha) {
 
 		return fecha.isBefore(salida.plusDays(1)) && fecha.isAfter(entrada.minusDays(1));
 	}
