@@ -42,4 +42,10 @@ public class Finalizado implements EstadoDeReserva {
 	public void rankearPropietario(Reserva reserva, Ranking ranking) {
 		reserva.doRankearPropietario(ranking);
 	}
+
+	@Override
+	public void rechazar(Reserva reserva) {
+		// NOTHING
+
+	}
 }

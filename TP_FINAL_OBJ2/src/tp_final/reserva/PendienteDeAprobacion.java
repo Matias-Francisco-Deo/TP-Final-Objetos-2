@@ -44,4 +44,11 @@ public class PendienteDeAprobacion implements EstadoDeReserva {
 	public void rankearPropietario(Reserva reserva, Ranking ranking) {
 		// NOTHING
 	}
+
+	@Override
+	public void rechazar(Reserva reserva) {
+		reserva.setEstado(new Cancelado());
+		reserva.doRechazar();
+
+	}
 }

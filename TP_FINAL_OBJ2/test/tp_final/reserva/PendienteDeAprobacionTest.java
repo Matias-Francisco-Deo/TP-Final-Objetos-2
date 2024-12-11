@@ -39,6 +39,12 @@ class PendienteDeAprobacionTest {
 	}
 
 	@Test
+	void UnEstadoPendienteDeAprobacionEsRechazadoYLaReservaCambiaACancelado() {
+		estado.rechazar(reserva);
+		verify(reserva).setEstado(isA(Cancelado.class));
+	}
+
+	@Test
 	void UnEstadoPendienteDeAprobacionEsCanceladoYLaReservaCambiaACancelado() {
 		estado.cancelar(reserva);
 		verify(reserva).setEstado(isA(Cancelado.class));

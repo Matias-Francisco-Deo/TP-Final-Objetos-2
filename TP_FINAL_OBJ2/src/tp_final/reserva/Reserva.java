@@ -115,8 +115,17 @@ public class Reserva {
 		this.getEstado().aprobar(this);
 	}
 
+	public void rechazar() {
+		this.getEstado().rechazar(this);
+	}
+
 	public void doAprobar() {
 		this.enviarCorreoDeAprobacion();
+	}
+
+	public void doRechazar() {
+		this.getAlquiler().getManager().finalizarReserva(this);
+
 	}
 
 	public void cancelar() {

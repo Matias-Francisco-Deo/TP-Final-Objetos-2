@@ -44,4 +44,10 @@ public class Vigente implements EstadoDeReserva {
 	public void rankearPropietario(Reserva reserva, Ranking ranking) {
 		// NOTHING
 	}
+
+	@Override
+	public void rechazar(Reserva reserva) {
+		// NOTHING
+
+	}
 }

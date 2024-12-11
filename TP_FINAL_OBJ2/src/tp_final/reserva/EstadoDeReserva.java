@@ -5,6 +5,8 @@ import tp_final.ranking.Ranking;
 public interface EstadoDeReserva {
 	public void aprobar(Reserva reserva);
 
+	public void rechazar(Reserva reserva);
+
 	public void cancelar(Reserva reserva);
 
 	public void finalizar(Reserva reserva);
@@ -18,4 +20,5 @@ public interface EstadoDeReserva {
 	public void rankearInquilino(Reserva reserva, Ranking ranking);
 
 	public void rankearPropietario(Reserva reserva, Ranking ranking);
+
 }
